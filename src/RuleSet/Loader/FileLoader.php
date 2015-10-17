@@ -28,7 +28,7 @@ class FileLoader implements LoaderInterface
     }
 
     /**
-     * @see LoaderInterface
+     * {@inheritdoc}
      */
     public function loadRuleSet($path)
     {

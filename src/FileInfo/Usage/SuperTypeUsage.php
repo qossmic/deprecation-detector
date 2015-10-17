@@ -21,6 +21,7 @@ class SuperTypeUsage implements UsageInterface
 
     /**
      * @param string $superTypeName
+     * @param string $className
      * @param int    $lineNumber
      */
     public function __construct($superTypeName, $className, $lineNumber)

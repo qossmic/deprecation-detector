@@ -47,9 +47,7 @@ class ComposerLoader implements LoaderInterface
     }
 
     /**
-     * @param string $lock
-     *
-     * @return RuleSet
+     * {@inheritdoc}
      */
     public function loadRuleSet($lock)
     {
