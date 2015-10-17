@@ -133,7 +133,7 @@ EOF
         if (null === $ruleSet) {
             $output->writeln(sprintf('<error>check aborted - no rule set found for %s</error>', $ruleSetArg));
 
-            return -1;
+            return 1;
         }
 
         $lib = (is_dir($ruleSetArg) ? $ruleSetArg : realpath('vendor')); // TODO: not hard coded
