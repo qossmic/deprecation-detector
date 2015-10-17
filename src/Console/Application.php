@@ -75,7 +75,7 @@ class Application extends BaseApplication
         $c = $this->container;
 
         // EVENT DISPATCHER
-        $c['event_dispatcher'] = function ($c) {
+        $c['event_dispatcher'] = function () {
             $dispatcher = new EventDispatcher();
             $dispatcher->addSubscriber(new CommandListener());
 
@@ -83,7 +83,7 @@ class Application extends BaseApplication
         };
 
         // RULESET CACHE
-        $c['ruleset.cache'] = function ($c) {
+        $c['ruleset.cache'] = function () {
             return new Cache(new Filesystem());
         };
 
@@ -159,7 +159,7 @@ class Application extends BaseApplication
         };
 
         // SymfonyContainerReader
-        $c['symfony_container_reader'] = function ($c) {
+        $c['symfony_container_reader'] = function () {
             return new ContainerReader();
         };
 
@@ -243,31 +243,31 @@ class Application extends BaseApplication
         });
 
         // VIOLATION MESSAGEHELPER
-        $c['violation.message_helper.class_message'] = function ($c) {
+        $c['violation.message_helper.class_message'] = function () {
             return new Renderer\MessageHelper\Message\ClassViolationMessage(
                 'SensioLabs\DeprecationDetector\FileInfo\Usage\ClassUsage'
             );
         };
 
-        $c['violation.message_helper.interface_message'] = function ($c) {
+        $c['violation.message_helper.interface_message'] = function () {
             return new Renderer\MessageHelper\Message\InterfaceViolationMessage(
                 'SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage'
             );
         };
 
-        $c['violation.message_helper.method_message'] = function ($c) {
+        $c['violation.message_helper.method_message'] = function () {
             return new Renderer\MessageHelper\Message\MethodViolationMessage(
                 'SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage'
             );
         };
 
-        $c['violation.message_helper.method_definition_message'] = function ($c) {
+        $c['violation.message_helper.method_definition_message'] = function () {
             return new Renderer\MessageHelper\Message\MethodDefinitionViolationMessage(
                 'SensioLabs\DeprecationDetector\FileInfo\MethodDefinition'
             );
         };
 
-        $c['violation.message_helper.supertype_message'] = function ($c) {
+        $c['violation.message_helper.supertype_message'] = function () {
             return new Renderer\MessageHelper\Message\SuperTypeViolationMessage(
                 'SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage'
             );

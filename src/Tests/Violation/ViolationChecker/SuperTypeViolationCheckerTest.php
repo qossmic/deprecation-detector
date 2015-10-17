@@ -32,7 +32,6 @@ class SuperTypeViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $deprecatedSuperTypeUsage = $deprecatedSuperTypeUsage->reveal();
 
         $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
-        $file = $this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal();
         $collection = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
         $collection->superTypeUsages()->willReturn(array(
             $superTypeUsage,
