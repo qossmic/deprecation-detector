@@ -38,6 +38,7 @@ class CheckCommand extends Command
                     ),
                     new InputOption('no-cache', null, InputOption::VALUE_NONE, 'Disable rule set cache'),
                     new InputOption('cache-dir', null, InputOption::VALUE_REQUIRED, 'Cache directory', '.rules/'),
+                    new InputOption('fail', null, InputOption::VALUE_NONE, 'Fails, if any deprecation is detected'),
                 )
             )
             ->setDescription('Check for deprecated usage')
@@ -128,7 +129,7 @@ EOF
         if (null === $ruleSet) {
             $output->writeln(sprintf('<error>check aborted - no rule set found for %s</error>', $ruleSetArg));
 
-            return 0;
+            return 1;
         }
 
         $lib = (is_dir($ruleSetArg) ? $ruleSetArg : realpath('vendor')); // TODO: not hard coded
@@ -148,7 +149,7 @@ EOF
 
         $container['violation.renderer']->renderViolations($violations);
 
-        return 0;
+        return $input->getOption('fail') ? 1 : 0;
     }
 
     /**
