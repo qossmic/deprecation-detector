@@ -13,6 +13,11 @@ class ParsedPhpFileFinder extends Finder
      */
     protected $parser;
 
+    /**
+     * @var \PhpParser\Error[]
+     */
+    protected $parserErrors = array();
+
     public function __construct()
     {
         parent::__construct();
@@ -45,8 +50,7 @@ class ParsedPhpFileFinder extends Finder
                 } catch (\PhpParser\Error $ex) {
                     $raw = $ex->getRawMessage() . ' in file ' . $ex->getFile();
                     $ex->setRawMessage($raw);
-
-                    throw $ex;
+                    $this->parserErrors[] = $ex;
                 }
             }
 
