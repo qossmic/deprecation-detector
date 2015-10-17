@@ -27,7 +27,6 @@ class MethodViolationFilter implements ViolationFilterInterface
             return false;
         }
 
-        // usage -> classname::name
         $className = $usage->className();
         $method = $usage->name();
         $usageString = sprintf('%s::%s', $className, $method);
