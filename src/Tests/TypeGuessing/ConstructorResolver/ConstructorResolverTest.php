@@ -25,8 +25,8 @@ class ConstructorResolverTest extends \PHPUnit_Framework_TestCase
     public function testResolveConstructorAndAddVisitors()
     {
         $classMethod = new ClassMethod('__construct');
-        $classMethod->stmts = [$node = new Variable('x')];
-        $classMethods = [$classMethod];
+        $classMethod->stmts = array($node = new Variable('x'));
+        $classMethods = array($classMethod);
         $classNode = new Class_('SomeClass');
         $classNode->stmts = $classMethods;
 
@@ -49,7 +49,7 @@ class ConstructorResolverTest extends \PHPUnit_Framework_TestCase
     {
         $classMethod = new ClassMethod('someMethod');
         $classNode = new Class_('SomeClass');
-        $classNode->stmts = [$classMethod];
+        $classNode->stmts = array($classMethod);
 
         $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
         $table->enterScope(new TableScope(TableScope::CLASS_METHOD_SCOPE))->shouldNotBeCalled();
