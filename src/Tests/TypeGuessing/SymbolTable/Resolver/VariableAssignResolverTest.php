@@ -17,7 +17,10 @@ class VariableAssignResolverTest extends \PHPUnit_Framework_TestCase
         $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
         $resolver = new VariableAssignResolver($table->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\VariableAssignResolver', $resolver);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\VariableAssignResolver',
+            $resolver
+        );
     }
 
     public function testAssignPropertyWithClass()

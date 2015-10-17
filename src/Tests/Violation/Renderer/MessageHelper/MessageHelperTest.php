@@ -10,7 +10,10 @@ class MessageHelperTest extends \PHPUnit_Framework_TestCase
     {
         $messageHelper = new MessageHelper();
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper', $messageHelper);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper',
+            $messageHelper
+        );
     }
 
     public function testAddViolationMessageAndGetViolationMessage()
@@ -21,11 +24,15 @@ class MessageHelperTest extends \PHPUnit_Framework_TestCase
         $violation->getUsage()->willReturn($usage->reveal());
         $violation = $violation->reveal();
 
-        $violationMessage = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\BaseViolationMessage');
+        $violationMessage = $this->prophesize(
+            'SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\BaseViolationMessage'
+        );
         $violationMessage->supports($usage)->willReturn(false);
         $violationMessage->message($usage)->shouldNotBeCalled();
 
-        $anotherViolationMessage = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\BaseViolationMessage');
+        $anotherViolationMessage = $this->prophesize(
+            'SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\BaseViolationMessage'
+        );
         $anotherViolationMessage->supports($usage)->willReturn(true);
         $anotherViolationMessage->message($usage)->willReturn('some deprecated things used');
 
@@ -45,6 +52,9 @@ class MessageHelperTest extends \PHPUnit_Framework_TestCase
         $violation->getUsage()->willReturn($usage->reveal());
 
         $messageHelper = new MessageHelper();
-        $this->assertRegExp('#Deprecated P[0-9]+ <info>SomeClass</info>#', $messageHelper->getViolationMessage($violation->reveal()));
+        $this->assertRegExp(
+            '#Deprecated P[0-9]+ <info>SomeClass</info>#',
+            $messageHelper->getViolationMessage($violation->reveal())
+        );
     }
 }

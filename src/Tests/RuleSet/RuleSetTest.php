@@ -56,7 +56,8 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
 
     public function testInterfaceDeprecations()
     {
-        $interfaceDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
+        $interfaceDeprecation = $this
+            ->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
         $interfaceDeprecations = ['interface' => $interfaceDeprecation->reveal()];
 
         $ruleSet = new RuleSet([], $interfaceDeprecations);
@@ -65,7 +66,8 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
 
     public function testHasInterface()
     {
-        $interfaceDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
+        $interfaceDeprecation = $this
+            ->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
         $interfaceDeprecations = ['interface' => $interfaceDeprecation->reveal()];
 
         $ruleSet = new RuleSet([], $interfaceDeprecations);
@@ -75,7 +77,8 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
 
     public function testGetInterface()
     {
-        $interfaceDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
+        $interfaceDeprecation = $this
+            ->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
         $interfaceDeprecations = ['interface' => $interfaceDeprecation->reveal()];
 
         $ruleSet = new RuleSet([], $interfaceDeprecations);

@@ -11,8 +11,11 @@ use PhpParser\Parser;
 
 class FindTestCase extends \PHPUnit_Framework_TestCase
 {
-    protected function parsePhpFileFromStringAndTraverseWithVisitor(PhpFileInfo $phpFileInfo, $source, VisitorInterface $visitor)
-    {
+    protected function parsePhpFileFromStringAndTraverseWithVisitor(
+        PhpFileInfo $phpFileInfo,
+        $source,
+        VisitorInterface $visitor
+    ) {
         $traverser = new NodeTraverser();
         $traverser->addVisitor(new NameResolver());
         $traverser->addVisitor($visitor->setPhpFileInfo($phpFileInfo));

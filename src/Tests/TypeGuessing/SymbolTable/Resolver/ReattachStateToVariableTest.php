@@ -13,7 +13,10 @@ class ReattachStateToVariableTest extends \PHPUnit_Framework_TestCase
         $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
         $resolver = new ReattachStateToVariable($table->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ReattachStateToVariable', $resolver);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ReattachStateToVariable',
+            $resolver
+        );
     }
 
     public function testGuessedTypeIsReattached()

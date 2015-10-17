@@ -29,10 +29,11 @@ class RuleSet implements DeprecationCollectionInterface
      * @param array $interfaceDeprecations
      * @param array $methodDeprecations
      */
-    public function __construct(array $classDeprecations = array(),
-                                array $interfaceDeprecations = array(),
-                                array $methodDeprecations = array())
-    {
+    public function __construct(
+        array $classDeprecations = array(),
+        array $interfaceDeprecations = array(),
+        array $methodDeprecations = array()
+    ) {
         $this->classDeprecations = $classDeprecations;
         $this->interfaceDeprecations = $interfaceDeprecations;
         $this->methodDeprecations = $methodDeprecations;
@@ -43,9 +44,18 @@ class RuleSet implements DeprecationCollectionInterface
      */
     public function merge(DeprecationCollectionInterface $collection)
     {
-        $this->classDeprecations = array_merge($this->classDeprecations(), $collection->classDeprecations());
-        $this->interfaceDeprecations = array_merge($this->interfaceDeprecations(), $collection->interfaceDeprecations());
-        $this->methodDeprecations = array_merge($this->methodDeprecations(), $collection->methodDeprecations());
+        $this->classDeprecations = array_merge(
+            $this->classDeprecations(),
+            $collection->classDeprecations()
+        );
+        $this->interfaceDeprecations = array_merge(
+            $this->interfaceDeprecations(),
+            $collection->interfaceDeprecations()
+        );
+        $this->methodDeprecations = array_merge(
+            $this->methodDeprecations(),
+            $collection->methodDeprecations()
+        );
     }
 
     /**

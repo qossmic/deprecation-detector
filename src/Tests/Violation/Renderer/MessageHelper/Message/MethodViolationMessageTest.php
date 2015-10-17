@@ -10,7 +10,10 @@ class MethodViolationMessageTest extends \PHPUnit_Framework_TestCase
     {
         $message = new MethodViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage');
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\MethodViolationMessage', $message);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\MethodViolationMessage',
+            $message
+        );
     }
 
     public function testMessageWithSupportedUsage()
@@ -21,14 +24,20 @@ class MethodViolationMessageTest extends \PHPUnit_Framework_TestCase
         $methodUsage->isStatic()->willReturn(false);
         $message = new MethodViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage');
 
-        $this->assertSame('Calling deprecated method <info>SomeClass->someMethod()</info>', $message->message($methodUsage->reveal()));
+        $this->assertSame(
+            'Calling deprecated method <info>SomeClass->someMethod()</info>',
+            $message->message($methodUsage->reveal())
+        );
 
         $methodUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage');
         $methodUsage->name()->willReturn('someMethod');
         $methodUsage->className()->willReturn('SomeClass');
         $methodUsage->isStatic()->willReturn(true);
 
-        $this->assertSame('Calling deprecated static method <info>SomeClass::someMethod()</info>', $message->message($methodUsage->reveal()));
+        $this->assertSame(
+            'Calling deprecated static method <info>SomeClass::someMethod()</info>',
+            $message->message($methodUsage->reveal())
+        );
     }
 
     public function testMessageWithUnsupportedMessage()

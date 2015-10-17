@@ -10,7 +10,10 @@ class ClassViolationMessageTest extends \PHPUnit_Framework_TestCase
     {
         $message = new ClassViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\ClassUsage');
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\ClassViolationMessage', $message);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\ClassViolationMessage',
+            $message
+        );
     }
 
     public function testMessageWithSupportedUsage()

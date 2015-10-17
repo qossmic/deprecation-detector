@@ -14,7 +14,10 @@ class ReattachStateToPropertyTest extends \PHPUnit_Framework_TestCase
         $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
         $resolver = new ReattachStateToProperty($table->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ReattachStateToProperty', $resolver);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ReattachStateToProperty',
+            $resolver
+        );
     }
 
     public function testGuessedTypeIsReattached()

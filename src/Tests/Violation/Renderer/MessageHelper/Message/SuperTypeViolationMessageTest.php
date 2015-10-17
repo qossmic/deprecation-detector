@@ -10,7 +10,10 @@ class SuperTypeViolationMessageTest extends \PHPUnit_Framework_TestCase
     {
         $message = new SuperTypeViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage');
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\SuperTypeViolationMessage', $message);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\SuperTypeViolationMessage',
+            $message
+        );
     }
 
     public function testMessageWithSupportedUsage()
@@ -20,7 +23,10 @@ class SuperTypeViolationMessageTest extends \PHPUnit_Framework_TestCase
         $superTypeUsage->className()->willReturn('SomeClass');
         $message = new SuperTypeViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage');
 
-        $this->assertSame('Extending deprecated class <info>SomeSuperType</info> by class <info>SomeClass</info>', $message->message($superTypeUsage->reveal()));
+        $this->assertSame(
+            'Extending deprecated class <info>SomeSuperType</info> by class <info>SomeClass</info>',
+            $message->message($superTypeUsage->reveal())
+        );
     }
 
     public function testMessageWithUnsupportedMessage()

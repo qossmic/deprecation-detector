@@ -28,8 +28,19 @@ class CheckCommand extends Command
             ->setDefinition(
                 array(
                     new InputArgument('source', InputArgument::OPTIONAL, 'The path to the source files', 'src/'),
-                    new InputArgument('ruleset', InputArgument::OPTIONAL, 'The path to the composer.lock file, a rule set or source directory', 'composer.lock'),
-                    new InputOption('container-cache', null, InputOption::VALUE_REQUIRED, 'The path to symfony container cache', 'app/cache/dev/appDevDebugProjectContainer.xml'),
+                    new InputArgument(
+                        'ruleset',
+                        InputArgument::OPTIONAL,
+                        'The path to the composer.lock file, a rule set or source directory',
+                        'composer.lock'
+                    ),
+                    new InputOption(
+                        'container-cache',
+                        null,
+                        InputOption::VALUE_REQUIRED,
+                        'The path to symfony container cache',
+                        'app/cache/dev/appDevDebugProjectContainer.xml'
+                    ),
                     new InputOption('no-cache', null, InputOption::VALUE_NONE, 'Disable rule set cache'),
                     new InputOption('cache-dir', null, InputOption::VALUE_REQUIRED, 'Cache directory', '.rules/'),
                 )

@@ -10,16 +10,21 @@ class ConstructorResolverVisitorTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $resolver = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver');
+        $resolver = $this
+            ->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver');
         $visitor = new ConstructorResolverVisitor($resolver->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\Visitor\ConstructorResolverVisitor', $visitor);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\Visitor\ConstructorResolverVisitor',
+            $visitor
+        );
     }
 
     public function testComputesClassNodes()
     {
         $node = new Class_('SomeClass');
-        $resolver = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver');
+        $resolver = $this
+            ->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver');
         $resolver->resolveConstructor($node)->shouldBeCalled();
         $visitor = new ConstructorResolverVisitor($resolver->reveal());
 
@@ -29,7 +34,8 @@ class ConstructorResolverVisitorTest extends \PHPUnit_Framework_TestCase
     public function testDoesNotComputeOtherNodes()
     {
         $node = new Function_('someFunction');
-        $resolver = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver');
+        $resolver = $this
+            ->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver');
         $resolver->resolveConstructor($node)->shouldNotBeCalled();
         $visitor = new ConstructorResolverVisitor($resolver->reveal());
 

@@ -12,7 +12,10 @@ class SuperTypeViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
         $checker = new SuperTypeViolationChecker($ruleSet->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\ViolationChecker\SuperTypeViolationChecker', $checker);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\Violation\ViolationChecker\SuperTypeViolationChecker',
+            $checker
+        );
     }
 
     public function testCheck()

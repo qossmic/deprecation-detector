@@ -12,7 +12,10 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
         $checker = new InterfaceViolationChecker($ruleSet->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\ViolationChecker\InterfaceViolationChecker', $checker);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\Violation\ViolationChecker\InterfaceViolationChecker',
+            $checker
+        );
     }
 
     public function testCheck()
@@ -35,22 +38,24 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
             array('class' => array(
             $interfaceUsage,
             $deprecatedInterfaceUsage,
-        )));
-        $collection = $collection->reveal();
+            ))
+        );
+            $collection = $collection->reveal();
 
-        $ruleSet->hasInterface('interface')->willReturn(false);
-        $ruleSet->hasInterface('deprecatedInterface')->willReturn(true);
+            $ruleSet->hasInterface('interface')->willReturn(false);
+            $ruleSet->hasInterface('deprecatedInterface')->willReturn(true);
 
-        $deprecationComment = 'comment';
-        $interfaceDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
-        $interfaceDeprecation->comment()->willReturn($deprecationComment);
+            $deprecationComment = 'comment';
+            $interfaceDeprecation = $this
+                ->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
+            $interfaceDeprecation->comment()->willReturn($deprecationComment);
 
-        $ruleSet->getInterface('deprecatedInterface')->willReturn($interfaceDeprecation->reveal());
+            $ruleSet->getInterface('deprecatedInterface')->willReturn($interfaceDeprecation->reveal());
 
-        $checker = new InterfaceViolationChecker($ruleSet->reveal());
+            $checker = new InterfaceViolationChecker($ruleSet->reveal());
 
-        $this->assertEquals(array(
+            $this->assertEquals(array(
             new Violation($deprecatedInterfaceUsage, $collection, $deprecationComment),
-        ), $checker->check($collection));
+            ), $checker->check($collection));
     }
 }

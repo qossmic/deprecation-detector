@@ -14,7 +14,10 @@ class TypeHintViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
         $checker = new TypeHintViolationChecker($ruleSet->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\ViolationChecker\TypeHintViolationChecker', $checker);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\Violation\ViolationChecker\TypeHintViolationChecker',
+            $checker
+        );
     }
 
     public function testClassTypeHintCheck()
@@ -55,7 +58,8 @@ class TypeHintViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $phpFileInfo->typeHintUsages()->willReturn(array($typeHintUsage));
         $phpFileInfo = $phpFileInfo->reveal();
 
-        $interfaceDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
+        $interfaceDeprecation = $this
+            ->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
         $interfaceDeprecation->comment()->willReturn('comment');
 
         $ruleSet->hasClass('TypeHint')->willReturn(false);

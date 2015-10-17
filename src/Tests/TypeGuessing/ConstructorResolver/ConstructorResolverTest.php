@@ -16,7 +16,10 @@ class ConstructorResolverTest extends \PHPUnit_Framework_TestCase
         $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
         $resolver = new ConstructorResolver($table->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver', $resolver);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver',
+            $resolver
+        );
     }
 
     public function testResolveConstructorAndAddVisitors()

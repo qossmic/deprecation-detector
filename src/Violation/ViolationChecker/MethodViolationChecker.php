@@ -53,7 +53,12 @@ class MethodViolationChecker implements ViolationCheckerInterface
             foreach ($ancestors as $ancestor) {
                 if ($this->ruleSet->hasMethod($methodUsage->name(), $ancestor)) {
                     $violations[] = new Violation(
-                        new MethodUsage($methodUsage->name(), $ancestor, $methodUsage->getLineNumber(), $methodUsage->isStatic()),
+                        new MethodUsage(
+                            $methodUsage->name(),
+                            $ancestor,
+                            $methodUsage->getLineNumber(),
+                            $methodUsage->isStatic()
+                        ),
                         $phpFileInfo,
                         $this->ruleSet->getMethod($methodUsage->name(), $ancestor)->comment()
                     );

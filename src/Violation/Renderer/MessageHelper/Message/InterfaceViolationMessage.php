@@ -28,6 +28,8 @@ class InterfaceViolationMessage extends BaseViolationMessage implements Violatio
 
         $className = $usage->className();
 
-        return (empty($className) ? $violationInfo : sprintf('%s by class <info>%s</info>', $violationInfo, $className));
+        return empty($className)
+            ? $violationInfo
+            : sprintf('%s by class <info>%s</info>', $violationInfo, $className);
     }
 }
