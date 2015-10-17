@@ -24,8 +24,8 @@ class UsageParserTest extends \PHPUnit_Framework_TestCase
         $violationTraverser->addVisitor($violationVisitor)->shouldBeCalled();
 
         $deprecationParser = new UsageParser(
-            [$staticAnalysisVisitor],
-            [$violationVisitor],
+            array($staticAnalysisVisitor),
+            array($violationVisitor),
             $baseTraverser->reveal(),
             $staticAnalysisTraverser->reveal(),
             $violationTraverser->reveal()
@@ -45,17 +45,17 @@ class UsageParserTest extends \PHPUnit_Framework_TestCase
             ->reveal();
 
         $baseTraverser = $this->prophesize('PhpParser\NodeTraverser');
-        $baseTraverser->traverse([])->willReturn([])->shouldBeCalled();
+        $baseTraverser->traverse(array())->willReturn(array())->shouldBeCalled();
         $staticAnalysisTraverser = $this->prophesize('PhpParser\NodeTraverser');
-        $staticAnalysisTraverser->traverse([])->willReturn([])->shouldBeCalled();
+        $staticAnalysisTraverser->traverse(array())->willReturn(array())->shouldBeCalled();
 
         $violationTraverser = $this->prophesize('PhpParser\NodeTraverser');
         $violationTraverser->addVisitor($violationVisitor)->shouldBeCalled();
-        $violationTraverser->traverse([])->shouldBeCalled();
+        $violationTraverser->traverse(array())->shouldBeCalled();
 
         $deprecationParser = new UsageParser(
-            [],
-            [$violationVisitor],
+            array(),
+            array($violationVisitor),
             $baseTraverser->reveal(),
             $staticAnalysisTraverser->reveal(),
             $violationTraverser->reveal()

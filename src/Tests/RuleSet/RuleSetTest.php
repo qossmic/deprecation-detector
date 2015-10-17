@@ -28,7 +28,7 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
     public function testClassDeprecations()
     {
         $classDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation');
-        $classDeprecations = ['class' => $classDeprecation->reveal()];
+        $classDeprecations = array('class' => $classDeprecation->reveal());
         $ruleSet = new RuleSet($classDeprecations);
 
         $this->assertSame($classDeprecations, $ruleSet->classDeprecations());
@@ -37,7 +37,7 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
     public function testHasClass()
     {
         $classDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation');
-        $classDeprecations = ['class' => $classDeprecation->reveal()];
+        $classDeprecations = array('class' => $classDeprecation->reveal());
 
         $ruleSet = new RuleSet($classDeprecations);
         $this->assertTrue($ruleSet->hasClass('class'));
@@ -47,7 +47,7 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
     public function testGetClass()
     {
         $classDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation');
-        $classDeprecations = ['class' => $classDeprecation->reveal()];
+        $classDeprecations = array('class' => $classDeprecation->reveal());
 
         $ruleSet = new RuleSet($classDeprecations);
         $this->assertSame($classDeprecation->reveal(), $ruleSet->getClass('class'));
@@ -58,9 +58,9 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
     {
         $interfaceDeprecation = $this
             ->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
-        $interfaceDeprecations = ['interface' => $interfaceDeprecation->reveal()];
+        $interfaceDeprecations = array('interface' => $interfaceDeprecation->reveal());
 
-        $ruleSet = new RuleSet([], $interfaceDeprecations);
+        $ruleSet = new RuleSet(array(), $interfaceDeprecations);
         $this->assertSame($interfaceDeprecations, $ruleSet->interfaceDeprecations());
     }
 
@@ -68,9 +68,9 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
     {
         $interfaceDeprecation = $this
             ->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
-        $interfaceDeprecations = ['interface' => $interfaceDeprecation->reveal()];
+        $interfaceDeprecations = array('interface' => $interfaceDeprecation->reveal());
 
-        $ruleSet = new RuleSet([], $interfaceDeprecations);
+        $ruleSet = new RuleSet(array(), $interfaceDeprecations);
         $this->assertTrue($ruleSet->hasInterface('interface'));
         $this->assertFalse($ruleSet->hasInterface('someOtherInterface'));
     }
@@ -79,9 +79,9 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
     {
         $interfaceDeprecation = $this
             ->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
-        $interfaceDeprecations = ['interface' => $interfaceDeprecation->reveal()];
+        $interfaceDeprecations = array('interface' => $interfaceDeprecation->reveal());
 
-        $ruleSet = new RuleSet([], $interfaceDeprecations);
+        $ruleSet = new RuleSet(array(), $interfaceDeprecations);
         $this->assertSame($interfaceDeprecation->reveal(), $ruleSet->getInterface('interface'));
         $this->assertNull($ruleSet->getInterface('someOtherInterface'));
     }
@@ -89,8 +89,8 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
     public function testMethodDeprecations()
     {
         $methodDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation');
-        $methodDeprecations = ['class' => [$methodDeprecation->reveal()]];
-        $ruleSet = new RuleSet([], [], $methodDeprecations);
+        $methodDeprecations = array('class' => array($methodDeprecation->reveal()));
+        $ruleSet = new RuleSet(array(), array(), $methodDeprecations);
 
         $this->assertSame($methodDeprecations, $ruleSet->methodDeprecations());
     }
@@ -98,8 +98,8 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
     public function testHasMethod()
     {
         $methodDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation');
-        $methodDeprecations = ['class' => ['method' => $methodDeprecation->reveal()]];
-        $ruleSet = new RuleSet([], [], $methodDeprecations);
+        $methodDeprecations = array('class' => array('method' => $methodDeprecation->reveal()));
+        $ruleSet = new RuleSet(array(), array(), $methodDeprecations);
 
         $this->assertTrue($ruleSet->hasMethod('method', 'class'));
         $this->assertFalse($ruleSet->hasMethod('someOtherMethod', 'class'));
@@ -108,8 +108,8 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
     public function testGetMethod()
     {
         $methodDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation');
-        $methodDeprecations = ['class' => ['method' => $methodDeprecation->reveal()]];
-        $ruleSet = new RuleSet([], [], $methodDeprecations);
+        $methodDeprecations = array('class' => array('method' => $methodDeprecation->reveal()));
+        $ruleSet = new RuleSet(array(), array(), $methodDeprecations);
 
         $this->assertSame($methodDeprecation->reveal(), $ruleSet->getMethod('method', 'class'));
         $this->assertNull($ruleSet->getMethod('someOtherMethod', 'class'));

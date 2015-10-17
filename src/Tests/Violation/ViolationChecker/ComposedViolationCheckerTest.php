@@ -55,6 +55,6 @@ class ComposedViolationCheckerTest extends \PHPUnit_Framework_TestCase
             $concreteChecker->reveal(),
         ));
 
-        $this->assertSame([], $checker->check($file));
+        $this->assertSame(array(), $checker->check($file));
     }
 }
