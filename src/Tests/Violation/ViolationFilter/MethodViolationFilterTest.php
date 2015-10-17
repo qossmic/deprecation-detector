@@ -11,18 +11,18 @@ class MethodViolationFilterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var MethodViolationFilter
      */
-    private $classNameViolationFilter = null;
+    private $methodViolationFilter = null;
 
     public function setUp()
     {
         parent::setup();
-        $this->classNameViolationFilter = new MethodViolationFilter($this->filterList);
+        $this->methodViolationFilter = new MethodViolationFilter($this->filterList);
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        $this->classNameViolationFilter = null;
+        $this->methodViolationFilter = null;
     }
 
     /**
@@ -35,7 +35,7 @@ class MethodViolationFilterTest extends \PHPUnit_Framework_TestCase
         $usage->name()->willReturn($checkedName);
         $violation = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\Violation');
         $violation->getUsage()->willReturn($usage->reveal());
-        $filtered = $this->classNameViolationFilter->violationIsFiltered($violation->reveal());
+        $filtered = $this->methodViolationFilter->violationIsFiltered($violation->reveal());
         $this->assertEquals($expectedToBeFiltered, $filtered);
     }
 
@@ -47,7 +47,7 @@ class MethodViolationFilterTest extends \PHPUnit_Framework_TestCase
         $usage = $this->prophesize('\SensioLabs\DeprecationDetector\FileInfo\Usage\UsageInterface');
         $violation = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\Violation');
         $violation->getUsage()->willReturn($usage->reveal());
-        $filtered = $this->classNameViolationFilter->violationIsFiltered($violation->reveal());
+        $filtered = $this->methodViolationFilter->violationIsFiltered($violation->reveal());
         $this->assertFalse($filtered);
     }
 
