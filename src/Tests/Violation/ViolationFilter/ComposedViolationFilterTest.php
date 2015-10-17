@@ -17,7 +17,7 @@ class ComposedViolationFilterTest extends \PHPUnit_Framework_TestCase
     {
         $violation = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\Violation');
         $violationFilter = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\ViolationFilter\ViolationFilterInterface');
-        $violationFilter->violationIsFiltered($violation->reveal())->willReturn(true);
+        $violationFilter->isViolationFiltered($violation->reveal())->willReturn(true);
         $composedViolationFilter = new ComposedViolationFilter(array($violationFilter->reveal()));
         $this->assertTrue($composedViolationFilter->isViolationFiltered($violation->reveal()));
     }
@@ -26,7 +26,7 @@ class ComposedViolationFilterTest extends \PHPUnit_Framework_TestCase
     {
         $violation = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\Violation');
         $violationFilter = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\ViolationFilter\ViolationFilterInterface');
-        $violationFilter->violationIsFiltered($violation->reveal())->willReturn(false);
+        $violationFilter->isViolationFiltered($violation->reveal())->willReturn(false);
         $composedViolationFilter = new ComposedViolationFilter(array($violationFilter->reveal()));
         $this->assertFalse($composedViolationFilter->isViolationFiltered($violation->reveal()));
     }
@@ -35,9 +35,9 @@ class ComposedViolationFilterTest extends \PHPUnit_Framework_TestCase
     {
         $violation = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\Violation');
         $violationFilter1 = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\ViolationFilter\ViolationFilterInterface');
-        $violationFilter1->violationIsFiltered($violation->reveal())->willReturn(false);
+        $violationFilter1->isViolationFiltered($violation->reveal())->willReturn(false);
         $violationFilter2 = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\ViolationFilter\ViolationFilterInterface');
-        $violationFilter2->violationIsFiltered($violation->reveal())->willReturn(true);
+        $violationFilter2->isViolationFiltered($violation->reveal())->willReturn(true);
         $composedViolationFilter = new ComposedViolationFilter(array($violationFilter1->reveal(), $violationFilter2->reveal()));
         $this->assertTrue($composedViolationFilter->isViolationFiltered($violation->reveal()));
     }
