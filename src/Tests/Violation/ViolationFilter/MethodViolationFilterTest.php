@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Violation\ViolationFilter;
+namespace SensioLabs\DeprecationDetector\Tests\Violation\ViolationFilter;
 
 use SensioLabs\DeprecationDetector\Violation\ViolationFilter\MethodViolationFilter;
 
