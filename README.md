@@ -11,10 +11,11 @@ The SensioLabs DeprecationDetector runs a static code analysis against your proj
 The Sensiolabs DeprecationDetector is a command line command based on the [Symfony2 console component](https://github.com/symfony/Console).
 It makes heavy use of the [PHP-Parser](https://github.com/nikic/PHP-Parser) library for analyzing PHP code.  
 
-The command works in two steps:
+The command works in three steps:
 
 1. Scanning your vendor libraries for defined deprecations and cache them as a `ruleset`
 2. Finding usages of those deprecations from your ruleset.
+3. Output with the affected code parts.
 
 ## Installation
 
