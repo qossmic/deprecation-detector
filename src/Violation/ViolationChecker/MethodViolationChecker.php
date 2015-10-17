@@ -11,47 +11,40 @@ use SensioLabs\DeprecationDetector\Violation\Violation;
 class MethodViolationChecker implements ViolationCheckerInterface
 {
     /**
-     * @var RuleSet
-     */
-    protected $ruleSet;
-
-    /**
      * @var AncestorResolver
      */
     protected $ancestorResolver;
 
     /**
-     * @param RuleSet          $ruleSet
      * @param AncestorResolver $ancestorResolver
      */
-    public function __construct(RuleSet $ruleSet, AncestorResolver $ancestorResolver)
+    public function __construct(AncestorResolver $ancestorResolver)
     {
-        $this->ruleSet = $ruleSet;
         $this->ancestorResolver = $ancestorResolver;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function check(PhpFileInfo $phpFileInfo)
+    public function check(PhpFileInfo $phpFileInfo, RuleSet $ruleSet)
     {
         $violations = array();
 
         foreach ($phpFileInfo->methodUsages() as $methodUsage) {
             $className = $methodUsage->className();
 
-            if ($this->ruleSet->hasMethod($methodUsage->name(), $className)) {
+            if ($ruleSet->hasMethod($methodUsage->name(), $className)) {
                 $violations[] = new Violation(
                     $methodUsage,
                     $phpFileInfo,
-                    $this->ruleSet->getMethod($methodUsage->name(), $className)->comment()
+                    $ruleSet->getMethod($methodUsage->name(), $className)->comment()
                 );
             }
 
             $ancestors = $this->ancestorResolver->getClassAncestors($phpFileInfo, $methodUsage->className());
 
             foreach ($ancestors as $ancestor) {
-                if ($this->ruleSet->hasMethod($methodUsage->name(), $ancestor)) {
+                if ($ruleSet->hasMethod($methodUsage->name(), $ancestor)) {
                     $violations[] = new Violation(
                         new MethodUsage(
                             $methodUsage->name(),
@@ -60,7 +53,7 @@ class MethodViolationChecker implements ViolationCheckerInterface
                             $methodUsage->isStatic()
                         ),
                         $phpFileInfo,
-                        $this->ruleSet->getMethod($methodUsage->name(), $ancestor)->comment()
+                        $ruleSet->getMethod($methodUsage->name(), $ancestor)->comment()
                     );
                 }
             }

@@ -79,7 +79,7 @@ class ContainerReader
     {
         throw new \BadMethodCallException(
             'Unlike Symfony container SymfonyContainerReader is read only and just implements the '
-            . 'methods "has" and "get".'
+            .'methods "has" and "get".'
         );
     }
 }

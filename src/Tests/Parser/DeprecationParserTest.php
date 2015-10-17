@@ -9,7 +9,7 @@ class DeprecationParserTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $deprecationParser = new DeprecationParser([], $this->prophesize('PhpParser\NodeTraverser')->reveal());
+        $deprecationParser = new DeprecationParser(array(), $this->prophesize('PhpParser\NodeTraverser')->reveal());
 
         $this->assertInstanceOf('SensioLabs\DeprecationDetector\Parser\DeprecationParser', $deprecationParser);
     }
@@ -22,7 +22,7 @@ class DeprecationParserTest extends \PHPUnit_Framework_TestCase
         $baseTraverser = $this->prophesize('PhpParser\NodeTraverser');
         $baseTraverser->addVisitor($visitor)->shouldBeCalled();
 
-        $deprecationParser = new DeprecationParser([], $baseTraverser->reveal());
+        $deprecationParser = new DeprecationParser(array(), $baseTraverser->reveal());
         $deprecationParser->addDeprecationVisitor($visitor);
     }
 

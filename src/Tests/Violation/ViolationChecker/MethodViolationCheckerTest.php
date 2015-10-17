@@ -9,9 +9,8 @@ class MethodViolationCheckerTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
         $ancestorResolver = $this->prophesize('SensioLabs\DeprecationDetector\AncestorResolver');
-        $checker = new MethodViolationChecker($ruleSet->reveal(), $ancestorResolver->reveal());
+        $checker = new MethodViolationChecker($ancestorResolver->reveal());
 
         $this->assertInstanceOf(
             'SensioLabs\DeprecationDetector\Violation\ViolationChecker\MethodViolationChecker',
@@ -55,11 +54,11 @@ class MethodViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $ancestorResolver = $this->prophesize('SensioLabs\DeprecationDetector\AncestorResolver');
         $ancestorResolver->getClassAncestors($phpFileInfo, 'class')->willReturn(array());
 
-        $checker = new MethodViolationChecker($ruleSet->reveal(), $ancestorResolver->reveal());
+        $checker = new MethodViolationChecker($ancestorResolver->reveal());
 
         $this->assertEquals(
             array(new Violation($deprecatedMethodUsage, $phpFileInfo, $deprecationComment)),
-            $checker->check($phpFileInfo)
+            $checker->check($phpFileInfo, $ruleSet->reveal())
         );
     }
 }

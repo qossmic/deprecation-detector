@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\TypeGuessing\SymbolTable\Resolver;
+namespace SensioLabs\DeprecationDetector\Tests\TypeGuessing\SymbolTable\Resolver;
 
 use PhpParser\Node;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\SymfonyResolver;
