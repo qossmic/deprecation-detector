@@ -40,7 +40,14 @@ class ParsedPhpFileFinder extends Finder
             $file = PhpFileInfo::create($file);
 
             if (null !== $this->parser) {
-                $this->parser->parseFile($file);
+                try {
+                    $this->parser->parseFile($file);
+                } catch (\PhpParser\Error $ex) {
+                    $raw = $ex->getRawMessage() . ' in file ' . $ex->getFile();
+                    $ex->setRawMessage($raw);
+
+                    throw $ex;
+                }
             }
 
             $files->append($file);
