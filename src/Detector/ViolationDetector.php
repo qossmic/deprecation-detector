@@ -7,6 +7,7 @@ use SensioLabs\DeprecationDetector\ProgressEvent;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 use SensioLabs\DeprecationDetector\Violation\Violation;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ViolationCheckerInterface;
+use SensioLabs\DeprecationDetector\Violation\ViolationFilter\ViolationFilterInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ViolationDetector
@@ -32,7 +33,7 @@ class ViolationDetector
      *
      * @return Violation[]
      */
-    public function getViolations(RuleSet $ruleSet, ParsedPhpFileFinder $files)
+    public function getViolations(RuleSet $ruleSet, ParsedPhpFileFinder $files, ViolationFilterInterface $filter)
     {
         $total = count($files);
         $this->eventDispatcher->dispatch(
@@ -42,7 +43,12 @@ class ViolationDetector
 
         $result = array();
         foreach ($files as $i => $file) {
-            $result = array_merge($result, $this->violationChecker->check($file, $ruleSet));
+            $unfilteredResult = $this->violationChecker->check($file, $ruleSet);
+            foreach ($unfilteredResult as $unfilteredViolation) {
+                if (false === $filter->violationIsFiltered($unfilteredViolation)) {
+                    $result[] = $unfilteredViolation;
+                }
+            }
 
             $this->eventDispatcher->dispatch(
                 ProgressEvent::CHECKER,
