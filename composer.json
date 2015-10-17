@@ -2,6 +2,7 @@
     "name": "sensiolabs/deprecation-detector",
     "type": "application",
     "description": "Command line tool to detect usage of deprecated code",
+    "license": "MIT",
     "authors": [
         {
             "name": "Marvin Klemp",
@@ -28,7 +29,7 @@
     "require-dev": {
         "phpunit/phpunit": "4.6.*"
     },
-    "bin": ["security-checker"],
+    "bin": ["bin/deprecation-detector"],
     "autoload": {
         "psr-4": {
             "SensioLabs\\DeprecationDetector\\": "src/"
