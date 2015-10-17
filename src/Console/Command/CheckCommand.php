@@ -5,6 +5,8 @@ namespace SensioLabs\DeprecationDetector\Console\Command;
 use SensioLabs\DeprecationDetector\EventListener\ProgressListener;
 use SensioLabs\DeprecationDetector\RuleSet\Loader;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
+use SensioLabs\DeprecationDetector\Violation\ViolationFilter\ComposedViolationFilter;
+use SensioLabs\DeprecationDetector\Violation\ViolationFilter\MethodViolationFilter;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,6 +40,7 @@ class CheckCommand extends Command
                     ),
                     new InputOption('no-cache', null, InputOption::VALUE_NONE, 'Disable rule set cache'),
                     new InputOption('cache-dir', null, InputOption::VALUE_REQUIRED, 'Cache directory', '.rules/'),
+                    new InputOption('filter-method-calls', null, InputOption::VALUE_OPTIONAL, 'Filter method calls', ''),
                     new InputOption('fail', null, InputOption::VALUE_NONE, 'Fails, if any deprecation is detected'),
                 )
             )
@@ -137,7 +140,8 @@ EOF
 
         $files = $container['finder.php_usage'];
         $files->in($sourceArg);
-        $violations = $container['violation_detector']->getViolations($ruleSet, $files);
+        $filter = $this->getFilter($input);
+        $violations = $container['violation_detector']->getViolations($ruleSet, $files, $filter);
 
         if (0 === count($violations)) {
             $output->writeln('<info>There are no violations - congratulations!</info>');
@@ -173,5 +177,24 @@ EOF
         }
 
         return $loader->loadRuleSet($ruleSet);
+    }
+
+    /**
+     * @param InputInterface $input
+     *
+     * @return ComposedViolationFilter
+     */
+    private function getFilter(InputInterface $input)
+    {
+        $methodFilterOption = $input->getOption('filter-method-calls');
+        $methodFilterSetting = explode(',', $methodFilterOption);
+
+        $filter = new ComposedViolationFilter(
+            array(
+                new MethodViolationFilter($methodFilterSetting),
+            )
+        );
+
+        return $filter;
     }
 }
