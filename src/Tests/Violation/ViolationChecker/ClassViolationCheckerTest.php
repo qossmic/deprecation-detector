@@ -47,10 +47,10 @@ class ClassViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $ruleSet->getClass('deprecatedClass')->willReturn($classDeprecation->reveal());
 
-        $checker = new ClassViolationChecker($ruleSet->reveal());
+        $checker = new ClassViolationChecker();
 
         $this->assertEquals(array(
             new Violation($deprecatedClassUsage, $collection, $deprecationComment),
-        ), $checker->check($collection));
+        ), $checker->check($collection, $ruleSet->reveal()));
     }
 }

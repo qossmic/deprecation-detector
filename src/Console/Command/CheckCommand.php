@@ -3,13 +3,8 @@
 namespace SensioLabs\DeprecationDetector\Console\Command;
 
 use SensioLabs\DeprecationDetector\EventListener\ProgressListener;
-use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
-use SensioLabs\DeprecationDetector\ProgressEvent;
 use SensioLabs\DeprecationDetector\RuleSet\Loader;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
-use SensioLabs\DeprecationDetector\Violation\Violation;
-use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ComposedViolationChecker;
-use SensioLabs\DeprecationDetector\Violation\ViolationChecker;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -141,7 +136,7 @@ EOF
 
         $files = $container['finder.php_usage'];
         $files->in($sourceArg);
-        $violations = $this->getViolations($ruleSet, $files);
+        $violations = $container['violation_detector']->getViolations($ruleSet, $files);
 
         if (0 === count($violations)) {
             $output->writeln('<info>There are no violations - congratulations!</info>');
@@ -177,46 +172,5 @@ EOF
         }
 
         return $loader->loadRuleSet($ruleSet);
-    }
-
-    /**
-     * @param RuleSet             $ruleSet
-     * @param ParsedPhpFileFinder $files
-     *
-     * @return Violation[]
-     */
-    protected function getViolations(RuleSet $ruleSet, ParsedPhpFileFinder $files)
-    {
-        $container = $this->getApplication()->getContainer();
-
-        // TODO: move to container?
-        $checker = new ComposedViolationChecker(
-            array(
-                new ViolationChecker\ClassViolationChecker($ruleSet),
-                new ViolationChecker\InterfaceViolationChecker($ruleSet),
-                new ViolationChecker\MethodViolationChecker($ruleSet, $container['ancestor_resolver']),
-                new ViolationChecker\SuperTypeViolationChecker($ruleSet),
-                new ViolationChecker\TypeHintViolationChecker($ruleSet),
-                new ViolationChecker\MethodDefinitionViolationChecker($ruleSet, $container['ancestor_resolver']),
-            )
-        );
-
-        $total = count($files);
-        $container['event_dispatcher']->dispatch(
-            ProgressEvent::CHECKER,
-            new ProgressEvent(0, $total)
-        );
-
-        $result = array();
-        foreach ($files as $i => $file) {
-            $result = array_merge($result, $checker->check($file));
-
-            $container['event_dispatcher']->dispatch(
-                ProgressEvent::CHECKER,
-                new ProgressEvent(++$i, $total)
-            );
-        }
-
-        return $result;
     }
 }

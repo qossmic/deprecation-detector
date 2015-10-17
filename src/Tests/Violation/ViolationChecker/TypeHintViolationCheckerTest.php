@@ -38,12 +38,12 @@ class TypeHintViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $ruleSet->hasClass('TypeHint')->willReturn(true);
         $ruleSet->getClass('TypeHint')->willReturn($classDeprecation->reveal());
 
-        $checker = new TypeHintViolationChecker($ruleSet->reveal());
+        $checker = new TypeHintViolationChecker();
         $usage = new ClassUsage('TypeHint', 123);
 
         $this->assertEquals(array(
             new Violation($usage, $phpFileInfo, 'comment'),
-        ), $checker->check($phpFileInfo));
+        ), $checker->check($phpFileInfo, $ruleSet->reveal()));
     }
 
     public function testInterfaceTypeHintCheck()
@@ -66,11 +66,11 @@ class TypeHintViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $ruleSet->hasInterface('TypeHint')->willReturn(true);
         $ruleSet->getInterface('TypeHint')->willReturn($interfaceDeprecation->reveal());
 
-        $checker = new TypeHintViolationChecker($ruleSet->reveal());
+        $checker = new TypeHintViolationChecker();
         $usage = new InterfaceUsage('TypeHint', '', 123);
 
         $this->assertEquals(array(
             new Violation($usage, $phpFileInfo, 'comment'),
-        ), $checker->check($phpFileInfo));
+        ), $checker->check($phpFileInfo, $ruleSet->reveal()));
     }
 }

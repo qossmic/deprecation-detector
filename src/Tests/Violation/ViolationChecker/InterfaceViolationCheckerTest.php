@@ -40,22 +40,22 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
             $deprecatedInterfaceUsage,
             ))
         );
-            $collection = $collection->reveal();
+        $collection = $collection->reveal();
 
-            $ruleSet->hasInterface('interface')->willReturn(false);
-            $ruleSet->hasInterface('deprecatedInterface')->willReturn(true);
+        $ruleSet->hasInterface('interface')->willReturn(false);
+        $ruleSet->hasInterface('deprecatedInterface')->willReturn(true);
 
-            $deprecationComment = 'comment';
-            $interfaceDeprecation = $this
+        $deprecationComment = 'comment';
+        $interfaceDeprecation = $this
                 ->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
-            $interfaceDeprecation->comment()->willReturn($deprecationComment);
+        $interfaceDeprecation->comment()->willReturn($deprecationComment);
 
-            $ruleSet->getInterface('deprecatedInterface')->willReturn($interfaceDeprecation->reveal());
+        $ruleSet->getInterface('deprecatedInterface')->willReturn($interfaceDeprecation->reveal());
 
-            $checker = new InterfaceViolationChecker($ruleSet->reveal());
+        $checker = new InterfaceViolationChecker();
 
-            $this->assertEquals(array(
+        $this->assertEquals(array(
             new Violation($deprecatedInterfaceUsage, $collection, $deprecationComment),
-            ), $checker->check($collection));
+            ), $checker->check($collection, $ruleSet->reveal()));
     }
 }

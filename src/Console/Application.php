@@ -7,6 +7,7 @@ use PhpParser\NodeVisitor\NameResolver;
 use Pimple\Container;
 use SensioLabs\DeprecationDetector\AncestorResolver;
 use SensioLabs\DeprecationDetector\Console\Command\CheckCommand;
+use SensioLabs\DeprecationDetector\Detector\ViolationDetector;
 use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\Visitor\ConstructorResolverVisitor;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ReattachStateToProperty;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ReattachStateToVariable;
@@ -19,6 +20,13 @@ use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorR
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\ComposedResolver;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Visitor\SymbolTableVariableResolverVisitor;
 use SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader;
+use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ClassViolationChecker;
+use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ComposedViolationChecker;
+use SensioLabs\DeprecationDetector\Violation\ViolationChecker\InterfaceViolationChecker;
+use SensioLabs\DeprecationDetector\Violation\ViolationChecker\MethodDefinitionViolationChecker;
+use SensioLabs\DeprecationDetector\Violation\ViolationChecker\MethodViolationChecker;
+use SensioLabs\DeprecationDetector\Violation\ViolationChecker\SuperTypeViolationChecker;
+use SensioLabs\DeprecationDetector\Violation\ViolationChecker\TypeHintViolationChecker;
 use SensioLabs\DeprecationDetector\Visitor\Deprecation\FindDeprecatedTagsVisitor;
 use SensioLabs\DeprecationDetector\EventListener\CommandListener;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
@@ -286,6 +294,23 @@ class Application extends BaseApplication
         // TODO: fix container injection
         $c['ancestor_resolver'] = function ($c) {
             return new AncestorResolver($c);
+        };
+
+        $c['violation_checker'] = function ($c) {
+            return new ComposedViolationChecker(
+                [
+                    new ClassViolationChecker(),
+                    new InterfaceViolationChecker(),
+                    new MethodViolationChecker($c['ancestor_resolver']),
+                    new SuperTypeViolationChecker(),
+                    new TypeHintViolationChecker(),
+                    new MethodDefinitionViolationChecker($c['ancestor_resolver']),
+                ]
+            );
+        };
+
+        $c['violation_detector'] = function ($c) {
+            return new ViolationDetector($c['event_dispatcher'], $c['violation_checker']);
         };
     }
 

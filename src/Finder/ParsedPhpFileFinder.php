@@ -43,7 +43,7 @@ class ParsedPhpFileFinder extends Finder
                 try {
                     $this->parser->parseFile($file);
                 } catch (\PhpParser\Error $ex) {
-                    $raw = $ex->getRawMessage() . ' in file ' . $ex->getFile();
+                    $raw = $ex->getRawMessage().' in file '.$ex->getFile();
                     $ex->setRawMessage($raw);
 
                     throw $ex;

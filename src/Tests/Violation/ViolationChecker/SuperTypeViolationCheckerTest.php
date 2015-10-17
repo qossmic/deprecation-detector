@@ -49,10 +49,10 @@ class SuperTypeViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $ruleSet->getClass('deprecatedClass')->willReturn($classDeprecation->reveal());
 
-        $checker = new SuperTypeViolationChecker($ruleSet->reveal());
+        $checker = new SuperTypeViolationChecker();
 
         $this->assertEquals(array(
             new Violation($deprecatedSuperTypeUsage, $collection, $deprecationComment),
-        ), $checker->check($collection));
+        ), $checker->check($collection, $ruleSet->reveal()));
     }
 }
