@@ -3,13 +3,8 @@
 namespace SensioLabs\DeprecationDetector\Console\Command;
 
 use SensioLabs\DeprecationDetector\EventListener\ProgressListener;
-use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
-use SensioLabs\DeprecationDetector\ProgressEvent;
 use SensioLabs\DeprecationDetector\RuleSet\Loader;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
-use SensioLabs\DeprecationDetector\Violation\Violation;
-use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ComposedViolationChecker;
-use SensioLabs\DeprecationDetector\Violation\ViolationChecker;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -178,5 +173,4 @@ EOF
 
         return $loader->loadRuleSet($ruleSet);
     }
-
 }

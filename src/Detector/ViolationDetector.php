@@ -9,8 +9,8 @@ use SensioLabs\DeprecationDetector\Violation\Violation;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ViolationCheckerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-class ViolationDetector {
-
+class ViolationDetector
+{
     /**
      * @var EventDispatcherInterface
      */
@@ -52,5 +52,4 @@ class ViolationDetector {
 
         return $result;
     }
-
 }

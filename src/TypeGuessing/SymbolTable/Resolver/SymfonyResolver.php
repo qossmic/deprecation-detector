@@ -31,7 +31,7 @@ class SymfonyResolver implements ResolverInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function resolveVariableType(Node $node)
     {
