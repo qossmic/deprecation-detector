@@ -1,10 +1,9 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\Tests\Visitor\ViolationVisitor;
+namespace SensioLabs\DeprecationDetector\Tests\Visitor\Usage;
 
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage;
-use SensioLabs\DeprecationDetector\Tests\Visitor\Usage\FindTestCase;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindStaticMethodCalls;
 
 class FindStaticMethodCallsTest extends FindTestCase
