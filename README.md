@@ -72,6 +72,17 @@ You can get a list of all options and arguments by running
 $ deprecation-detector check --help
 ```
 
+## Excluding deprecated method calls
+
+You can exclude deprecated method calls by using the `filter-method-calls` option. This option takes a comma separated list of method references to exclude.
+
+```bash
+$ deprecation-detector check --filter-method-calls=MyClass::method,Foo::bar src/ vendor/
+```
+
+This will exclude all deprecated calls to MyClass::method and Foo::bar.
+
+
 ## Contribution
 
 Currently, the SensioLabs DeprecationDetector is in a very early state. Pull requests are welcome!
