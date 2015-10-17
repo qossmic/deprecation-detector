@@ -40,7 +40,10 @@ class DeprecationParserTest extends \PHPUnit_Framework_TestCase
         $baseTraverser->addVisitor($anotherVisitor)->shouldBeCalled();
         $baseTraverser->traverse(Argument::any())->shouldBeCalled();
 
-        $deprecationParser = new DeprecationParser([$visitor->reveal(), $anotherVisitor->reveal()], $baseTraverser->reveal());
+        $deprecationParser = new DeprecationParser(
+            array($visitor->reveal(), $anotherVisitor->reveal()),
+            $baseTraverser->reveal()
+        );
         $deprecationParser->parseFile($phpFileInfo);
     }
 }

@@ -1,6 +1,8 @@
 <?php
 
-class FileLoaderTest extends PHPUnit_Framework_TestCase
+namespace SensioLabs\DeprecationDetector\Tests\RuleSet\Loader;
+
+class FileLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {

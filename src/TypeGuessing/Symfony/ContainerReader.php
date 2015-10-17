@@ -77,6 +77,9 @@ class ContainerReader
      */
     public function __call($name, $args)
     {
-        throw new \BadMethodCallException('Unlike Symfony container SymfonyContainerReader is read only and just implements the methods "has" and "get".');
+        throw new \BadMethodCallException(
+            'Unlike Symfony container SymfonyContainerReader is read only and just implements the '
+            . 'methods "has" and "get".'
+        );
     }
 }

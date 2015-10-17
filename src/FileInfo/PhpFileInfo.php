@@ -357,7 +357,9 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
      */
     public function getMethodDeprecation($methodName, $className)
     {
-        return ($this->hasMethodDeprecation($methodName, $className) ? $this->methodDeprecations[$className][$methodName] : null);
+        return $this->hasMethodDeprecation($methodName, $className)
+            ? $this->methodDeprecations[$className][$methodName]
+            : null;
     }
 
     /**

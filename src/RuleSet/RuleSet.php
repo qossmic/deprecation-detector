@@ -44,9 +44,18 @@ class RuleSet implements DeprecationCollectionInterface
      */
     public function merge(DeprecationCollectionInterface $collection)
     {
-        $this->classDeprecations = array_merge($this->classDeprecations(), $collection->classDeprecations());
-        $this->interfaceDeprecations = array_merge($this->interfaceDeprecations(), $collection->interfaceDeprecations());
-        $this->methodDeprecations = array_merge($this->methodDeprecations(), $collection->methodDeprecations());
+        $this->classDeprecations = array_merge(
+            $this->classDeprecations(),
+            $collection->classDeprecations()
+        );
+        $this->interfaceDeprecations = array_merge(
+            $this->interfaceDeprecations(),
+            $collection->interfaceDeprecations()
+        );
+        $this->methodDeprecations = array_merge(
+            $this->methodDeprecations(),
+            $collection->methodDeprecations()
+        );
     }
 
     /**

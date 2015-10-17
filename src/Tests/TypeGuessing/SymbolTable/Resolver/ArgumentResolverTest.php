@@ -13,7 +13,10 @@ class ArgumentResolverTest extends \PHPUnit_Framework_TestCase
         $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
         $resolver = new ArgumentResolver($table->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ArgumentResolver', $resolver);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ArgumentResolver',
+            $resolver
+        );
     }
 
     public function testResolveTypedArgument()

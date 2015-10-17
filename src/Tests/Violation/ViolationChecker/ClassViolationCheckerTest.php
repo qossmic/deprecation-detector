@@ -12,7 +12,10 @@ class ClassViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
         $checker = new ClassViolationChecker($ruleSet->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\ViolationChecker\ClassViolationChecker', $checker);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\Violation\ViolationChecker\ClassViolationChecker',
+            $checker
+        );
     }
 
     public function testCheck()

@@ -14,7 +14,10 @@ class SymfonyResolverTest extends \PHPUnit_Framework_TestCase
         $container = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader');
         $resolver = new SymfonyResolver($table->reveal(), $container->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\SymfonyResolver', $resolver);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\SymfonyResolver',
+            $resolver
+        );
     }
 
     public function testSimpleCall()

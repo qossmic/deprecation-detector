@@ -22,7 +22,10 @@ class SymbolTableVariableResolverVisitorTest extends \PHPUnit_Framework_TestCase
     public function testClassIsInitializable()
     {
         $visitor = new SymbolTableVariableResolverVisitor(new ComposedResolver(), new SymbolTable());
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Visitor\SymbolTableVariableResolverVisitor', $visitor);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Visitor\SymbolTableVariableResolverVisitor',
+            $visitor
+        );
     }
 
     public function testVariableResolver()

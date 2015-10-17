@@ -8,8 +8,12 @@ class UsageParserTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $violationVisitor = $this->prophesize('SensioLabs\DeprecationDetector\Visitor\ViolationVisitorInterface')->reveal();
-        $staticAnalysisVisitor = $this->prophesize('SensioLabs\DeprecationDetector\Visitor\StaticAnalysisVisitorInterface')->reveal();
+        $violationVisitor = $this
+            ->prophesize('SensioLabs\DeprecationDetector\Visitor\ViolationVisitorInterface')
+            ->reveal();
+        $staticAnalysisVisitor = $this
+            ->prophesize('SensioLabs\DeprecationDetector\Visitor\StaticAnalysisVisitorInterface')
+            ->reveal();
 
         $baseTraverser = $this->prophesize('PhpParser\NodeTraverser');
 
@@ -36,7 +40,9 @@ class UsageParserTest extends \PHPUnit_Framework_TestCase
         $phpFileInfo->getContents()->willReturn('');
         $phpFileInfo = $phpFileInfo->reveal();
 
-        $violationVisitor = $this->prophesize('SensioLabs\DeprecationDetector\Visitor\ViolationVisitorInterface')->reveal();
+        $violationVisitor = $this
+            ->prophesize('SensioLabs\DeprecationDetector\Visitor\ViolationVisitorInterface')
+            ->reveal();
 
         $baseTraverser = $this->prophesize('PhpParser\NodeTraverser');
         $baseTraverser->traverse([])->willReturn([])->shouldBeCalled();

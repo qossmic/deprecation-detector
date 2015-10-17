@@ -33,7 +33,11 @@ class FindSuperTypes extends NodeVisitorAbstract implements ViolationVisitorInte
     public function enterNode(Node $node)
     {
         if ($node instanceof Node\Stmt\Class_ && $node->extends instanceof Node\Name) {
-            $superTypeUsage = new SuperTypeUsage($node->extends->toString(), $node->namespacedName->toString(), $node->getLine());
+            $superTypeUsage = new SuperTypeUsage(
+                $node->extends->toString(),
+                $node->namespacedName->toString(),
+                $node->getLine()
+            );
 
             $this->phpFileInfo->addSuperTypeUsage($superTypeUsage);
         }

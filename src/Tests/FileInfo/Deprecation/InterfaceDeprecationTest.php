@@ -10,7 +10,10 @@ class InterfaceDeprecationTest extends \PHPUnit_Framework_TestCase
     {
         $interfaceDeprecation = new InterfaceDeprecation('interfaceName', 'comment');
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation', $interfaceDeprecation);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation',
+            $interfaceDeprecation
+        );
     }
 
     public function testGetInterfaceName()

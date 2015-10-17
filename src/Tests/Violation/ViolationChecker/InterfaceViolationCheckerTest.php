@@ -12,7 +12,10 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
         $checker = new InterfaceViolationChecker($ruleSet->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\ViolationChecker\InterfaceViolationChecker', $checker);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\Violation\ViolationChecker\InterfaceViolationChecker',
+            $checker
+        );
     }
 
     public function testCheck()
@@ -43,7 +46,8 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
             $ruleSet->hasInterface('deprecatedInterface')->willReturn(true);
 
             $deprecationComment = 'comment';
-            $interfaceDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
+            $interfaceDeprecation = $this
+                ->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
             $interfaceDeprecation->comment()->willReturn($deprecationComment);
 
             $ruleSet->getInterface('deprecatedInterface')->willReturn($interfaceDeprecation->reveal());

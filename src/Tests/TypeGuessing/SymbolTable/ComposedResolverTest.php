@@ -18,10 +18,12 @@ class ComposedResolverTest extends \PHPUnit_Framework_TestCase
     {
         $composedResolver = new ComposedResolver();
 
-        $someResolver = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ResolverInterface');
+        $someResolver = $this
+            ->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ResolverInterface');
         $someResolver->resolveVariableType(Argument::any())->shouldBeCalled();
 
-        $someOtherResolver = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ResolverInterface');
+        $someOtherResolver = $this
+            ->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ResolverInterface');
         $someOtherResolver->resolveVariableType(Argument::any())->shouldBeCalled();
 
         $node = $this->prophesize('PhpParser\Node');

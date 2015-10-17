@@ -42,7 +42,8 @@ class PropertyAssignResolver implements ResolverInterface
             // $this->x = ...
             // excluding $this->$x = ...
             if ($node->var instanceof Node\Expr\PropertyFetch) {
-                // $stub[$key]->x = ... ; if not tested a php notice will occur @TODO change to be able to use all types of properties like $x->x = 10
+                // $stub[$key]->x = ... ; if not tested a php notice will occur
+                // @TODO change to be able to use all types of properties like $x->x = 10
                 if ($node->var->var instanceof Node\Expr\ArrayDimFetch) {
                     return;
                 }

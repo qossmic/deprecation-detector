@@ -10,7 +10,10 @@ class MethodDefinitionViolationMessageTest extends \PHPUnit_Framework_TestCase
     {
         $message = new MethodDefinitionViolationMessage('SensioLabs\DeprecationDetector\FileInfo\MethodDefinition');
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\MethodDefinitionViolationMessage', $message);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\MethodDefinitionViolationMessage',
+            $message
+        );
     }
 
     public function testMessageWithSupportedUsage()
@@ -20,7 +23,10 @@ class MethodDefinitionViolationMessageTest extends \PHPUnit_Framework_TestCase
         $methodDefinition->name()->willReturn('someMethod');
         $message = new MethodDefinitionViolationMessage('SensioLabs\DeprecationDetector\FileInfo\MethodDefinition');
 
-        $this->assertSame('Overriding deprecated method <info>SomeClass->someMethod()</info>', $message->message($methodDefinition->reveal()));
+        $this->assertSame(
+            'Overriding deprecated method <info>SomeClass->someMethod()</info>',
+            $message->message($methodDefinition->reveal())
+        );
     }
 
     public function testMessageWithUnsupportedMessage()

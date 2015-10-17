@@ -13,7 +13,10 @@ class MethodViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $ancestorResolver = $this->prophesize('SensioLabs\DeprecationDetector\AncestorResolver');
         $checker = new MethodViolationChecker($ruleSet->reveal(), $ancestorResolver->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\ViolationChecker\MethodViolationChecker', $checker);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\Violation\ViolationChecker\MethodViolationChecker',
+            $checker
+        );
     }
 
     public function testCheck()

@@ -10,7 +10,10 @@ class InterfaceViolationMessageTest extends \PHPUnit_Framework_TestCase
     {
         $message = new InterfaceViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage');
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\InterfaceViolationMessage', $message);
+        $this->assertInstanceOf(
+            'SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\InterfaceViolationMessage',
+            $message
+        );
     }
 
     public function testMessageWithSupportedUsage()
@@ -20,13 +23,19 @@ class InterfaceViolationMessageTest extends \PHPUnit_Framework_TestCase
         $interfaceUsage->className()->willReturn(null);
         $message = new InterfaceViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage');
 
-        $this->assertSame('Using deprecated interface <info>SomeInterface</info>', $message->message($interfaceUsage->reveal()));
+        $this->assertSame(
+            'Using deprecated interface <info>SomeInterface</info>',
+            $message->message($interfaceUsage->reveal())
+        );
 
         $interfaceUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage');
         $interfaceUsage->name()->willReturn('SomeInterface');
         $interfaceUsage->className()->willReturn('SomeClass');
 
-        $this->assertSame('Using deprecated interface <info>SomeInterface</info> by class <info>SomeClass</info>', $message->message($interfaceUsage->reveal()));
+        $this->assertSame(
+            'Using deprecated interface <info>SomeInterface</info> by class <info>SomeClass</info>',
+            $message->message($interfaceUsage->reveal())
+        );
     }
 
     public function testMessageWithUnsupportedMessage()
