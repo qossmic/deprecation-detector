@@ -19,7 +19,9 @@ class UsageParserTest extends \PHPUnit_Framework_TestCase
         $violationTraverser = $this->prophesize('PhpParser\NodeTraverser');
         $violationTraverser->addVisitor($violationVisitor)->shouldBeCalled();
 
-        $deprecationParser = new UsageParser([$staticAnalysisVisitor], [$violationVisitor],
+        $deprecationParser = new UsageParser(
+            [$staticAnalysisVisitor],
+            [$violationVisitor],
             $baseTraverser->reveal(),
             $staticAnalysisTraverser->reveal(),
             $violationTraverser->reveal()
@@ -45,7 +47,9 @@ class UsageParserTest extends \PHPUnit_Framework_TestCase
         $violationTraverser->addVisitor($violationVisitor)->shouldBeCalled();
         $violationTraverser->traverse([])->shouldBeCalled();
 
-        $deprecationParser = new UsageParser([], [$violationVisitor],
+        $deprecationParser = new UsageParser(
+            [],
+            [$violationVisitor],
             $baseTraverser->reveal(),
             $staticAnalysisTraverser->reveal(),
             $violationTraverser->reveal()

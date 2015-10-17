@@ -58,7 +58,8 @@ class FindDeprecatedTagsVisitor extends NodeVisitorAbstract implements Deprecati
 
         if ($node instanceof Node\Stmt\Interface_) {
             $this->phpFileInfo->addInterfaceDeprecation(
-                new InterfaceDeprecation($this->parentName, $this->getDeprecatedDocComment($node)));
+                new InterfaceDeprecation($this->parentName, $this->getDeprecatedDocComment($node))
+            );
 
             return;
         }

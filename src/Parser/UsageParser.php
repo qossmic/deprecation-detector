@@ -38,12 +38,13 @@ class UsageParser extends Parser implements ParserInterface
      * @param NodeTraverser                    $staticTraverser
      * @param NodeTraverser                    $violationTraverser
      */
-    public function __construct(array $staticAnalysisVisitors,
-                                array $violationVisitors,
-                                NodeTraverser $baseTraverser,
-                                NodeTraverser $staticTraverser,
-                                NodeTraverser $violationTraverser)
-    {
+    public function __construct(
+        array $staticAnalysisVisitors,
+        array $violationVisitors,
+        NodeTraverser $baseTraverser,
+        NodeTraverser $staticTraverser,
+        NodeTraverser $violationTraverser
+    ) {
         parent::__construct(new Lexer());
         $this->nameResolver = $baseTraverser;
         $this->staticTraverser = $staticTraverser;

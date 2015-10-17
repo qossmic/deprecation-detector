@@ -29,10 +29,11 @@ class RuleSet implements DeprecationCollectionInterface
      * @param array $interfaceDeprecations
      * @param array $methodDeprecations
      */
-    public function __construct(array $classDeprecations = array(),
-                                array $interfaceDeprecations = array(),
-                                array $methodDeprecations = array())
-    {
+    public function __construct(
+        array $classDeprecations = array(),
+        array $interfaceDeprecations = array(),
+        array $methodDeprecations = array()
+    ) {
         $this->classDeprecations = $classDeprecations;
         $this->interfaceDeprecations = $interfaceDeprecations;
         $this->methodDeprecations = $methodDeprecations;
