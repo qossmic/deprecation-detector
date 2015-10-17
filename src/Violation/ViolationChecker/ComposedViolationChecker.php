@@ -3,6 +3,7 @@
 namespace SensioLabs\DeprecationDetector\Violation\ViolationChecker;
 
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
+use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 
 class ComposedViolationChecker implements ViolationCheckerInterface
 {
@@ -22,11 +23,11 @@ class ComposedViolationChecker implements ViolationCheckerInterface
     /**
      * {@inheritdoc}
      */
-    public function check(PhpFileInfo $phpFileInfo)
+    public function check(PhpFileInfo $phpFileInfo, RuleSet $ruleSet)
     {
-        $violations = array_map(function (ViolationCheckerInterface $checker) use ($phpFileInfo) {
+        $violations = array_map(function (ViolationCheckerInterface $checker) use ($phpFileInfo, $ruleSet) {
             try {
-                return $checker->check($phpFileInfo);
+                return $checker->check($phpFileInfo, $ruleSet);
             } catch (\Exception $e) {
                 # TODO.
                 return array();

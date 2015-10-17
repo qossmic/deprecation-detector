@@ -52,10 +52,10 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
             $ruleSet->getInterface('deprecatedInterface')->willReturn($interfaceDeprecation->reveal());
 
-            $checker = new InterfaceViolationChecker($ruleSet->reveal());
+            $checker = new InterfaceViolationChecker();
 
             $this->assertEquals(array(
             new Violation($deprecatedInterfaceUsage, $collection, $deprecationComment),
-            ), $checker->check($collection));
+            ), $checker->check($collection, $ruleSet->reveal()));
     }
 }

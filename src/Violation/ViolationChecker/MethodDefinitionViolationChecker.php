@@ -10,11 +10,6 @@ use SensioLabs\DeprecationDetector\Violation\Violation;
 class MethodDefinitionViolationChecker implements ViolationCheckerInterface
 {
     /**
-     * @var RuleSet
-     */
-    protected $ruleSet;
-
-    /**
      * @var AncestorResolver
      */
     protected $ancestorResolver;
@@ -23,16 +18,15 @@ class MethodDefinitionViolationChecker implements ViolationCheckerInterface
      * @param RuleSet          $ruleSet
      * @param AncestorResolver $ancestorResolver
      */
-    public function __construct(RuleSet $ruleSet, AncestorResolver $ancestorResolver)
+    public function __construct(AncestorResolver $ancestorResolver)
     {
-        $this->ruleSet = $ruleSet;
         $this->ancestorResolver = $ancestorResolver;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function check(PhpFileInfo $phpFileInfo)
+    public function check(PhpFileInfo $phpFileInfo, RuleSet $ruleSet)
     {
         $violations = array();
 
@@ -40,11 +34,11 @@ class MethodDefinitionViolationChecker implements ViolationCheckerInterface
             $ancestors = $this->ancestorResolver->getClassAncestors($phpFileInfo, $methodDefinition->parentName());
 
             foreach ($ancestors as $ancestor) {
-                if ($this->ruleSet->hasMethod($methodDefinition->name(), $ancestor)) {
+                if ($ruleSet->hasMethod($methodDefinition->name(), $ancestor)) {
                     $violations[] = new Violation(
                         $methodDefinition,
                         $phpFileInfo,
-                        $this->ruleSet->getMethod($methodDefinition->name(), $ancestor)->comment()
+                        $ruleSet->getMethod($methodDefinition->name(), $ancestor)->comment()
                     );
                 }
             }

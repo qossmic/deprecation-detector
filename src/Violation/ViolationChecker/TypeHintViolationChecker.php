@@ -11,36 +11,23 @@ use SensioLabs\DeprecationDetector\Violation\Violation;
 class TypeHintViolationChecker implements ViolationCheckerInterface
 {
     /**
-     * @var RuleSet
-     */
-    private $ruleSet;
-
-    /**
-     * @param RuleSet $ruleSet
-     */
-    public function __construct(RuleSet $ruleSet)
-    {
-        $this->ruleSet = $ruleSet;
-    }
-
-    /**
      * {@inheritdoc}
      */
-    public function check(PhpFileInfo $phpFileInfo)
+    public function check(PhpFileInfo $phpFileInfo, RuleSet $ruleSet)
     {
         $violations = array();
 
         foreach ($phpFileInfo->typeHintUsages() as $typeHintUsage) {
-            $isClass = $this->ruleSet->hasClass($typeHintUsage->name());
+            $isClass = $ruleSet->hasClass($typeHintUsage->name());
 
-            if ($isClass || $this->ruleSet->hasInterface($typeHintUsage->name())) {
+            if ($isClass || $ruleSet->hasInterface($typeHintUsage->name())) {
                 $usage = $isClass ?
                     new ClassUsage($typeHintUsage->name(), $typeHintUsage->getLineNumber()) :
                     new InterfaceUsage($typeHintUsage->name(), '', $typeHintUsage->getLineNumber());
 
                 $comment = $isClass ?
-                    $this->ruleSet->getClass($typeHintUsage->name())->comment() :
-                    $this->ruleSet->getInterface($typeHintUsage->name())->comment();
+                    $ruleSet->getClass($typeHintUsage->name())->comment() :
+                    $ruleSet->getInterface($typeHintUsage->name())->comment();
 
                 $violations[] = new Violation(
                     $usage,

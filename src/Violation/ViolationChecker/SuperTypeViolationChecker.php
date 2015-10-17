@@ -9,31 +9,18 @@ use SensioLabs\DeprecationDetector\Violation\Violation;
 class SuperTypeViolationChecker implements ViolationCheckerInterface
 {
     /**
-     * @var RuleSet
-     */
-    private $ruleSet;
-
-    /**
-     * @param RuleSet $ruleSet
-     */
-    public function __construct(RuleSet $ruleSet)
-    {
-        $this->ruleSet = $ruleSet;
-    }
-
-    /**
      * {@inheritdoc}
      */
-    public function check(PhpFileInfo $phpFileInfo)
+    public function check(PhpFileInfo $phpFileInfo, RuleSet $ruleSet)
     {
         $violations = array();
 
         foreach ($phpFileInfo->superTypeUsages() as $superTypeUsage) {
-            if ($this->ruleSet->hasClass($superTypeUsage->name())) {
+            if ($ruleSet->hasClass($superTypeUsage->name())) {
                 $violations[] = new Violation(
                     $superTypeUsage,
                     $phpFileInfo,
-                    $this->ruleSet->getClass($superTypeUsage->name())->comment()
+                    $ruleSet->getClass($superTypeUsage->name())->comment()
                 );
             }
         }
