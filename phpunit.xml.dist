@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="vendor/autoload.php" colors="true">
+    <testsuites>
+        <testsuite name="DeprecationDetector-Suite">
+            <directory suffix="Test.php">./src/Tests/</directory>
+        </testsuite>
+    </testsuites>
+
+    <!-- Whitelist for code coverage -->
+    <filter>
+        <whitelist>
+            <directory suffix=".php">./src</directory>
+            <exclude>
+                <directory>./src/Tests</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>

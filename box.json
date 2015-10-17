@@ -1,0 +1,23 @@
+{
+    "output": "deprecation-detector.phar",
+    "chmod": "0755",
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Php"
+    ],
+    "extract": false,
+    "main": "bin/deprecation-detector",
+    "finder": [
+        {
+            "name": "*.*",
+            "exclude": ["Tests"],
+            "in": "vendor"
+        },
+        {
+            "name": "*.*",
+            "exclude": ["Tests"],
+            "in": "src"
+        }
+    ],
+    "stub": true,
+    "web": false
+}
