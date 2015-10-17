@@ -43,6 +43,7 @@ class CheckCommand extends Command
                     ),
                     new InputOption('no-cache', null, InputOption::VALUE_NONE, 'Disable rule set cache'),
                     new InputOption('cache-dir', null, InputOption::VALUE_REQUIRED, 'Cache directory', '.rules/'),
+                    new InputOption('fail', null, InputOption::VALUE_NONE, 'Fails, if any deprecation is detected'),
                 )
             )
             ->setDescription('Check for deprecated usage')
@@ -153,7 +154,7 @@ EOF
 
         $container['violation.renderer']->renderViolations($violations);
 
-        return 1;
+        return $input->getOption('fail') ? 1 : 0;
     }
 
     /**
