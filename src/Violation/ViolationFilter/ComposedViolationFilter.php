@@ -26,14 +26,12 @@ class ComposedViolationFilter implements ViolationFilterInterface
      */
     public function violationIsFiltered(Violation $violation)
     {
-        $isFiltered = false;
         foreach ($this->violationFilters as $violationFilter) {
-            $isFiltered = $isFiltered || $violationFilter->violationIsFiltered($violation);
-            if (true === $isFiltered) {
+            if (true === $violationFilter->violationIsFiltered($violation)) {
                 return true;
             }
         }
 
-        return $isFiltered;
+        return false;
     }
 }
