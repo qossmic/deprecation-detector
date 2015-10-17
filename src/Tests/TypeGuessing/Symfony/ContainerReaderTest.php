@@ -57,7 +57,7 @@ class ContainerReaderTest extends \PHPUnit_Framework_TestCase
     public function testInvalidCall()
     {
         $container = new ContainerReader();
-        $loaded = $container->loadContainer(__DIR__.'/containerDump.xml');
+        $container->loadContainer(__DIR__.'/containerDump.xml');
 
         $container->getDefinition('service.unit');
     }
