@@ -11,5 +11,5 @@ interface ViolationFilterInterface
      *
      * @return bool
      */
-    public function violationIsFiltered(Violation $violation);
+    public function isViolationFiltered(Violation $violation);
 }

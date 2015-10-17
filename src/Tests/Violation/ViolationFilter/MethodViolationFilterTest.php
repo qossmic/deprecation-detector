@@ -35,7 +35,7 @@ class MethodViolationFilterTest extends \PHPUnit_Framework_TestCase
         $usage->name()->willReturn($checkedName);
         $violation = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\Violation');
         $violation->getUsage()->willReturn($usage->reveal());
-        $filtered = $this->methodViolationFilter->violationIsFiltered($violation->reveal());
+        $filtered = $this->methodViolationFilter->isViolationFiltered($violation->reveal());
         $this->assertEquals($expectedToBeFiltered, $filtered);
     }
 
@@ -47,7 +47,7 @@ class MethodViolationFilterTest extends \PHPUnit_Framework_TestCase
         $usage = $this->prophesize('\SensioLabs\DeprecationDetector\FileInfo\Usage\UsageInterface');
         $violation = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\Violation');
         $violation->getUsage()->willReturn($usage->reveal());
-        $filtered = $this->methodViolationFilter->violationIsFiltered($violation->reveal());
+        $filtered = $this->methodViolationFilter->isViolationFiltered($violation->reveal());
         $this->assertFalse($filtered);
     }
 

@@ -12,7 +12,7 @@ class ComposedViolationFilter implements ViolationFilterInterface
     private $violationFilters;
 
     /**
-     * @param ViolationFilterInterface $violationFilters
+     * @param ViolationFilterInterface[] $violationFilters
      */
     public function __construct(array $violationFilters)
     {
@@ -24,10 +24,10 @@ class ComposedViolationFilter implements ViolationFilterInterface
      *
      * @return bool
      */
-    public function violationIsFiltered(Violation $violation)
+    public function isViolationFiltered(Violation $violation)
     {
         foreach ($this->violationFilters as $violationFilter) {
-            if (true === $violationFilter->violationIsFiltered($violation)) {
+            if (true === $violationFilter->isViolationFiltered($violation)) {
                 return true;
             }
         }

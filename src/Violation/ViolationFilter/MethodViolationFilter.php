@@ -20,7 +20,7 @@ class MethodViolationFilter implements ViolationFilterInterface
     /**
      * {@inheritdoc}
      */
-    public function violationIsFiltered(Violation $violation)
+    public function isViolationFiltered(Violation $violation)
     {
         $usage = $violation->getUsage();
         if (!$usage instanceof MethodUsage) {

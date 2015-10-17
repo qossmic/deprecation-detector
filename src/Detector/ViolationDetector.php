@@ -45,7 +45,7 @@ class ViolationDetector
         foreach ($files as $i => $file) {
             $unfilteredResult = $this->violationChecker->check($file, $ruleSet);
             foreach ($unfilteredResult as $unfilteredViolation) {
-                if (false === $filter->violationIsFiltered($unfilteredViolation)) {
+                if (false === $filter->isViolationFiltered($unfilteredViolation)) {
                     $result[] = $unfilteredViolation;
                 }
             }
