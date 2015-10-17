@@ -120,7 +120,7 @@ EOF
         $ruleSet = $this->loadRuleSet($ruleSetArg);
 
         if (null === $ruleSet) {
-            $output->writeln('<info>There are no deprecations - congratulations!</info>');
+            $output->writeln(sprintf('<error>check aborted - no rule set found for %s</error>', $ruleSetArg));
 
             return 0;
         }
