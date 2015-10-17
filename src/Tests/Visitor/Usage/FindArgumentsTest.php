@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\Tests\Visitor\ViolationVisitor;
+namespace SensioLabs\DeprecationDetector\Tests\Visitor\Usage;
 
 use PhpParser\Lexer\Emulative;
 use PhpParser\NodeTraverser;

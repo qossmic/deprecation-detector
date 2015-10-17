@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\TypeGuessing\Symfony;
+namespace SensioLabs\DeprecationDetector\Tests\TypeGuessing\Symfony;
 
 use SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader;
 

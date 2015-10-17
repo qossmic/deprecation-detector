@@ -1,10 +1,9 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\Tests\Visitor\ViolationVisitor;
+namespace SensioLabs\DeprecationDetector\Tests\Visitor\Usage;
 
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage;
-use SensioLabs\DeprecationDetector\Tests\Visitor\Usage\FindTestCase;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindSuperTypes;
 
 class FindSuperTypesTest extends FindTestCase
