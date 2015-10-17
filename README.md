@@ -59,7 +59,9 @@ $ deprecation-detector check
 To use the DeprecationDetector in a non-Symfony2 project, you need to provide the `source` and the `ruleset` arguments
 
 ```bash
-$ deprecation-detector check src/ composer.json
+$ deprecation-detector check src/ vendor/
+$ deprecation-detector check src/ composer.lock
+$ deprecation-detector check src/ .rules/some_generated_rule_set
 ```
 
 You can get a list of all options and arguments by running
