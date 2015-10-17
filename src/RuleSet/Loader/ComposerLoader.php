@@ -14,7 +14,7 @@ use Symfony\Component\Finder\SplFileInfo;
  *
  * @author Christopher Hertel <christopher.hertel@sensiolabs.de>
  */
-class ComposerLoader
+class ComposerLoader implements LoaderInterface
 {
     // TODO: not hard coded  & relative
     const PACKAGE_PATH = 'vendor/';
