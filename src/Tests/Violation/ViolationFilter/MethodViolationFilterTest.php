@@ -1,21 +1,17 @@
 <?php
 
-
 namespace Tests\Violation\ViolationFilter;
-
 
 use SensioLabs\DeprecationDetector\Violation\ViolationFilter\MethodViolationFilter;
 
 class MethodViolationFilterTest extends \PHPUnit_Framework_TestCase
 {
-
-    private $filterList = array("Checked::method", "\\Foo\\Checked::method2");
+    private $filterList = array('Checked::method', '\\Foo\\Checked::method2');
 
     /**
      * @var MethodViolationFilter
      */
     private $classNameViolationFilter = null;
-
 
     public function setUp()
     {
@@ -31,7 +27,6 @@ class MethodViolationFilterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getFilteredViolations
-     * @return void
      */
     public function testFilterViolations($checkedClass, $checkedName, $expectedToBeFiltered)
     {
@@ -46,7 +41,6 @@ class MethodViolationFilterTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider getFilteredViolations
-     * @return void
      */
     public function testNotFilteringNonMethodUsages($checkedClass, $checkedName, $expectedToBeFiltered)
     {
@@ -60,10 +54,10 @@ class MethodViolationFilterTest extends \PHPUnit_Framework_TestCase
     public function getFilteredViolations()
     {
         return array(
-            array("Checked", "method", true),
-            array("\\Foo\\Checked", "method2", true),
-            array("Checkedd", "method", false),
-            array("\\Foo\\Checked\\Bar", "method2", false)
+            array('Checked', 'method', true),
+            array('\\Foo\\Checked', 'method2', true),
+            array('Checkedd', 'method', false),
+            array('\\Foo\\Checked\\Bar', 'method2', false),
 
         );
     }
