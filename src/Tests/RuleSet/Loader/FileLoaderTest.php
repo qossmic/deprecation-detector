@@ -12,10 +12,16 @@ class FileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader', $loader);
     }
 
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Rule set file "no_such.file" does not exist.
+     */
     public function testLoadingNotExistingFileThrowsAnException()
     {
-        //@TODO: is_file is untestable
-        $this->markTestSkipped();
+        $dispatcher = $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcher');
+        $loader = new \SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader($dispatcher->reveal());
+
+        $loader->loadRuleSet('no_such.file');
     }
 
     public function testLoadRuleSetThrowsExceptionIfCachedIsNotAnInstanceOfRuleset()
