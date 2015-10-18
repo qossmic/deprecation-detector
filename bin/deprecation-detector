@@ -4,8 +4,10 @@
 if (file_exists(__DIR__ . '/../../../autoload.php')) {
     // deprecation-detector is part of a composer installation
     require_once __DIR__ . '/../../../autoload.php';
-} else {
+} elseif (file_exists(__DIR__ . '/../vendor/autoload.php')) {
     require __DIR__ . '/../vendor/autoload.php';
+} else {
+    die('Missing file vendor/autoload.php. Please run "composer install"!' . PHP_EOL);
 }
 
 set_time_limit(0);
