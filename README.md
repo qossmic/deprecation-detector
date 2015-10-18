@@ -3,6 +3,7 @@
 [![Build Status](https://img.shields.io/travis/sensiolabs-de/deprecation-detector/master.svg?style=flat-square)](https://travis-ci.org/sensiolabs-de/deprecation-detector)
 
 The SensioLabs DeprecationDetector runs a static code analysis against your project's source code to find usages of deprecated methods, classes and interfaces. For Symfony2 projects, it also detects usages of deprecated services.
+It identify the depracated call thanks the the @deprecated annotation.
 
 ### Disclaimer
 
