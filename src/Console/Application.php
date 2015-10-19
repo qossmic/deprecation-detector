@@ -298,14 +298,14 @@ class Application extends BaseApplication
 
         $c['violation_checker'] = function ($c) {
             return new ComposedViolationChecker(
-                [
+                array(
                     new ClassViolationChecker(),
                     new InterfaceViolationChecker(),
                     new MethodViolationChecker($c['ancestor_resolver']),
                     new SuperTypeViolationChecker(),
                     new TypeHintViolationChecker(),
                     new MethodDefinitionViolationChecker($c['ancestor_resolver']),
-                ]
+                )
             );
         };
 
