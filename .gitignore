@@ -4,3 +4,4 @@ phpunit.xml
 bin/phpunit
 deprecation-detector.phar
 .rules/
+output.html
