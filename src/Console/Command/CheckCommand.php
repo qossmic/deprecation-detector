@@ -40,7 +40,7 @@ class CheckCommand extends Command
                     ),
                     new InputOption('no-cache', null, InputOption::VALUE_NONE, 'Disable rule set cache'),
                     new InputOption('cache-dir', null, InputOption::VALUE_REQUIRED, 'Cache directory', '.rules/'),
-                    new InputOption('log-html', null, InputOption::VALUE_OPTIONAL, 'Log output in HTML format to file.', '.output/output.html'),
+                    new InputOption('log-html', null, InputOption::VALUE_OPTIONAL, 'Log output in HTML format to file.'),
                     new InputOption('filter-method-calls', null, InputOption::VALUE_OPTIONAL, 'Filter method calls', ''),
                     new InputOption('fail', null, InputOption::VALUE_NONE, 'Fails, if any deprecation is detected'),
                 )
@@ -154,8 +154,9 @@ EOF
 
         $container['violation.renderer.console']->renderViolations($violations);
 
-        if ($htmlOutputPath = $input->getOption('log-html')) {
-            $container['violation.renderer.html']->renderViolations($violations, $htmlOutputPath);
+        if ($htmlOutputFile = $input->getOption('log-html')) {
+            $container['violation.renderer.html']->setOutputFilename($htmlOutputFile);
+            $container['violation.renderer.html']->renderViolations($violations);
         }
 
         return $input->getOption('fail') ? 1 : 0;

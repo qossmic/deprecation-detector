@@ -69,10 +69,26 @@ class HtmlOutputRenderer implements RendererInterface
         include __DIR__.'/../../Resources/templates/htmlTableOutput.phtml';
         $htmlOutput = ob_get_clean();
 
-        $this->output->writeln(sprintf('Rendered HTML to %s', $this->outputFilename));
+        $this->output->writeln(sprintf('Rendered HTML to %s', $this->getOutputFilename()));
 
-        $this->fileSystem->mkdir(dirname($this->outputFilename));
+        $this->fileSystem->mkdir(dirname($this->getOutputFilename()));
 
-        file_put_contents($this->outputFilename, $htmlOutput);
+        file_put_contents($this->getOutputFilename(), $htmlOutput);
+    }
+
+    /**
+     * @return string
+     */
+    public function getOutputFilename()
+    {
+        return $this->outputFilename;
+    }
+
+    /**
+     * @param string $outputFilename
+     */
+    public function setOutputFilename($outputFilename)
+    {
+        $this->outputFilename = $outputFilename;
     }
 }
