@@ -1,5 +1,11 @@
 language: php
 
+sudo: false
+
+cache:
+    directories:
+        - $HOME/.composer/cache/files
+
 matrix:
     include:
         - php: 5.3
@@ -11,12 +17,13 @@ matrix:
     allow_failures:
         - php: hhvm
         - php: 7
-    
+    fast_finish: true
+
 before_install:
     - composer self-update
-    
+
 install:
     - composer install --dev --prefer-source
-    
+
 script:
     - bin/phpunit
