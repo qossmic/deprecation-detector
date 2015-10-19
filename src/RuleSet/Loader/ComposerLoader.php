@@ -119,18 +119,21 @@ class ComposerLoader implements LoaderInterface
     /**
      * @param $package
      *
-     * @return RuleSet
+     * @return RuleSet|null
      */
     private function loadPackageRuleSet(\stdClass $package)
     {
-        $key = $this->generatePackageKey($package);
+        $ruleSet = null;
+        $key     = $this->generatePackageKey($package);
 
         if ($this->cache->has($key)) {
             $ruleSet = $this->cache->getCachedRuleSet($key);
         } else {
             $path = $this->getPackagePath($package);
-            $ruleSet = $this->traverser->traverse($path, true);
-            $this->cache->cacheRuleSet($key, $ruleSet);
+            if (is_dir($path)) {
+                $ruleSet = $this->traverser->traverse($path, true);
+                $this->cache->cacheRuleSet($key, $ruleSet);
+            }
         }
 
         return $ruleSet;
