@@ -73,7 +73,7 @@ class ParsedPhpFileFinder extends Finder
      */
     public function hasParserErrors()
     {
-        return (bool)count($this->parserErrors);
+        return !empty($this->parserErrors);;
     }
 
     /**
