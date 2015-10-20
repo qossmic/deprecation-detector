@@ -12,7 +12,7 @@ use Symfony\Component\Finder\SplFileInfo;
  *
  * @author Christopher Hertel <christopher.hertel@sensiolabs.de>
  */
-class FileLoader
+class FileLoader implements LoaderInterface
 {
     /**
      * @var EventDispatcher
@@ -28,7 +28,7 @@ class FileLoader
     }
 
     /**
-     * @see LoaderInterface
+     * {@inheritdoc}
      */
     public function loadRuleSet($path)
     {

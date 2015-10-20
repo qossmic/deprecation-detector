@@ -10,7 +10,7 @@ use SensioLabs\DeprecationDetector\RuleSet\Traverser;
  *
  * @author Christopher Hertel <christopher.hertel@sensiolabs.de>
  */
-class DirectoryLoader
+class DirectoryLoader implements LoaderInterface
 {
     /**
      * @var Traverser
@@ -33,7 +33,7 @@ class DirectoryLoader
     }
 
     /**
-     * @see LoaderInterface
+     * {@inheritdoc}
      */
     public function loadRuleSet($path)
     {

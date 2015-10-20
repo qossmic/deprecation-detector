@@ -32,7 +32,6 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $deprecatedInterfaceUsage = $deprecatedInterfaceUsage->reveal();
 
         $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
-        $file = $this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal();
         $collection = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
         $collection->interfaceUsages()->willReturn(
             array('class' => array(
@@ -47,7 +46,7 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $deprecationComment = 'comment';
         $interfaceDeprecation = $this
-                ->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
+            ->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
         $interfaceDeprecation->comment()->willReturn($deprecationComment);
 
         $ruleSet->getInterface('deprecatedInterface')->willReturn($interfaceDeprecation->reveal());
@@ -56,6 +55,6 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(array(
             new Violation($deprecatedInterfaceUsage, $collection, $deprecationComment),
-            ), $checker->check($collection, $ruleSet->reveal()));
+        ), $checker->check($collection, $ruleSet->reveal()));
     }
 }

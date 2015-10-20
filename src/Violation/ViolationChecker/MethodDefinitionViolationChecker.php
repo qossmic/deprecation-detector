@@ -15,7 +15,6 @@ class MethodDefinitionViolationChecker implements ViolationCheckerInterface
     protected $ancestorResolver;
 
     /**
-     * @param RuleSet          $ruleSet
      * @param AncestorResolver $ancestorResolver
      */
     public function __construct(AncestorResolver $ancestorResolver)

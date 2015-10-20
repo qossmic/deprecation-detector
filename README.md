@@ -3,6 +3,7 @@
 [![Build Status](https://img.shields.io/travis/sensiolabs-de/deprecation-detector/master.svg?style=flat-square)](https://travis-ci.org/sensiolabs-de/deprecation-detector)
 
 The SensioLabs DeprecationDetector runs a static code analysis against your project's source code to find usages of deprecated methods, classes and interfaces. For Symfony2 projects, it also detects usages of deprecated services.
+It identifies the use of deprecated code thanks to the `@deprecated` annotation.
 
 ### Disclaimer
 
@@ -71,6 +72,17 @@ You can get a list of all options and arguments by running
 ```bash
 $ deprecation-detector check --help
 ```
+
+## Excluding deprecated method calls
+
+You can exclude deprecated method calls by using the `filter-method-calls` option. This option takes a comma separated list of method references to exclude.
+
+```bash
+$ deprecation-detector check --filter-method-calls=MyClass::method,Foo::bar src/ vendor/
+```
+
+This will exclude all deprecated calls to MyClass::method and Foo::bar.
+
 
 ## Contribution
 

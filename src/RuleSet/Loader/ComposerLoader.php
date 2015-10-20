@@ -14,7 +14,7 @@ use Symfony\Component\Finder\SplFileInfo;
  *
  * @author Christopher Hertel <christopher.hertel@sensiolabs.de>
  */
-class ComposerLoader
+class ComposerLoader implements LoaderInterface
 {
     // TODO: not hard coded  & relative
     const PACKAGE_PATH = 'vendor/';
@@ -47,9 +47,7 @@ class ComposerLoader
     }
 
     /**
-     * @param string $lock
-     *
-     * @return RuleSet
+     * {@inheritdoc}
      */
     public function loadRuleSet($lock)
     {
@@ -121,16 +119,16 @@ class ComposerLoader
     /**
      * @param $package
      *
-     * @return RuleSet
+     * @return RuleSet|null
      */
     private function loadPackageRuleSet(\stdClass $package)
     {
-        $key = $this->generatePackageKey($package);
+        $ruleSet = null;
+        $key     = $this->generatePackageKey($package);
 
         if ($this->cache->has($key)) {
             $ruleSet = $this->cache->getCachedRuleSet($key);
-        } else {
-            $path = $this->getPackagePath($package);
+        } elseif (is_dir($path = $this->getPackagePath($package))) {
             $ruleSet = $this->traverser->traverse($path, true);
             $this->cache->cacheRuleSet($key, $ruleSet);
         }
