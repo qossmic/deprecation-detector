@@ -2,6 +2,7 @@
 
 namespace SensioLabs\DeprecationDetector\Console\Command;
 
+use SensioLabs\DeprecationDetector\DeprecationDetector\Configuration\Configuration;
 use SensioLabs\DeprecationDetector\EventListener\ProgressListener;
 use SensioLabs\DeprecationDetector\RuleSet\Loader;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
@@ -33,7 +34,7 @@ class CheckCommand extends Command
                         'composer.lock'
                     ),
                     new InputOption(
-                        'container-cache',
+                        'container-path',
                         null,
                         InputOption::VALUE_REQUIRED,
                         'The path to symfony container cache',
@@ -110,7 +111,16 @@ EOF
             );
         }
 
-        $symfonyMode = $container['symfony_container_reader']->loadContainer($input->getOption('container-cache'));
+        /** @TODO Implement detector.yml and override specific values from input */
+        $config = new Configuration(
+            $input->getOption('container-path'),
+            $input->getOption('no-cache'),
+            $input->getOption('cache-dir'),
+            $input->getOption('filter-method-calls'),
+            $input->getOption('fail')
+        );
+
+        $symfonyMode = $container['symfony_container_reader']->loadContainer($input->getOption('container-path'));
 
         $output->writeln(
             sprintf(

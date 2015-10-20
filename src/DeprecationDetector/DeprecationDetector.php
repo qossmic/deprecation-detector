@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector;
+namespace SensioLabs\DeprecationDetector\DeprecationDetector;
 
 use SensioLabs\DeprecationDetector\Violation\ViolationDetector;
 use SensioLabs\DeprecationDetector\Parser\ParserInterface;
