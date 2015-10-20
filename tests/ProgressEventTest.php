@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests;
+namespace SensioLabs\DeprecationDetector\Tests;
 
 use SensioLabs\DeprecationDetector\ProgressEvent;
 

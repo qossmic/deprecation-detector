@@ -7,7 +7,7 @@ use PhpParser\NodeVisitor\NameResolver;
 use Pimple\Container;
 use SensioLabs\DeprecationDetector\AncestorResolver;
 use SensioLabs\DeprecationDetector\Console\Command\CheckCommand;
-use SensioLabs\DeprecationDetector\Detector\ViolationDetector;
+use SensioLabs\DeprecationDetector\Violation\ViolationDetector;
 use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\Visitor\ConstructorResolverVisitor;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ReattachStateToProperty;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ReattachStateToVariable;

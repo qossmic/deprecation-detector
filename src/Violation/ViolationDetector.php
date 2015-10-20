@@ -1,11 +1,11 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\Detector;
+namespace SensioLabs\DeprecationDetector\Violation;
 
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
 use SensioLabs\DeprecationDetector\ProgressEvent;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
-use SensioLabs\DeprecationDetector\Violation\Violation;
+use SensioLabs\DeprecationDetector\Violation\Violation as BaseViolation;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ViolationCheckerInterface;
 use SensioLabs\DeprecationDetector\Violation\ViolationFilter\ViolationFilterInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -21,6 +21,10 @@ class ViolationDetector
      */
     private $violationChecker;
 
+    /**
+     * @param EventDispatcherInterface  $eventDispatcher
+     * @param ViolationCheckerInterface $violationChecker
+     */
     public function __construct(EventDispatcherInterface $eventDispatcher, ViolationCheckerInterface $violationChecker)
     {
         $this->eventDispatcher = $eventDispatcher;
@@ -31,7 +35,7 @@ class ViolationDetector
      * @param RuleSet             $ruleSet
      * @param ParsedPhpFileFinder $files
      *
-     * @return Violation[]
+     * @return BaseViolation[]
      */
     public function getViolations(RuleSet $ruleSet, ParsedPhpFileFinder $files, ViolationFilterInterface $filter)
     {
