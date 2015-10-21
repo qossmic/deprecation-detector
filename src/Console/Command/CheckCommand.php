@@ -41,7 +41,6 @@ class CheckCommand extends Command
                     ),
                     new InputOption('no-cache', null, InputOption::VALUE_NONE, 'Disable rule set cache'),
                     new InputOption('cache-dir', null, InputOption::VALUE_REQUIRED, 'Cache directory', '.rules/'),
-                    new InputOption('log-html', null, InputOption::VALUE_OPTIONAL, 'Log output in HTML format to file.'),
                     new InputOption('filter-method-calls', null, InputOption::VALUE_OPTIONAL, 'Filter method calls', ''),
                     new InputOption('fail', null, InputOption::VALUE_NONE, 'Fails, if any deprecation is detected'),
                 )
@@ -153,15 +152,7 @@ EOF
 
         $output->writeln(sprintf('<comment>There are %s deprecations:</comment>', count($violations)));
 
-        $container['violation.renderer.console']->renderViolations($violations);
-
-        if ($htmlOutputPath = $input->getOption('log-html')) {
-            /** @var $renderer HtmlOutputRenderer */
-            $renderer = $container['violation.renderer.html']->createHtmlOutputRenderer($htmlOutputPath);
-            $renderer->renderViolations($violations);
-            $output->writeln(sprintf('Rendered HTML to %s', $htmlOutputPath));
-
-        }
+        $container['violation.renderer']->renderViolations($violations);
 
         if ($files->hasParserErrors()) {
             foreach($files->getParserErrors() as $ex) {
