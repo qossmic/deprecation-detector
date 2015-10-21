@@ -34,8 +34,5 @@
         "psr-4": {
             "SensioLabs\\DeprecationDetector\\": "src/"
         }
-    },
-    "config": {
-        "bin-dir": "bin"
     }
 }
