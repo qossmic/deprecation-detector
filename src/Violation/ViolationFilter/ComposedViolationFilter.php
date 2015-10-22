@@ -19,6 +19,11 @@ class ComposedViolationFilter implements ViolationFilterInterface
         $this->violationFilters = $violationFilters;
     }
 
+    public function addViolationFilter(ViolationFilterInterface $violationFilter)
+    {
+        $this->violationFilters[] = $violationFilter;
+    }
+
     /**
      * @param Violation $violation
      *

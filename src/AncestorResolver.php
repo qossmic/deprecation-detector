@@ -6,6 +6,8 @@ use Composer\Autoload\ClassLoader;
 use Pimple\Container;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\UsageInterface;
+use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
+use SensioLabs\DeprecationDetector\Parser\UsageParser;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -22,23 +24,30 @@ class AncestorResolver
     protected $sourcePaths;
 
     /**
-     * @var Container
-     */
-    protected $container;
-
-    /**
      * @var ClassLoader
      */
     protected $composerLoader;
 
     /**
-     * @param Container $container
+     * @var UsageParser
      */
-    public function __construct(Container $container)
+    protected $usageParser;
+
+    /**
+     * @var ParsedPhpFileFinder
+     */
+    protected $finder;
+
+    /**
+     * @param UsageParser $usageParser
+     * @param ParsedPhpFileFinder $finder
+     */
+    public function __construct(UsageParser $usageParser, ParsedPhpFileFinder $finder)
     {
         $this->definitionFiles = array();
         $this->sourcePaths = array();
-        $this->container = $container;
+        $this->usageParser = $usageParser;
+        $this->finder = $finder;
     }
 
     /**
@@ -184,7 +193,7 @@ class AncestorResolver
 
         $file = new PhpFileInfo($filePath, null, null);
 
-        return $this->container['parser.usage']->parseFile($file);
+        return $this->usageParser->parseFile($file);
     }
 
     protected function initComposerLoader()
@@ -230,7 +239,7 @@ class AncestorResolver
         foreach ($finder as $file) {
             if (empty($namespace) || is_int(strpos($file->getContents(), $namespace))) {
                 $baseFile = PhpFileInfo::create($file);
-                $files[] = $this->container['parser.usage']->parseFile($baseFile);
+                $files[] = $this->usageParser->parseFile($baseFile);
             }
         }
 
@@ -260,7 +269,7 @@ class AncestorResolver
             $namespace = '';
         }
 
-        $files = $this->container['finder.php_usage']
+        $files = $this->finder
             ->contains(sprintf('/%s.*%s/s', $namespace, $definition))
             ->in($this->sourcePaths)
         ;

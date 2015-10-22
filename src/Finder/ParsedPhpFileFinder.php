@@ -18,19 +18,15 @@ class ParsedPhpFileFinder extends Finder
      */
     protected $parserErrors = array();
 
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->files()->name('*.php');
-    }
-
     /**
      * @param ParserInterface $parser
      */
-    public function setParser(ParserInterface $parser)
+    public function __construct(ParserInterface $parser)
     {
+        parent::__construct();
+
         $this->parser = $parser;
+        $this->files()->name('*.php');
     }
 
     /**

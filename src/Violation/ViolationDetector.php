@@ -22,13 +22,23 @@ class ViolationDetector
     private $violationChecker;
 
     /**
+     * @var ViolationFilterInterface
+     */
+    private $violationFilter;
+
+    /**
      * @param EventDispatcherInterface  $eventDispatcher
      * @param ViolationCheckerInterface $violationChecker
+     * @param ViolationFilterInterface $violationFilter
      */
-    public function __construct(EventDispatcherInterface $eventDispatcher, ViolationCheckerInterface $violationChecker)
-    {
+    public function __construct(
+        EventDispatcherInterface $eventDispatcher,
+        ViolationCheckerInterface $violationChecker,
+        ViolationFilterInterface $violationFilter
+    ) {
         $this->eventDispatcher = $eventDispatcher;
         $this->violationChecker = $violationChecker;
+        $this->violationFilter = $violationFilter;
     }
 
     /**
@@ -37,7 +47,7 @@ class ViolationDetector
      *
      * @return BaseViolation[]
      */
-    public function getViolations(RuleSet $ruleSet, ParsedPhpFileFinder $files, ViolationFilterInterface $filter)
+    public function getViolations(RuleSet $ruleSet, ParsedPhpFileFinder $files)
     {
         $total = count($files);
         $this->eventDispatcher->dispatch(
@@ -49,7 +59,7 @@ class ViolationDetector
         foreach ($files as $i => $file) {
             $unfilteredResult = $this->violationChecker->check($file, $ruleSet);
             foreach ($unfilteredResult as $unfilteredViolation) {
-                if (false === $filter->isViolationFiltered($unfilteredViolation)) {
+                if (false === $this->violationFilter->isViolationFiltered($unfilteredViolation)) {
                     $result[] = $unfilteredViolation;
                 }
             }

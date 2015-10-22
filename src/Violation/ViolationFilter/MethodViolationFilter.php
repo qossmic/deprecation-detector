@@ -18,6 +18,16 @@ class MethodViolationFilter implements ViolationFilterInterface
     }
 
     /**
+     * @param string $filterConfig
+     *
+     * @return MethodViolationFilter
+     */
+    public static function fromString($filterConfig)
+    {
+        return new MethodViolationFilter(explode(',', $filterConfig));
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function isViolationFiltered(Violation $violation)
