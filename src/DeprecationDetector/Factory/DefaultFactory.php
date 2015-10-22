@@ -76,7 +76,7 @@ class DefaultFactory implements FactoryInterface
     private $ancestorResolver;
 
     /**
-     * @param Configuration $configuration
+     * @param Configuration   $configuration
      * @param OutputInterface $output
      *
      * @return DeprecationDetector
@@ -114,13 +114,12 @@ class DefaultFactory implements FactoryInterface
     }
 
     /**
-     *
-     * Violation Visitor
-     *
+     * Violation Visitor.
      */
 
     /**
      * @param Configuration $configuration
+     *
      * @return UsageParser
      */
     private function getUsageParser(Configuration $configuration)
@@ -135,6 +134,8 @@ class DefaultFactory implements FactoryInterface
     }
 
     /**
+     * @param Configuration $configuration
+     *
      * @return StaticAnalysisVisitorInterface[]
      */
     private function getStaticAnalysisVisitors(Configuration $configuration)
@@ -150,10 +151,10 @@ class DefaultFactory implements FactoryInterface
                 new ConstructorResolver(
                     $this->symbolTable,
                     array(
-                        $symbolTableVariableResolverVisitor
+                        $symbolTableVariableResolverVisitor,
                     )
                 )
-            )
+            ),
         );
     }
 
@@ -171,7 +172,7 @@ class DefaultFactory implements FactoryInterface
         $composedResolver->addResolver(new VariableAssignResolver($this->symbolTable));
         $composedResolver->addResolver(new PropertyAssignResolver($this->symbolTable));
 
-        /** @TODO: add only if config is symfony-project */
+        /* @TODO: only load the container if the project is a symfony project */
         $containerReader = new ContainerReader();
         $containerReader->loadContainer($configuration->containerPath());
         $composedResolver->addResolver(new SymfonyResolver($this->symbolTable, $containerReader));
@@ -197,9 +198,7 @@ class DefaultFactory implements FactoryInterface
     }
 
     /**
-     *
-     * ViolationDetector
-     *
+     * ViolationDetector.
      */
 
     /**
@@ -220,6 +219,8 @@ class DefaultFactory implements FactoryInterface
     }
 
     /**
+     * @param Configuration $configuration
+     *
      * @return ComposedViolationChecker
      */
     private function getViolationChecker(Configuration $configuration)
@@ -240,6 +241,7 @@ class DefaultFactory implements FactoryInterface
 
     /**
      * @param Configuration $configuration
+     *
      * @return ComposedViolationFilter
      */
     private function getViolationFilter(Configuration $configuration)
@@ -256,11 +258,8 @@ class DefaultFactory implements FactoryInterface
     }
 
     /**
-     *
-     * Renderer
-     *
+     * Renderer.
      */
-
     private function getRenderer(Configuration $configuration, $output)
     {
         $messageHelper = $this->getMessageHelper();
@@ -281,21 +280,19 @@ class DefaultFactory implements FactoryInterface
                 new InterfaceViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage'),
                 new MethodViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage'),
                 new MethodDefinitionViolationMessage('SensioLabs\DeprecationDetector\FileInfo\MethodDefinition'),
-                new SuperTypeViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage')
+                new SuperTypeViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage'),
             )
         );
     }
 
     /**
-     *
-     * DeprecationParser
-     *
+     * DeprecationParser.
      */
     private function getDeprecationParser()
     {
         return new DeprecationParser(
             array(
-                new FindDeprecatedTagsVisitor()
+                new FindDeprecatedTagsVisitor(),
             ),
             $this->baseTraverser
         );

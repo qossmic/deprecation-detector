@@ -44,7 +44,7 @@ class ParsedPhpFileFinder extends Finder
                 try {
                     $this->parser->parseFile($file);
                 } catch (\PhpParser\Error $ex) {
-                    $raw = $ex->getRawMessage() . ' in file ' . $file;
+                    $raw = $ex->getRawMessage().' in file '.$file;
                     $ex->setRawMessage($raw);
                     $this->parserErrors[] = $ex;
                 }
@@ -69,7 +69,7 @@ class ParsedPhpFileFinder extends Finder
      */
     public function hasParserErrors()
     {
-        return !empty($this->parserErrors);;
+        return !empty($this->parserErrors);
     }
 
     /**

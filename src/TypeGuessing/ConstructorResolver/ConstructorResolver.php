@@ -21,7 +21,7 @@ class ConstructorResolver
     private $visitors;
 
     /**
-     * @param SymbolTable $table
+     * @param SymbolTable        $table
      * @param VisitorInterface[] $visitors
      */
     public function __construct(SymbolTable $table, array $visitors = array())

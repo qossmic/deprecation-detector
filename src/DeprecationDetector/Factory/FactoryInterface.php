@@ -9,7 +9,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 interface FactoryInterface
 {
     /**
-     * @param Configuration $configuration
+     * @param Configuration   $configuration
      * @param OutputInterface $output
      *
      * @return DeprecationDetector

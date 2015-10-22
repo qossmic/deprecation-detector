@@ -29,7 +29,7 @@ class ViolationDetector
     /**
      * @param EventDispatcherInterface  $eventDispatcher
      * @param ViolationCheckerInterface $violationChecker
-     * @param ViolationFilterInterface $violationFilter
+     * @param ViolationFilterInterface  $violationFilter
      */
     public function __construct(
         EventDispatcherInterface $eventDispatcher,

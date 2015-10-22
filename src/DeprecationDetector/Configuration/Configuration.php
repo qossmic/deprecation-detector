@@ -31,10 +31,10 @@ class Configuration
 
     /**
      * @param string $containerPath
-     * @param bool $noCache
+     * @param bool   $noCache
      * @param string $cacheDir
      * @param string $filterMethodCalls
-     * @param bool $fail
+     * @param bool   $fail
      */
     public function __construct(
         $containerPath,
@@ -52,7 +52,7 @@ class Configuration
 
     public function overrideConfiguration()
     {
-        /** @TODO */
+        /* @TODO */
     }
 
     /**

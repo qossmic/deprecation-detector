@@ -3,7 +3,6 @@
 namespace SensioLabs\DeprecationDetector;
 
 use Composer\Autoload\ClassLoader;
-use Pimple\Container;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\UsageInterface;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
@@ -39,7 +38,7 @@ class AncestorResolver
     protected $finder;
 
     /**
-     * @param UsageParser $usageParser
+     * @param UsageParser         $usageParser
      * @param ParsedPhpFileFinder $finder
      */
     public function __construct(UsageParser $usageParser, ParsedPhpFileFinder $finder)
