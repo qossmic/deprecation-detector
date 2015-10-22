@@ -2,14 +2,8 @@
 
 namespace SensioLabs\DeprecationDetector\Console\Command;
 
-use SensioLabs\DeprecationDetector\DeprecationDetector\Configuration\Configuration;
-use SensioLabs\DeprecationDetector\DeprecationDetector\Factory\DefaultFactory;
-use SensioLabs\DeprecationDetector\EventListener\ProgressListener;
-use SensioLabs\DeprecationDetector\RuleSet\Loader;
-use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
-use SensioLabs\DeprecationDetector\Violation\Renderer\HtmlOutput\HtmlOutputRenderer;
-use SensioLabs\DeprecationDetector\Violation\ViolationFilter\ComposedViolationFilter;
-use SensioLabs\DeprecationDetector\Violation\ViolationFilter\MethodViolationFilter;
+use SensioLabs\DeprecationDetector\Configuration\Configuration;
+use SensioLabs\DeprecationDetector\DetectorFactory;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -35,7 +29,7 @@ class CheckCommand extends Command
                         'composer.lock'
                     ),
                     new InputOption(
-                        'container-path',
+                        'container-cache',
                         null,
                         InputOption::VALUE_REQUIRED,
                         'The path to symfony container cache',
@@ -44,7 +38,7 @@ class CheckCommand extends Command
                     new InputOption('no-cache', null, InputOption::VALUE_NONE, 'Disable rule set cache'),
                     new InputOption('cache-dir', null, InputOption::VALUE_REQUIRED, 'Cache directory', '.rules/'),
                     new InputOption('log-html', null, InputOption::VALUE_REQUIRED, 'Generate HTML report'),
-                    new InputOption('filter-method-calls', null, InputOption::VALUE_OPTIONAL, 'Filter method calls', ''),
+                    new InputOption('filter-methods', null, InputOption::VALUE_OPTIONAL, 'Filter methods', ''),
                     new InputOption('fail', null, InputOption::VALUE_NONE, 'Fails, if any deprecation is detected'),
                 )
             )
@@ -100,7 +94,6 @@ EOF
     {
         $sourceArg = realpath($input->getArgument('source'));
         $ruleSetArg = realpath($input->getArgument('ruleset'));
-        $container = $this->getApplication()->getContainer();
 
         if (false === $sourceArg || false === $ruleSetArg) {
             throw new \InvalidArgumentException(
@@ -112,118 +105,31 @@ EOF
             );
         }
 
-        /* @TODO Implement detector.yml and override specific values from input */
         $config = new Configuration(
-            $input->getOption('container-path'),
+            $input->getArgument('ruleset'),
+            $input->getOption('container-cache'),
             $input->getOption('no-cache'),
             $input->getOption('cache-dir'),
-            $input->getOption('filter-method-calls'),
-            $input->getOption('fail')
+            $input->getOption('filter-methods'),
+            $input->getOption('fail'),
+            $input->getOption('verbose')
         );
 
-        $factory = new DefaultFactory();
-        $detector = $factory->buildDetector($config, $output);
+        $factory = new DetectorFactory();
+        $detector = $factory->create($config, $output);
 
-        $symfonyMode = $container['symfony_container_reader']->loadContainer($input->getOption('container-path'));
-
-        $output->writeln(
-            sprintf(
-                'Checking your %s for deprecations - this could take a while ...',
-                $symfonyMode ? 'symfony application' : 'application'
-            )
-        );
-
-        if ($input->getOption('no-cache')) {
-            $container['ruleset.cache']->disable();
-        } else {
-            $container['ruleset.cache']->setCacheDir($input->getOption('cache-dir'));
-        }
-
-        if ($input->getOption('verbose')) {
-            $container['event_dispatcher']->addSubscriber(new ProgressListener($output));
-        }
-
-        $ruleSet = $this->loadRuleSet($ruleSetArg);
-
-        if (null === $ruleSet) {
-            $output->writeln(sprintf('<error>check aborted - no rule set found for %s</error>', $ruleSetArg));
+        try {
+            $violations = $detector->checkForDeprecations($sourceArg, $ruleSetArg);
+        } catch (\Exception $e) {
+            $output->writeln('<error>'.$e->getMessage().'</error>');
 
             return 1;
         }
 
-        $lib = (is_dir($ruleSetArg) ? $ruleSetArg : realpath('vendor')); // TODO: not hard coded
-        $container['ancestor_resolver']->setSourcePaths(array($sourceArg, $lib));
-
-        $files = $container['finder.php_usage'];
-        $files->in($sourceArg);
-        $filter = $this->getFilter($input);
-        $violations = $container['violation_detector']->getViolations($ruleSet, $files, $filter);
-
-        if ($htmlOutputPath = $input->getOption('log-html')) {
-            /** @var $renderer HtmlOutputRenderer */
-            $renderer = $container['violation.renderer.html']->createHtmlOutputRenderer($htmlOutputPath);
-            $renderer->renderViolations($violations);
-            $output->writeln(sprintf('<info>Rendered HTML report to %s.</info>', $htmlOutputPath));
-
+        if ($config->failOnDeprecation() && !empty($violations)) {
+            return 1;
         }
 
-        if (0 === count($violations)) {
-            $output->writeln('<info>There are no violations - congratulations!</info>');
-
-            return 0;
-        }
-
-        $output->writeln(sprintf('<comment>There are %s deprecations:</comment>', count($violations)));
-
-        $container['violation.renderer.console']->renderViolations($violations);
-
-        if ($files->hasParserErrors()) {
-            foreach ($files->getParserErrors() as $ex) {
-                $this->getApplication()->renderException($ex, $output);
-            }
-        }
-
-        return $input->getOption('fail') ? 1 : 0;
-    }
-
-    /**
-     * @param $ruleSet
-     *
-     * @return RuleSet
-     *
-     * @throws \RuntimeException
-     */
-    protected function loadRuleSet($ruleSet)
-    {
-        $container = $this->getApplication()->getContainer();
-
-        /* @var Loader\LoaderInterface $loader */
-        if (is_dir($ruleSet)) {
-            $loader = $container['ruleset.loader.directory'];
-        } elseif ('composer.lock' === basename($ruleSet)) {
-            $loader = $container['ruleset.loader.composer'];
-        } else {
-            $loader = $container['ruleset.loader.ruleset'];
-        }
-
-        return $loader->loadRuleSet($ruleSet);
-    }
-
-    /**
-     * @param InputInterface $input
-     * @return ComposedViolationFilter
-     */
-    private function getFilter(InputInterface $input)
-    {
-        $methodFilterOption = $input->getOption('filter-method-calls');
-        $methodFilterSetting = explode(',', $methodFilterOption);
-
-        $filter = new ComposedViolationFilter(
-            array(
-                new MethodViolationFilter($methodFilterSetting),
-            )
-        );
-
-        return $filter;
+        return 0;
     }
 }

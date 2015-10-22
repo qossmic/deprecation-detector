@@ -4,6 +4,7 @@ namespace SensioLabs\DeprecationDetector\RuleSet;
 
 use Pimple\Container;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
+use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
 use SensioLabs\DeprecationDetector\ProgressEvent;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -15,17 +16,17 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 class Traverser
 {
     /**
-     * @var EventDispatcher
+     * @var DeprecationParser
      */
-    protected $eventDispatcher;
+    private $deprecationParser;
 
     /**
-     * @param Container       $container
-     * @param EventDispatcher $eventDispatcher
+     * @param DeprecationParser $deprecationParser
+     * @param EventDispatcher   $eventDispatcher
      */
-    public function __construct(Container $container, EventDispatcher $eventDispatcher)
+    public function __construct(DeprecationParser $deprecationParser, EventDispatcher $eventDispatcher)
     {
-        $this->container = $container;
+        $this->deprecationParser = $deprecationParser;
         $this->eventDispatcher = $eventDispatcher;
     }
 
@@ -37,7 +38,7 @@ class Traverser
      */
     public function traverse($path, $quite = false)
     {
-        $files = $this->container['finder.php_deprecation']->in($path);
+        $files = $this->deprecationParser->in($path);
 
         $ruleSet = new RuleSet();
         $hasDeprecations = false;

@@ -8,9 +8,16 @@ use SensioLabs\DeprecationDetector\AncestorResolver;
 use SensioLabs\DeprecationDetector\DeprecationDetector\Configuration\Configuration;
 use SensioLabs\DeprecationDetector\DeprecationDetector\DeprecationDetector;
 use SensioLabs\DeprecationDetector\EventListener\CommandListener;
+use SensioLabs\DeprecationDetector\EventListener\ProgressListener;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
 use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
 use SensioLabs\DeprecationDetector\Parser\UsageParser;
+use SensioLabs\DeprecationDetector\RuleSet\Cache;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\ComposerLoader;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\DirectoryLoader;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\LoaderInterface;
+use SensioLabs\DeprecationDetector\RuleSet\Traverser;
 use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver;
 use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\Visitor\ConstructorResolverVisitor;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\ComposedResolver;
@@ -52,6 +59,7 @@ use SensioLabs\DeprecationDetector\Visitor\Usage\FindSuperTypes;
 use SensioLabs\DeprecationDetector\Visitor\ViolationVisitorInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\Filesystem\Filesystem;
 
 class DefaultFactory implements FactoryInterface
 {
@@ -87,27 +95,39 @@ class DefaultFactory implements FactoryInterface
 
         $this->eventDispatcher = new EventDispatcher();
         $this->eventDispatcher->addSubscriber(new CommandListener());
+        if ($configuration->isVerbose()) {
+            $this->eventDispatcher->addSubscriber(new ProgressListener($output));
+        }
 
         $this->baseTraverser = new NodeTraverser();
         $this->baseTraverser->addVisitor(new NameResolver());
 
         $usageParser = $this->getUsageParser($configuration);
-        $finder = new ParsedPhpFileFinder($usageParser);
-        $finder
+        $usageFinder = new ParsedPhpFileFinder($usageParser);
+        $usageFinder
             ->exclude('vendor')
             ->exclude('Tests')
             ->exclude('Test');
-        $this->ancestorResolver = new AncestorResolver($usageParser, $finder);
+        $this->ancestorResolver = new AncestorResolver($usageParser, $usageFinder);
 
         $deprecationParser = $this->getDeprecationParser();
+        $deprecationFinder = new ParsedPhpFileFinder($deprecationParser);
+        $deprecationFinder
+            ->contains('@deprecated')
+            ->exclude('vendor')
+            ->exclude('Tests')
+            ->exclude('Test');
+        $deprecationTraverser = new Traverser($deprecationParser, $this->eventDispatcher);
 
         $violationDetector = $this->getViolationDetector($configuration);
 
         $renderer = $this->getRenderer($configuration, $output);
 
+        $ruleSetLoader = $this->getRuleSetLoader($deprecationTraverser, $configuration);
+
         return new DeprecationDetector(
             $usageParser,
-            $deprecationParser,
+            $ruleSetLoader,
             $violationDetector,
             $renderer
         );
@@ -296,5 +316,36 @@ class DefaultFactory implements FactoryInterface
             ),
             $this->baseTraverser
         );
+    }
+
+    /**
+     * RuleSet.
+     */
+
+    /**
+     * @param Traverser $traverser
+     * @param Configuration $configuration
+     *
+     * @return LoaderInterface
+     */
+    private function getRuleSetLoader(Traverser $traverser, Configuration $configuration)
+    {
+        $ruleSetCache = new Cache(new Filesystem());
+
+        if ($configuration->noCache()) {
+            $ruleSetCache->disable();
+        } else {
+            $ruleSetCache->setCacheDir($configuration->cacheDir());
+        }
+
+        if (is_dir($configuration->ruleSet())) {
+            $loader = new DirectoryLoader($traverser, $ruleSetCache);
+        } elseif ('composer.lock' === basename($configuration->ruleSet())) {
+            $loader = new ComposerLoader($traverser, $ruleSetCache, $this->eventDispatcher);
+        } else {
+            $loader = new FileLoader($this->eventDispatcher);
+        }
+
+        return $loader;
     }
 }

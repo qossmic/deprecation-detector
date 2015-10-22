@@ -2,6 +2,7 @@
 
 namespace SensioLabs\DeprecationDetector\DeprecationDetector;
 
+use SensioLabs\DeprecationDetector\RuleSet\Loader\LoaderInterface;
 use SensioLabs\DeprecationDetector\Violation\ViolationDetector;
 use SensioLabs\DeprecationDetector\Parser\ParserInterface;
 use SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface;
@@ -9,9 +10,9 @@ use SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface;
 class DeprecationDetector
 {
     /**
-     * @var ParserInterface
+     * @var LoaderInterface
      */
-    private $ruleSetParser;
+    private $ruleSetLoader;
 
     /**
      * @var ParserInterface
@@ -29,18 +30,18 @@ class DeprecationDetector
     private $renderer;
 
     /**
-     * @param ParserInterface   $ruleSetParser
+     * @param LoaderInterface   $ruleSetLoader
      * @param ParserInterface   $deprecationUsageParser
      * @param ViolationDetector $violationDetector
      * @param RendererInterface $renderer
      */
     public function __construct(
-        ParserInterface $ruleSetParser,
+        LoaderInterface $ruleSetLoader,
         ParserInterface $deprecationUsageParser,
         ViolationDetector $violationDetector,
         RendererInterface $renderer
     ) {
-        $this->ruleSetParser = $ruleSetParser;
+        $this->ruleSetLoader = $ruleSetLoader;
         $this->deprecationUsageParser = $deprecationUsageParser;
         $this->violationDetector = $violationDetector;
         $this->renderer = $renderer;
