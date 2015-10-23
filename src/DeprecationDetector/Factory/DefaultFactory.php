@@ -8,8 +8,10 @@ use SensioLabs\DeprecationDetector\AncestorResolver;
 use SensioLabs\DeprecationDetector\DeprecationDetector\Configuration\Configuration;
 use SensioLabs\DeprecationDetector\DeprecationDetector\DeprecationDetector;
 use SensioLabs\DeprecationDetector\EventListener\CommandListener;
-use SensioLabs\DeprecationDetector\EventListener\ProgressListener;
+use SensioLabs\DeprecationDetector\EventListener\OutputProgressListener;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
+use SensioLabs\DeprecationDetector\Finder\RuleSetProgressDispatcher;
+use SensioLabs\DeprecationDetector\Finder\ViolationProgressDispatcher;
 use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
 use SensioLabs\DeprecationDetector\Parser\UsageParser;
 use SensioLabs\DeprecationDetector\RuleSet\Cache;
@@ -95,11 +97,14 @@ class DefaultFactory implements FactoryInterface
         $this->symbolTable = new SymbolTable();
 
         if ($configuration->isVerbose()) {
-            $this->eventDispatcher->addSubscriber(new ProgressListener($output));
+            $this->eventDispatcher->addSubscriber(new OutputProgressListener($output));
         }
 
         $deprecationUsageParser = $this->getUsageParser($configuration);
-        $deprecationUsageFinder = new ParsedPhpFileFinder($deprecationUsageParser);
+        $deprecationUsageFinder = new ParsedPhpFileFinder(
+            $deprecationUsageParser,
+            new ViolationProgressDispatcher($this->eventDispatcher)
+        );
         $deprecationUsageFinder
             ->exclude('vendor')
             ->exclude('Tests')
@@ -108,13 +113,16 @@ class DefaultFactory implements FactoryInterface
         $this->ancestorResolver = new AncestorResolver($deprecationUsageParser, $deprecationUsageFinder);
 
         $ruleSetDeprecationParser = $this->getDeprecationParser();
-        $ruleSetDeprecationFinder = new ParsedPhpFileFinder($ruleSetDeprecationParser);
+        $ruleSetDeprecationFinder = new ParsedPhpFileFinder(
+            $ruleSetDeprecationParser,
+            new RuleSetProgressDispatcher($this->eventDispatcher)
+        );
         $ruleSetDeprecationFinder
             ->contains('@deprecated')
             ->exclude('vendor')
             ->exclude('Tests')
             ->exclude('Test');
-        $deprecationDirectoryTraverser = new DirectoryTraverser($ruleSetDeprecationFinder, $this->eventDispatcher);
+        $deprecationDirectoryTraverser = new DirectoryTraverser($ruleSetDeprecationFinder);
 
         $violationDetector = $this->getViolationDetector($configuration);
 
@@ -127,7 +135,8 @@ class DefaultFactory implements FactoryInterface
             $this->ancestorResolver,
             $deprecationUsageFinder,
             $violationDetector,
-            $renderer
+            $renderer,
+            $this->eventDispatcher
         );
     }
 
@@ -230,7 +239,6 @@ class DefaultFactory implements FactoryInterface
         $violationFilter = $this->getViolationFilter($configuration);
 
         return new ViolationDetector(
-            $this->eventDispatcher,
             $violationChecker,
             $violationFilter
         );

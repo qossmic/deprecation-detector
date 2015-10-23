@@ -2,6 +2,7 @@
 
 namespace SensioLabs\DeprecationDetector\Finder;
 
+use SensioLabs\DeprecationDetector\EventListener\ProgressEvent;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Parser\ParserInterface;
 use Symfony\Component\Finder\Finder;
@@ -14,19 +15,27 @@ class ParsedPhpFileFinder extends Finder
     protected $parser;
 
     /**
+     * @var ProgressEventDispatcherInterface
+     */
+    protected $dispatcher;
+
+    /**
      * @var \PhpParser\Error[]
      */
     protected $parserErrors = array();
 
     /**
      * @param ParserInterface $parser
+     * @param ProgressEventDispatcherInterface $dispatcher
      */
-    public function __construct(ParserInterface $parser)
+    public function __construct(ParserInterface $parser, ProgressEventDispatcherInterface $dispatcher)
     {
         parent::__construct();
 
         $this->parser = $parser;
         $this->files()->name('*.php');
+
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -35,12 +44,22 @@ class ParsedPhpFileFinder extends Finder
     public function getIterator()
     {
         $iterator = parent::getIterator();
-
         $files = new \ArrayIterator();
+        $total = $this->count();
+
+        $this->dispatcher->start(
+            new ProgressEvent(0, $total)
+        );
+
+        $i = 0;
         foreach ($iterator as $file) {
             $file = PhpFileInfo::create($file);
 
             try {
+                $this->dispatcher->advance(
+                    new ProgressEvent(++$i, $total, $file)
+                );
+
                 $this->parser->parseFile($file);
             } catch (\PhpParser\Error $ex) {
                 $raw = $ex->getRawMessage().' in file '.$file;
@@ -50,6 +69,10 @@ class ParsedPhpFileFinder extends Finder
 
             $files->append($file);
         }
+
+        $this->dispatcher->end(
+            new ProgressEvent(0, $total)
+        );
 
         return $files;
     }

@@ -2,12 +2,9 @@
 
 namespace SensioLabs\DeprecationDetector\RuleSet;
 
-use Pimple\Container;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
 use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
-use SensioLabs\DeprecationDetector\ProgressEvent;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * Class Traverser.
@@ -23,48 +20,29 @@ class DirectoryTraverser
 
     /**
      * @param ParsedPhpFileFinder $finder
-     * @param EventDispatcher   $eventDispatcher
      */
-    public function __construct(ParsedPhpFileFinder $finder, EventDispatcher $eventDispatcher)
+    public function __construct(ParsedPhpFileFinder $finder)
     {
         $this->finder = $finder;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
-     * @param $path
-     * @param $quite
+     * @param string $path
      *
      * @return null|RuleSet
      */
-    public function traverse($path, $quite = false)
+    public function traverse($path)
     {
         /* @TODO remove $quiet from DirectoryTraverser */
-
         $files = $this->finder->in($path);
 
         $ruleSet = new RuleSet();
         $hasDeprecations = false;
-        if (!$quite && null !== $this->eventDispatcher) {
-            $total = count($files);
-            $this->eventDispatcher->dispatch(
-                ProgressEvent::RULESET,
-                new ProgressEvent(0, $total)
-            );
-        }
-
         foreach ($files as $i => $file) {
             /** @var PhpFileInfo $file */
             if ($file->hasDeprecations()) {
                 $ruleSet->merge($file);
                 $hasDeprecations = true;
-            }
-
-            if (!$quite && null !== $this->eventDispatcher) {
-                $this->eventDispatcher->dispatch(
-                    ProgressEvent::RULESET,
-                    new ProgressEvent(++$i, $total)
-                );
             }
         }
 

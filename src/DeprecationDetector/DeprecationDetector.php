@@ -8,6 +8,7 @@ use SensioLabs\DeprecationDetector\RuleSet\Loader\LoaderInterface;
 use SensioLabs\DeprecationDetector\Violation\Violation;
 use SensioLabs\DeprecationDetector\Violation\ViolationDetector;
 use SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class DeprecationDetector
 {
@@ -32,24 +33,32 @@ class DeprecationDetector
     private $renderer;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    private $dispatcher;
+
+    /**
      * @param LoaderInterface   $ruleSetLoader
      * @param AncestorResolver  $ancestorResolver
      * @param ParsedPhpFileFinder   $deprecationFinder
      * @param ViolationDetector $violationDetector
      * @param RendererInterface $renderer
+     * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(
         LoaderInterface $ruleSetLoader,
         AncestorResolver $ancestorResolver,
         ParsedPhpFileFinder $deprecationFinder,
         ViolationDetector $violationDetector,
-        RendererInterface $renderer
+        RendererInterface $renderer,
+        EventDispatcherInterface $dispatcher
     ) {
         $this->ruleSetLoader = $ruleSetLoader;
         $this->ancestorResolver = $ancestorResolver;
         $this->deprecationFinder = $deprecationFinder;
         $this->violationDetector = $violationDetector;
         $this->renderer = $renderer;
+        $this->dispatcher = $dispatcher;
     }
 
     /**
@@ -77,7 +86,7 @@ class DeprecationDetector
 
         $this->renderer->renderViolations($violations);
         if ($files->hasParserErrors()) {
-            $this->renderer->renderParsingErrors($files->getParserErrors());
+            $this->renderer->renderParserErrors($files->getParserErrors());
         }
 
         return $violations;

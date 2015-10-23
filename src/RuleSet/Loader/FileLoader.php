@@ -2,7 +2,7 @@
 
 namespace SensioLabs\DeprecationDetector\RuleSet\Loader;
 
-use SensioLabs\DeprecationDetector\ProgressEvent;
+use SensioLabs\DeprecationDetector\EventListener\ProgressEvent;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Finder\SplFileInfo;
@@ -33,7 +33,7 @@ class FileLoader implements LoaderInterface
     public function loadRuleSet($path)
     {
         $this->eventDispatcher->dispatch(
-            ProgressEvent::RULESET,
+            ProgressEvent::START_RULESET,
             new ProgressEvent(0, 1)
         );
 
@@ -57,7 +57,7 @@ class FileLoader implements LoaderInterface
         }
 
         $this->eventDispatcher->dispatch(
-            ProgressEvent::RULESET,
+            ProgressEvent::GENERATED_RULESET,
             new ProgressEvent(1, 1)
         );
 

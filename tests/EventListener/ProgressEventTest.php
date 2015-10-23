@@ -1,8 +1,8 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\Tests;
+namespace SensioLabs\DeprecationDetector\Tests\EventListener;
 
-use SensioLabs\DeprecationDetector\ProgressEvent;
+use SensioLabs\DeprecationDetector\EventListener\ProgressEvent;
 
 class ProgressEventTest extends \PHPUnit_Framework_TestCase
 {
