@@ -59,6 +59,7 @@ use SensioLabs\DeprecationDetector\Visitor\Usage\FindSuperTypes;
 use SensioLabs\DeprecationDetector\Visitor\ViolationVisitorInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
 class DefaultFactory implements FactoryInterface
@@ -78,6 +79,11 @@ class DefaultFactory implements FactoryInterface
      */
     private $ancestorResolver;
 
+    public function __construct(EventDispatcherInterface $dispatcher)
+    {
+        $this->eventDispatcher = $dispatcher;
+    }
+
     /**
      * @param Configuration   $configuration
      * @param OutputInterface $output
@@ -88,13 +94,9 @@ class DefaultFactory implements FactoryInterface
     {
         $this->symbolTable = new SymbolTable();
 
-        $this->eventDispatcher = new EventDispatcher();
-        $this->eventDispatcher->addSubscriber(new CommandListener());
         if ($configuration->isVerbose()) {
             $this->eventDispatcher->addSubscriber(new ProgressListener($output));
         }
-
-
 
         $deprecationUsageParser = $this->getUsageParser($configuration);
         $deprecationUsageFinder = new ParsedPhpFileFinder($deprecationUsageParser);
