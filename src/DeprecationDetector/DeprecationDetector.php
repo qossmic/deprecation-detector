@@ -49,9 +49,12 @@ class DeprecationDetector
 
     /**
      * @param string $source
-     * @param string $destination
+     * @param string $ruleSet
+     *
+     * @throws \Exception
      */
-    public function checkForDeprecations($source, $destination)
+    public function checkForDeprecations($source, $ruleSet)
     {
+        $ruleSet = $this->ruleSetLoader->loadRuleSet($ruleSet);
     }
 }

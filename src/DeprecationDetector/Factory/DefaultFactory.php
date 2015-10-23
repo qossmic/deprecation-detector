@@ -126,8 +126,8 @@ class DefaultFactory implements FactoryInterface
         $ruleSetLoader = $this->getRuleSetLoader($deprecationTraverser, $configuration);
 
         return new DeprecationDetector(
-            $usageParser,
             $ruleSetLoader,
+            $usageParser,
             $violationDetector,
             $renderer
         );

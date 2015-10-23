@@ -81,19 +81,25 @@ class ComposerLoader implements LoaderInterface
      *
      * @return mixed
      *
-     * @throws \RunTimeException
+     * @throws CouldNotLoadRuleSetException
      */
     private function getComposerObject($lock)
     {
         if (!is_file($lock)) {
-            throw new \RuntimeException('Lock file does not exist.');
+            throw new CouldNotLoadRuleSetException(sprintf(
+                'composer.lock file "%s" does not exist',
+                $lock
+            ));
         }
 
         $file = new SplFileInfo($lock, null, null);
         $composer = json_decode($file->getContents());
 
         if (null === $composer || !isset($composer->packages)) {
-            throw new \RuntimeException('Lock file is not valid.');
+            throw new CouldNotLoadRuleSetException(sprintf(
+               'composer.lock file "$s" is not valid.',
+                $lock
+            ));
         }
 
         return $composer;

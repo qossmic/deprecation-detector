@@ -15,6 +15,8 @@ interface LoaderInterface
      * @param string $path
      *
      * @return RuleSet
+     *
+     * @throws CouldNotLoadRuleSetException
      */
     public function loadRuleSet($path);
 }
