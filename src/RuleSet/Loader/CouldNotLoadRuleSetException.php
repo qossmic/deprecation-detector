@@ -5,12 +5,12 @@ namespace SensioLabs\DeprecationDetector\RuleSet\Loader;
 class CouldNotLoadRuleSetException extends \Exception
 {
     /**
-     * @param string $ruleSet
+     * @param string $message
      */
-    public function __construct($ruleSet)
+    public function __construct($message)
     {
         parent::__construct(
-            sprintf('<error>Could not load ruleset: %s, aborting.</error>', $ruleSet)
+            sprintf('<error>%s</error>', $message)
         );
     }
 }

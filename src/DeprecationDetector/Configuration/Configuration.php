@@ -114,7 +114,7 @@ class Configuration
     /**
      * @return bool
      */
-    public function shouldFail()
+    public function failOnDeprecation()
     {
         return $this->fail;
     }

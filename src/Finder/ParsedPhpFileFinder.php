@@ -40,14 +40,12 @@ class ParsedPhpFileFinder extends Finder
         foreach ($iterator as $file) {
             $file = PhpFileInfo::create($file);
 
-            if (null !== $this->parser) {
-                try {
-                    $this->parser->parseFile($file);
-                } catch (\PhpParser\Error $ex) {
-                    $raw = $ex->getRawMessage().' in file '.$file;
-                    $ex->setRawMessage($raw);
-                    $this->parserErrors[] = $ex;
-                }
+            try {
+                $this->parser->parseFile($file);
+            } catch (\PhpParser\Error $ex) {
+                $raw = $ex->getRawMessage().' in file '.$file;
+                $ex->setRawMessage($raw);
+                $this->parserErrors[] = $ex;
             }
 
             $files->append($file);

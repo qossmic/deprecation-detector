@@ -8,10 +8,10 @@ class DirectoryTraverserTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $deprecationParser = $this->prophesize('SensioLabs\DeprecationDetector\Parser\DeprecationParser');
+        $deprecationFileFinder = $this->prophesize('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder');
         $dispatcher = $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcher');
 
-        $directoryTraverser = new DirectoryTraverser($deprecationParser->reveal(), $dispatcher->reveal());
+        $directoryTraverser = new DirectoryTraverser($deprecationFileFinder->reveal(), $dispatcher->reveal());
 
         $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser', $directoryTraverser);
     }

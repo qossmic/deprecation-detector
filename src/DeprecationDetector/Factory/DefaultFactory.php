@@ -74,11 +74,6 @@ class DefaultFactory implements FactoryInterface
     private $eventDispatcher;
 
     /**
-     * @var NodeTraverser
-     */
-    private $baseTraverser;
-
-    /**
      * @var AncestorResolver
      */
     private $ancestorResolver;
@@ -99,35 +94,36 @@ class DefaultFactory implements FactoryInterface
             $this->eventDispatcher->addSubscriber(new ProgressListener($output));
         }
 
-        $this->baseTraverser = new NodeTraverser();
-        $this->baseTraverser->addVisitor(new NameResolver());
 
-        $usageParser = $this->getUsageParser($configuration);
-        $usageFinder = new ParsedPhpFileFinder($usageParser);
-        $usageFinder
+
+        $deprecationUsageParser = $this->getUsageParser($configuration);
+        $deprecationUsageFinder = new ParsedPhpFileFinder($deprecationUsageParser);
+        $deprecationUsageFinder
             ->exclude('vendor')
             ->exclude('Tests')
             ->exclude('Test');
-        $this->ancestorResolver = new AncestorResolver($usageParser, $usageFinder);
 
-        $deprecationParser = $this->getDeprecationParser();
-        $deprecationFinder = new ParsedPhpFileFinder($deprecationParser);
-        $deprecationFinder
+        $this->ancestorResolver = new AncestorResolver($deprecationUsageParser, $deprecationUsageFinder);
+
+        $ruleSetDeprecationParser = $this->getDeprecationParser();
+        $ruleSetDeprecationFinder = new ParsedPhpFileFinder($ruleSetDeprecationParser);
+        $ruleSetDeprecationFinder
             ->contains('@deprecated')
             ->exclude('vendor')
             ->exclude('Tests')
             ->exclude('Test');
-        $deprecationTraverser = new DirectoryTraverser($deprecationParser, $this->eventDispatcher);
+        $deprecationDirectoryTraverser = new DirectoryTraverser($ruleSetDeprecationFinder, $this->eventDispatcher);
 
         $violationDetector = $this->getViolationDetector($configuration);
 
         $renderer = $this->getRenderer($configuration, $output);
 
-        $ruleSetLoader = $this->getRuleSetLoader($deprecationTraverser, $configuration);
+        $ruleSetLoader = $this->getRuleSetLoader($deprecationDirectoryTraverser, $configuration);
 
         return new DeprecationDetector(
             $ruleSetLoader,
-            $usageParser,
+            $this->ancestorResolver,
+            $deprecationUsageFinder,
             $violationDetector,
             $renderer
         );
@@ -147,7 +143,7 @@ class DefaultFactory implements FactoryInterface
         return new UsageParser(
             $this->getStaticAnalysisVisitors($configuration),
             $this->getViolationVisitors(),
-            $this->baseTraverser,
+            $this->getBaseTraverser(),
             new NodeTraverser(),
             new NodeTraverser()
         );
@@ -314,7 +310,7 @@ class DefaultFactory implements FactoryInterface
             array(
                 new FindDeprecatedTagsVisitor(),
             ),
-            $this->baseTraverser
+            $this->getBaseTraverser()
         );
     }
 
@@ -347,5 +343,16 @@ class DefaultFactory implements FactoryInterface
         }
 
         return $loader;
+    }
+
+    /**
+     * @return NodeTraverser
+     */
+    private function getBaseTraverser()
+    {
+        $baseTraverser = new NodeTraverser();
+        $baseTraverser->addVisitor(new NameResolver());
+
+        return $baseTraverser;
     }
 }

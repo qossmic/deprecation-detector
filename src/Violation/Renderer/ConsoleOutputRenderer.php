@@ -2,6 +2,7 @@
 
 namespace SensioLabs\DeprecationDetector\Violation\Renderer;
 
+use PhpParser\Error;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
 use SensioLabs\DeprecationDetector\Violation\Violation;
@@ -60,6 +61,14 @@ class ConsoleOutputRenderer implements RendererInterface
         }
 
         $table->render();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function renderParserErrors(array $errors)
+    {
+        /** @TODO */
     }
 
     /**
