@@ -17,7 +17,7 @@ use SensioLabs\DeprecationDetector\RuleSet\Loader\ComposerLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\DirectoryLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\LoaderInterface;
-use SensioLabs\DeprecationDetector\RuleSet\Traverser;
+use SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser;
 use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver;
 use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\Visitor\ConstructorResolverVisitor;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\ComposedResolver;
@@ -117,7 +117,7 @@ class DefaultFactory implements FactoryInterface
             ->exclude('vendor')
             ->exclude('Tests')
             ->exclude('Test');
-        $deprecationTraverser = new Traverser($deprecationParser, $this->eventDispatcher);
+        $deprecationTraverser = new DirectoryTraverser($deprecationParser, $this->eventDispatcher);
 
         $violationDetector = $this->getViolationDetector($configuration);
 
@@ -323,12 +323,12 @@ class DefaultFactory implements FactoryInterface
      */
 
     /**
-     * @param Traverser $traverser
+     * @param DirectoryTraverser $traverser
      * @param Configuration $configuration
      *
      * @return LoaderInterface
      */
-    private function getRuleSetLoader(Traverser $traverser, Configuration $configuration)
+    private function getRuleSetLoader(DirectoryTraverser $traverser, Configuration $configuration)
     {
         $ruleSetCache = new Cache(new Filesystem());
 

@@ -4,7 +4,7 @@ namespace SensioLabs\DeprecationDetector\RuleSet\Loader;
 
 use SensioLabs\DeprecationDetector\ProgressEvent;
 use SensioLabs\DeprecationDetector\RuleSet\Cache;
-use SensioLabs\DeprecationDetector\RuleSet\Traverser;
+use SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Finder\SplFileInfo;
@@ -20,7 +20,7 @@ class ComposerLoader implements LoaderInterface
     const PACKAGE_PATH = 'vendor/';
 
     /**
-     * @var Traverser
+     * @var DirectoryTraverser
      */
     protected $traverser;
 
@@ -35,11 +35,11 @@ class ComposerLoader implements LoaderInterface
     protected $eventDispatcher;
 
     /**
-     * @param Traverser       $traverser
+     * @param DirectoryTraverser       $traverser
      * @param Cache           $cache
      * @param EventDispatcher $eventDispatcher
      */
-    public function __construct(Traverser $traverser, Cache $cache, EventDispatcher $eventDispatcher)
+    public function __construct(DirectoryTraverser $traverser, Cache $cache, EventDispatcher $eventDispatcher)
     {
         $this->traverser = $traverser;
         $this->cache = $cache;

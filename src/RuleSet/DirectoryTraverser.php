@@ -13,7 +13,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  *
  * @author Christopher Hertel <christopher.hertel@sensiolabs.de>
  */
-class Traverser
+class DirectoryTraverser
 {
     /**
      * @var DeprecationParser

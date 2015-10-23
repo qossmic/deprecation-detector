@@ -8,13 +8,14 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $parser = $this->prophesize('SensioLabs\DeprecationDetector\Parser\ParserInterface');
+        $ruleSetLoader = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\LoaderInterface');
+        $deprecationParser = $this->prophesize('SensioLabs\DeprecationDetector\Parser\ParserInterface');
         $violationDetector = $this->prophesize('SensioLabs\DeprecationDetector\Violation\ViolationDetector');
         $renderer = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface');
 
         $detector = new DeprecationDetector(
-            $parser->reveal(),
-            $parser->reveal(),
+            $ruleSetLoader->reveal(),
+            $deprecationParser->reveal(),
             $violationDetector->reveal(),
             $renderer->reveal()
         );

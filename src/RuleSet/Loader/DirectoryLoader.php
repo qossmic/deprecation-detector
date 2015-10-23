@@ -3,7 +3,7 @@
 namespace SensioLabs\DeprecationDetector\RuleSet\Loader;
 
 use SensioLabs\DeprecationDetector\RuleSet\Cache;
-use SensioLabs\DeprecationDetector\RuleSet\Traverser;
+use SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser;
 
 /**
  * Class DirectoryLoader.
@@ -13,7 +13,7 @@ use SensioLabs\DeprecationDetector\RuleSet\Traverser;
 class DirectoryLoader implements LoaderInterface
 {
     /**
-     * @var Traverser
+     * @var DirectoryTraverser
      */
     protected $traverser;
 
@@ -23,10 +23,10 @@ class DirectoryLoader implements LoaderInterface
     protected $cache;
 
     /**
-     * @param Traverser $traverser
+     * @param DirectoryTraverser $traverser
      * @param Cache     $cache
      */
-    public function __construct(Traverser $traverser, Cache $cache)
+    public function __construct(DirectoryTraverser $traverser, Cache $cache)
     {
         $this->traverser = $traverser;
         $this->cache = $cache;

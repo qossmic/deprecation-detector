@@ -37,7 +37,7 @@ use SensioLabs\DeprecationDetector\RuleSet\Cache;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\ComposerLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\DirectoryLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader;
-use SensioLabs\DeprecationDetector\RuleSet\Traverser;
+use SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser;
 use SensioLabs\DeprecationDetector\Violation\Renderer;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindMethodDefinitions;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindArguments;
@@ -90,12 +90,6 @@ class Application extends BaseApplication
 
         // RULESET TRAVERSER
         // TODO: fix container injection
-        $c['ruleset.traverser'] = $c->factory(
-            function ($c) {
-                return new Traverser($c, $c['event_dispatcher']);
-            }
-        );
-
         // RULESET LOADER
         $c['ruleset.loader.directory'] = function ($c) {
             return new DirectoryLoader($c['ruleset.traverser'], $c['ruleset.cache']);
