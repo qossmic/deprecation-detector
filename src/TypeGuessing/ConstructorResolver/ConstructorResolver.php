@@ -48,6 +48,11 @@ class ConstructorResolver
                 // this will make problems we need an layer above which chains the variable resolvers
                 // because we need may need more than this resolver
 
+                // skip constructor if is abstract
+                if ($stmt->isAbstract()) {
+                    return $node;
+                }
+
                 // change recursivly the nodes
                 $subTraverser = new NodeTraverser();
                 foreach ($this->visitors as $visitor) {
