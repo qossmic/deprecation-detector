@@ -149,7 +149,7 @@ EOF
             /** @var $renderer HtmlOutputRenderer */
             $renderer = $container['violation.renderer.html']->createHtmlOutputRenderer($htmlOutputPath);
             $renderer->renderViolations($violations);
-            $output->writeln(sprintf('Rendered HTML to %s', $htmlOutputPath));
+            $output->writeln(sprintf('Rendered HTML report to %s', $htmlOutputPath));
 
         }
 
