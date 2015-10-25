@@ -145,6 +145,14 @@ EOF
         $filter = $this->getFilter($input);
         $violations = $container['violation_detector']->getViolations($ruleSet, $files, $filter);
 
+        if ($htmlOutputPath = $input->getOption('log-html')) {
+            /** @var $renderer HtmlOutputRenderer */
+            $renderer = $container['violation.renderer.html']->createHtmlOutputRenderer($htmlOutputPath);
+            $renderer->renderViolations($violations);
+            $output->writeln(sprintf('Rendered HTML to %s', $htmlOutputPath));
+
+        }
+
         if (0 === count($violations)) {
             $output->writeln('<info>There are no violations - congratulations!</info>');
 
@@ -153,7 +161,7 @@ EOF
 
         $output->writeln(sprintf('<comment>There are %s deprecations:</comment>', count($violations)));
 
-        $container['violation.renderer']->renderViolations($violations);
+        $container['violation.renderer.console']->renderViolations($violations);
 
         if ($files->hasParserErrors()) {
             foreach($files->getParserErrors() as $ex) {
