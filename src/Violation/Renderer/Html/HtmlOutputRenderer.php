@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\Violation\Renderer\HtmlOutput;
+namespace SensioLabs\DeprecationDetector\Violation\Renderer\Html;
 
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
 use SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface;
