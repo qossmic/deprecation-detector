@@ -58,7 +58,7 @@ class HtmlRenderer implements RendererInterface
         }
 
         ob_start();
-        include __DIR__.'/../../../Resources/templates/htmlTableOutput.phtml';
+        include __DIR__.'/../../../Resources/templates/htmlTable.phtml';
         $htmlOutput = ob_get_clean();
 
         $this->fileSystem->mkdir(dirname($this->outputFilename));
