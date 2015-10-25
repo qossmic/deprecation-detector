@@ -7,7 +7,7 @@ use SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface;
 use SensioLabs\DeprecationDetector\Violation\Violation;
 use Symfony\Component\Filesystem\Filesystem;
 
-class HtmlOutputRenderer implements RendererInterface
+class HtmlRenderer implements RendererInterface
 {
     /**
      * @var MessageHelper
