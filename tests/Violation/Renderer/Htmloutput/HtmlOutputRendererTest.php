@@ -9,7 +9,7 @@ use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\ClassUsage;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage;
-use SensioLabs\DeprecationDetector\Violation\Renderer\HtmlOutput\HtmlOutputRenderer;
+use SensioLabs\DeprecationDetector\Violation\Renderer\Html\HtmlRenderer;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
 use SensioLabs\DeprecationDetector\Violation\Violation;
 use Symfony\Component\Filesystem\Filesystem;
@@ -32,7 +32,7 @@ class HtmlOutputRendererTest extends PHPUnit_Framework_TestCase
 
     public function testRenderViolations()
     {
-        $renderer = new HtmlOutputRenderer(
+        $renderer = new HtmlRenderer(
             new MessageHelper(),
             new Filesystem(),
             vfsStream::url('exampleDir/output.html')
