@@ -8,7 +8,6 @@ class ViolationDetectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $eventDispatcher = $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $violationChecker = $this->prophesize(
             'SensioLabs\DeprecationDetector\Violation\ViolationChecker\ViolationCheckerInterface'
         );
@@ -16,7 +15,6 @@ class ViolationDetectorTest extends \PHPUnit_Framework_TestCase
             'SensioLabs\DeprecationDetector\Violation\ViolationFilter\ViolationFilterInterface'
         );
         $violationDetector = new ViolationDetector(
-            $eventDispatcher->reveal(),
             $violationChecker->reveal(),
             $violationFilter->reveal()
         );

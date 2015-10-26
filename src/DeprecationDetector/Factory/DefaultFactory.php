@@ -7,11 +7,9 @@ use PhpParser\NodeVisitor\NameResolver;
 use SensioLabs\DeprecationDetector\AncestorResolver;
 use SensioLabs\DeprecationDetector\DeprecationDetector\Configuration\Configuration;
 use SensioLabs\DeprecationDetector\DeprecationDetector\DeprecationDetector;
-use SensioLabs\DeprecationDetector\EventListener\CommandListener;
+use SensioLabs\DeprecationDetector\DeprecationDetector\Output\ProgressOutput;
 use SensioLabs\DeprecationDetector\EventListener\OutputProgressListener;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
-use SensioLabs\DeprecationDetector\Finder\RuleSetProgressDispatcher;
-use SensioLabs\DeprecationDetector\Finder\ViolationProgressDispatcher;
 use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
 use SensioLabs\DeprecationDetector\Parser\UsageParser;
 use SensioLabs\DeprecationDetector\RuleSet\Cache;
@@ -59,6 +57,7 @@ use SensioLabs\DeprecationDetector\Visitor\Usage\FindMethodDefinitions;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindStaticMethodCalls;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindSuperTypes;
 use SensioLabs\DeprecationDetector\Visitor\ViolationVisitorInterface;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -96,14 +95,15 @@ class DefaultFactory implements FactoryInterface
     {
         $this->symbolTable = new SymbolTable();
 
-        if ($configuration->isVerbose()) {
-            $this->eventDispatcher->addSubscriber(new OutputProgressListener($output));
-        }
-
+        $deprecationProgressOutput = new ProgressOutput(
+            new ProgressBar($output),
+            $configuration->isVerbose(),
+            'Deprecation detection'
+        );
         $deprecationUsageParser = $this->getUsageParser($configuration);
         $deprecationUsageFinder = new ParsedPhpFileFinder(
             $deprecationUsageParser,
-            new ViolationProgressDispatcher($this->eventDispatcher)
+            $deprecationProgressOutput
         );
         $deprecationUsageFinder
             ->exclude('vendor')
@@ -112,10 +112,15 @@ class DefaultFactory implements FactoryInterface
 
         $this->ancestorResolver = new AncestorResolver($deprecationUsageParser, $deprecationUsageFinder);
 
+        $ruleSetProgressOutput = new ProgressOutput(
+            new ProgressBar($output),
+            $configuration->isVerbose(),
+            'RuleSet generation'
+        );
         $ruleSetDeprecationParser = $this->getDeprecationParser();
         $ruleSetDeprecationFinder = new ParsedPhpFileFinder(
             $ruleSetDeprecationParser,
-            new RuleSetProgressDispatcher($this->eventDispatcher)
+            $ruleSetProgressOutput
         );
         $ruleSetDeprecationFinder
             ->contains('@deprecated')

@@ -30,20 +30,13 @@ class ComposerLoader implements LoaderInterface
     protected $cache;
 
     /**
-     * @var EventDispatcher
-     */
-    protected $eventDispatcher;
-
-    /**
      * @param DirectoryTraverser       $traverser
      * @param Cache           $cache
-     * @param EventDispatcher $eventDispatcher
      */
-    public function __construct(DirectoryTraverser $traverser, Cache $cache, EventDispatcher $eventDispatcher)
+    public function __construct(DirectoryTraverser $traverser, Cache $cache)
     {
         $this->traverser = $traverser;
         $this->cache = $cache;
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     /**
@@ -54,23 +47,12 @@ class ComposerLoader implements LoaderInterface
         $composer = $this->getComposerObject($lock);
         $packages = $this->getComposerPackages($composer);
 
-        $total = count($packages);
-        $this->eventDispatcher->dispatch(
-            ProgressEvent::RULESET,
-            new ProgressEvent(0, $total)
-        );
-
         $ruleSet = new RuleSet();
         foreach ($packages as $i => $package) {
             $packageRuleSet = $this->loadPackageRuleSet($package);
             if (null !== $packageRuleSet) {
                 $ruleSet->merge($packageRuleSet);
             }
-
-            $this->eventDispatcher->dispatch(
-                ProgressEvent::RULESET,
-                new ProgressEvent(++$i, $total)
-            );
         }
 
         return $ruleSet;

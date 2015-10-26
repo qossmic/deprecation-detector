@@ -2,7 +2,7 @@
 
 namespace SensioLabs\DeprecationDetector\Finder;
 
-use SensioLabs\DeprecationDetector\EventListener\ProgressEvent;
+use SensioLabs\DeprecationDetector\DeprecationDetector\Output\ProgressOutput;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Parser\ParserInterface;
 use Symfony\Component\Finder\Finder;
@@ -15,7 +15,7 @@ class ParsedPhpFileFinder extends Finder
     protected $parser;
 
     /**
-     * @var ProgressEventDispatcherInterface
+     * @var ProgressOutput
      */
     protected $dispatcher;
 
@@ -26,16 +26,16 @@ class ParsedPhpFileFinder extends Finder
 
     /**
      * @param ParserInterface $parser
-     * @param ProgressEventDispatcherInterface $dispatcher
+     * @param ProgressOutput $progressOutput
      */
-    public function __construct(ParserInterface $parser, ProgressEventDispatcherInterface $dispatcher)
+    public function __construct(ParserInterface $parser, ProgressOutput $progressOutput)
     {
         parent::__construct();
 
         $this->parser = $parser;
         $this->files()->name('*.php');
 
-        $this->dispatcher = $dispatcher;
+        $this->progressOutput = $progressOutput;
     }
 
     /**
@@ -47,19 +47,14 @@ class ParsedPhpFileFinder extends Finder
         $files = new \ArrayIterator();
         $total = $this->count();
 
-        $this->dispatcher->start(
-            new ProgressEvent(0, $total)
-        );
+        $this->progressOutput->start($total);
 
         $i = 0;
         foreach ($iterator as $file) {
             $file = PhpFileInfo::create($file);
 
             try {
-                $this->dispatcher->advance(
-                    new ProgressEvent(++$i, $total, $file)
-                );
-
+                $this->progressOutput->advance(++$i, $file);
                 $this->parser->parseFile($file);
             } catch (\PhpParser\Error $ex) {
                 $raw = $ex->getRawMessage().' in file '.$file;
@@ -70,9 +65,7 @@ class ParsedPhpFileFinder extends Finder
             $files->append($file);
         }
 
-        $this->dispatcher->end(
-            new ProgressEvent(0, $total)
-        );
+        $this->progressOutput->end();
 
         return $files;
     }

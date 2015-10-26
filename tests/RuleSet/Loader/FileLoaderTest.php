@@ -8,16 +8,14 @@ class FileLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $dispatcher = $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcher');
-        $loader = new FileLoader($dispatcher->reveal());
+        $loader = new FileLoader();
 
         $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader', $loader);
     }
 
     public function testLoadingNotExistingFileThrowsAnException()
     {
-        $dispatcher = $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcher');
-        $loader = new FileLoader($dispatcher->reveal());
+        $loader = new FileLoader();
 
         $this->setExpectedException(
             'SensioLabs\DeprecationDetector\RuleSet\Loader\CouldNotLoadRuleSetException',
