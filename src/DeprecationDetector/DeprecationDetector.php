@@ -96,7 +96,7 @@ class DeprecationDetector
             $this->renderer->renderParserErrors($files->getParserErrors());
         }
         $this->output->endRendering();
-        $this->output->endProgress($files->count());
+        $this->output->endProgress($files->count(), count($violations));
 
         return $violations;
     }

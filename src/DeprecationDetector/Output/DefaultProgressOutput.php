@@ -46,13 +46,24 @@ class DefaultProgressOutput
         $this->output->writeln('Checking your application for deprecations - this could take a while ...');
     }
 
-    public function endProgress($fileCount)
+    public function endProgress($fileCount, $violationCount)
     {
         if ($this->quiet) {
             return;
         }
 
         $stats = $this->stopwatch->stop(static::PROGRESS_NAME);
+        if (0 === $violationCount) {
+            $this->output->writeln('<info>There are no violations - congratulations!</info>');
+        } else {
+            $this->output->writeln(
+                sprintf(
+                    '<comment>%s deprecations found.</comment>',
+                    $violationCount
+                )
+            );
+        }
+
         $this->output->writeln(
             sprintf(
                 'Checked %s source files in %s seconds, %s MB memory used',
