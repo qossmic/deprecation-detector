@@ -38,12 +38,12 @@ class DeprecationDetector
     private $output;
 
     /**
-     * @param LoaderInterface          $ruleSetLoader
-     * @param AncestorResolver         $ancestorResolver
-     * @param ParsedPhpFileFinder      $deprecationFinder
-     * @param ViolationDetector        $violationDetector
-     * @param RendererInterface        $renderer
-     * @param DefaultProgressOutput    $output
+     * @param LoaderInterface       $ruleSetLoader
+     * @param AncestorResolver      $ancestorResolver
+     * @param ParsedPhpFileFinder   $deprecationFinder
+     * @param ViolationDetector     $violationDetector
+     * @param RendererInterface     $renderer
+     * @param DefaultProgressOutput $output
      */
     public function __construct(
         LoaderInterface $ruleSetLoader,
@@ -98,6 +98,7 @@ class DeprecationDetector
         $this->output->endRendering();
 
         $this->output->endProgress($files->count(), count($violations));
+
         return $violations;
     }
 }

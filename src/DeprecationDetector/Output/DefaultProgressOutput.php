@@ -26,8 +26,8 @@ class DefaultProgressOutput
 
     /**
      * @param OutputInterface $output
-     * @param StopWatch $stopwatch
-     * @param bool $quiet
+     * @param StopWatch       $stopwatch
+     * @param bool            $quiet
      */
     public function __construct(OutputInterface $output, Stopwatch $stopwatch, $quiet)
     {
@@ -130,4 +130,4 @@ class DefaultProgressOutput
 
         $this->output->writeln('Finished rendering output.');
     }
-} 
+}

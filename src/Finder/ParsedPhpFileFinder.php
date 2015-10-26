@@ -25,8 +25,8 @@ class ParsedPhpFileFinder extends Finder
     protected $parserErrors = array();
 
     /**
-     * @param ParserInterface $parser
-     * @param VerboseProgressOutput  $progressOutput
+     * @param ParserInterface       $parser
+     * @param VerboseProgressOutput $progressOutput
      */
     public function __construct(ParserInterface $parser, VerboseProgressOutput $progressOutput)
     {

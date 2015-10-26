@@ -24,7 +24,7 @@ class MethodViolationFilter implements ViolationFilterInterface
      */
     public static function fromString($filterConfig)
     {
-        return new self(explode(',', $filterConfig));
+        return new static(explode(',', $filterConfig));
     }
 
     /**
