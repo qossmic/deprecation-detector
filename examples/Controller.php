@@ -7,6 +7,7 @@ class BaseController
      */
     public function getEntityManager()
     {
+        this->x = 10;
     }
 }
 

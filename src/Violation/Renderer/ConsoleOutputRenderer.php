@@ -2,6 +2,7 @@
 
 namespace SensioLabs\DeprecationDetector\Violation\Renderer;
 
+use PhpParser\Error;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
 use SensioLabs\DeprecationDetector\Violation\Violation;
@@ -63,11 +64,19 @@ class ConsoleOutputRenderer implements RendererInterface
     }
 
     /**
-     * {@inheritDoc}
+     * @param Error[] $errors
      */
     public function renderParserErrors(array $errors)
     {
-        /** @TODO */
+        $this->output->writeln('<error>Your project contains invalid code:</error>');
+        foreach ($errors as $error) {
+            $this->output->writeln(
+                sprintf(
+                    '<error>%s</error>',
+                    $error->getRawMessage()
+                )
+            );
+        }
     }
 
     /**
