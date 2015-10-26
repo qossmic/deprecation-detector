@@ -26,7 +26,7 @@ class ParsedPhpFileFinder extends Finder
 
     /**
      * @param ParserInterface $parser
-     * @param ProgressOutput $progressOutput
+     * @param ProgressOutput  $progressOutput
      */
     public function __construct(ParserInterface $parser, ProgressOutput $progressOutput)
     {

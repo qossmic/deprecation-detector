@@ -8,7 +8,6 @@ use SensioLabs\DeprecationDetector\AncestorResolver;
 use SensioLabs\DeprecationDetector\DeprecationDetector\Configuration\Configuration;
 use SensioLabs\DeprecationDetector\DeprecationDetector\DeprecationDetector;
 use SensioLabs\DeprecationDetector\DeprecationDetector\Output\ProgressOutput;
-use SensioLabs\DeprecationDetector\EventListener\OutputProgressListener;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
 use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
 use SensioLabs\DeprecationDetector\Parser\UsageParser;
@@ -335,7 +334,7 @@ class DefaultFactory implements FactoryInterface
 
     /**
      * @param DirectoryTraverser $traverser
-     * @param Configuration $configuration
+     * @param Configuration      $configuration
      *
      * @return LoaderInterface
      */

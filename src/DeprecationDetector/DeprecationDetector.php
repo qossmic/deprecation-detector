@@ -38,11 +38,11 @@ class DeprecationDetector
     private $dispatcher;
 
     /**
-     * @param LoaderInterface   $ruleSetLoader
-     * @param AncestorResolver  $ancestorResolver
-     * @param ParsedPhpFileFinder   $deprecationFinder
-     * @param ViolationDetector $violationDetector
-     * @param RendererInterface $renderer
+     * @param LoaderInterface          $ruleSetLoader
+     * @param AncestorResolver         $ancestorResolver
+     * @param ParsedPhpFileFinder      $deprecationFinder
+     * @param ViolationDetector        $violationDetector
+     * @param RendererInterface        $renderer
      * @param EventDispatcherInterface $dispatcher
      */
     public function __construct(
@@ -77,7 +77,7 @@ class DeprecationDetector
         $lib = (is_dir($ruleSetArg) ? $ruleSetArg : realpath('vendor'));
         $this->ancestorResolver->setSourcePaths(array(
             $sourceArg,
-            $lib
+            $lib,
         ));
 
         /** @var ParsedPhpFileFinder $files */

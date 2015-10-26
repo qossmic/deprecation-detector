@@ -24,7 +24,7 @@ class DirectoryLoader implements LoaderInterface
 
     /**
      * @param DirectoryTraverser $traverser
-     * @param Cache     $cache
+     * @param Cache              $cache
      */
     public function __construct(DirectoryTraverser $traverser, Cache $cache)
     {

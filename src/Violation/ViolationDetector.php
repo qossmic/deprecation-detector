@@ -3,7 +3,6 @@
 namespace SensioLabs\DeprecationDetector\Violation;
 
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
-use SensioLabs\DeprecationDetector\EventListener\ProgressEvent;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 use SensioLabs\DeprecationDetector\Violation\Violation as BaseViolation;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ViolationCheckerInterface;

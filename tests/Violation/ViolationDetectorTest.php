@@ -21,6 +21,4 @@ class ViolationDetectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\ViolationDetector', $violationDetector);
     }
-
-
 }

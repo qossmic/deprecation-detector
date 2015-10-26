@@ -2,11 +2,9 @@
 
 namespace SensioLabs\DeprecationDetector\RuleSet\Loader;
 
-use SensioLabs\DeprecationDetector\ProgressEvent;
 use SensioLabs\DeprecationDetector\RuleSet\Cache;
 use SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
-use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Finder\SplFileInfo;
 
 /**
@@ -30,8 +28,8 @@ class ComposerLoader implements LoaderInterface
     protected $cache;
 
     /**
-     * @param DirectoryTraverser       $traverser
-     * @param Cache           $cache
+     * @param DirectoryTraverser $traverser
+     * @param Cache              $cache
      */
     public function __construct(DirectoryTraverser $traverser, Cache $cache)
     {

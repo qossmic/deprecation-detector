@@ -24,8 +24,8 @@ class ProgressOutput
 
     /**
      * @param ProgressBar $progressBar
-     * @param bool $verbose
-     * @param string $label
+     * @param bool        $verbose
+     * @param string      $label
      */
     public function __construct(
         ProgressBar $progressBar,
@@ -43,7 +43,7 @@ class ProgressOutput
             return;
         }
 
-        $format = $this->label . ': <comment>loading %max% files into memory, this can take some time</comment>';
+        $format = $this->label.': <comment>loading %max% files into memory, this can take some time</comment>';
         $this->progressBar->setFormat($format);
         $this->progressBar->start($total);
     }
@@ -55,7 +55,7 @@ class ProgressOutput
         }
 
         if (1 === $current) {
-            $format = '<info>%message%</info>' . "\n" . $this->label . ': <info>%current%</info>/<info>%max%</info>';
+            $format = '<info>%message%</info>'."\n".$this->label.': <info>%current%</info>/<info>%max%</info>';
             $this->progressBar->clear();
             $this->progressBar->setFormat($format);
         }
@@ -79,4 +79,4 @@ class ProgressOutput
         $this->progressBar->clear();
         $this->progressBar->finish();
     }
-} 
+}
