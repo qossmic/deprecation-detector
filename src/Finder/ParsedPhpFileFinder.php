@@ -2,7 +2,7 @@
 
 namespace SensioLabs\DeprecationDetector\Finder;
 
-use SensioLabs\DeprecationDetector\DeprecationDetector\Output\ProgressOutput;
+use SensioLabs\DeprecationDetector\DeprecationDetector\Output\VerboseProgressOutput;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Parser\ParserInterface;
 use Symfony\Component\Finder\Finder;
@@ -15,7 +15,7 @@ class ParsedPhpFileFinder extends Finder
     protected $parser;
 
     /**
-     * @var ProgressOutput
+     * @var VerboseProgressOutput
      */
     protected $dispatcher;
 
@@ -26,9 +26,9 @@ class ParsedPhpFileFinder extends Finder
 
     /**
      * @param ParserInterface $parser
-     * @param ProgressOutput  $progressOutput
+     * @param VerboseProgressOutput  $progressOutput
      */
-    public function __construct(ParserInterface $parser, ProgressOutput $progressOutput)
+    public function __construct(ParserInterface $parser, VerboseProgressOutput $progressOutput)
     {
         parent::__construct();
 

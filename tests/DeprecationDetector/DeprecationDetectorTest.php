@@ -13,7 +13,9 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
         $deprecationParser = $this->prophesize('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder');
         $violationDetector = $this->prophesize('SensioLabs\DeprecationDetector\Violation\ViolationDetector');
         $renderer = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface');
-        $dispatcher = $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $defaultOutput = $this->prophesize(
+            'SensioLabs\DeprecationDetector\DeprecationDetector\Output\DefaultProgressOutput'
+        );
 
         $detector = new DeprecationDetector(
             $ruleSetLoader->reveal(),
@@ -21,7 +23,7 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
             $deprecationParser->reveal(),
             $violationDetector->reveal(),
             $renderer->reveal(),
-            $dispatcher->reveal()
+            $defaultOutput->reveal()
         );
 
         $this->assertInstanceOf('SensioLabs\DeprecationDetector\DeprecationDetector\DeprecationDetector', $detector);

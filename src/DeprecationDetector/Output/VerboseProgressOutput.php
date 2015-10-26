@@ -5,7 +5,7 @@ namespace SensioLabs\DeprecationDetector\DeprecationDetector\Output;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use Symfony\Component\Console\Helper\ProgressBar;
 
-class ProgressOutput
+class VerboseProgressOutput
 {
     /**
      * @var string

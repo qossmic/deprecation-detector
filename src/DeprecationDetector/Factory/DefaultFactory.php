@@ -7,7 +7,8 @@ use PhpParser\NodeVisitor\NameResolver;
 use SensioLabs\DeprecationDetector\AncestorResolver;
 use SensioLabs\DeprecationDetector\DeprecationDetector\Configuration\Configuration;
 use SensioLabs\DeprecationDetector\DeprecationDetector\DeprecationDetector;
-use SensioLabs\DeprecationDetector\DeprecationDetector\Output\ProgressOutput;
+use SensioLabs\DeprecationDetector\DeprecationDetector\Output\DefaultProgressOutput;
+use SensioLabs\DeprecationDetector\DeprecationDetector\Output\VerboseProgressOutput;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
 use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
 use SensioLabs\DeprecationDetector\Parser\UsageParser;
@@ -58,9 +59,8 @@ use SensioLabs\DeprecationDetector\Visitor\Usage\FindSuperTypes;
 use SensioLabs\DeprecationDetector\Visitor\ViolationVisitorInterface;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 class DefaultFactory implements FactoryInterface
 {
@@ -70,19 +70,9 @@ class DefaultFactory implements FactoryInterface
     private $symbolTable;
 
     /**
-     * @var EventDispatcher
-     */
-    private $eventDispatcher;
-
-    /**
      * @var AncestorResolver
      */
     private $ancestorResolver;
-
-    public function __construct(EventDispatcherInterface $dispatcher)
-    {
-        $this->eventDispatcher = $dispatcher;
-    }
 
     /**
      * @param Configuration   $configuration
@@ -94,7 +84,7 @@ class DefaultFactory implements FactoryInterface
     {
         $this->symbolTable = new SymbolTable();
 
-        $deprecationProgressOutput = new ProgressOutput(
+        $deprecationProgressOutput = new VerboseProgressOutput(
             new ProgressBar($output),
             $configuration->isVerbose(),
             'Deprecation detection'
@@ -111,7 +101,7 @@ class DefaultFactory implements FactoryInterface
 
         $this->ancestorResolver = new AncestorResolver($deprecationUsageParser, $deprecationUsageFinder);
 
-        $ruleSetProgressOutput = new ProgressOutput(
+        $ruleSetProgressOutput = new VerboseProgressOutput(
             new ProgressBar($output),
             $configuration->isVerbose(),
             'RuleSet generation'
@@ -134,13 +124,15 @@ class DefaultFactory implements FactoryInterface
 
         $ruleSetLoader = $this->getRuleSetLoader($deprecationDirectoryTraverser, $configuration);
 
+        $progressOutput = new DefaultProgressOutput($output, new Stopwatch(), false);
+
         return new DeprecationDetector(
             $ruleSetLoader,
             $this->ancestorResolver,
             $deprecationUsageFinder,
             $violationDetector,
             $renderer,
-            $this->eventDispatcher
+            $progressOutput
         );
     }
 
@@ -351,9 +343,9 @@ class DefaultFactory implements FactoryInterface
         if (is_dir($configuration->ruleSet())) {
             $loader = new DirectoryLoader($traverser, $ruleSetCache);
         } elseif ('composer.lock' === basename($configuration->ruleSet())) {
-            $loader = new ComposerLoader($traverser, $ruleSetCache, $this->eventDispatcher);
+            $loader = new ComposerLoader($traverser, $ruleSetCache);
         } else {
-            $loader = new FileLoader($this->eventDispatcher);
+            $loader = new FileLoader();
         }
 
         return $loader;

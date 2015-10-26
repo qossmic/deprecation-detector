@@ -3,12 +3,12 @@
 namespace SensioLabs\DeprecationDetector\DeprecationDetector;
 
 use SensioLabs\DeprecationDetector\AncestorResolver;
+use SensioLabs\DeprecationDetector\DeprecationDetector\Output\DefaultProgressOutput;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\LoaderInterface;
 use SensioLabs\DeprecationDetector\Violation\Violation;
 use SensioLabs\DeprecationDetector\Violation\ViolationDetector;
 use SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class DeprecationDetector
 {
@@ -33,9 +33,9 @@ class DeprecationDetector
     private $renderer;
 
     /**
-     * @var EventDispatcherInterface
+     * @var DefaultProgressOutput
      */
-    private $dispatcher;
+    private $output;
 
     /**
      * @param LoaderInterface          $ruleSetLoader
@@ -43,7 +43,7 @@ class DeprecationDetector
      * @param ParsedPhpFileFinder      $deprecationFinder
      * @param ViolationDetector        $violationDetector
      * @param RendererInterface        $renderer
-     * @param EventDispatcherInterface $dispatcher
+     * @param DefaultProgressOutput    $output
      */
     public function __construct(
         LoaderInterface $ruleSetLoader,
@@ -51,14 +51,14 @@ class DeprecationDetector
         ParsedPhpFileFinder $deprecationFinder,
         ViolationDetector $violationDetector,
         RendererInterface $renderer,
-        EventDispatcherInterface $dispatcher
+        DefaultProgressOutput $output
     ) {
         $this->ruleSetLoader = $ruleSetLoader;
         $this->ancestorResolver = $ancestorResolver;
         $this->deprecationFinder = $deprecationFinder;
         $this->violationDetector = $violationDetector;
         $this->renderer = $renderer;
-        $this->dispatcher = $dispatcher;
+        $this->output = $output;
     }
 
     /**
@@ -71,8 +71,13 @@ class DeprecationDetector
      */
     public function checkForDeprecations($sourceArg, $ruleSetArg)
     {
-        $ruleSet = $this->ruleSetLoader->loadRuleSet($ruleSetArg);
+        $this->output->startProgress();
 
+        $this->output->startRuleSetGeneration();
+        $ruleSet = $this->ruleSetLoader->loadRuleSet($ruleSetArg);
+        $this->output->endRuleSetGeneration();
+
+        $this->output->startUsageDetection();
         // TODO: not hard coded
         $lib = (is_dir($ruleSetArg) ? $ruleSetArg : realpath('vendor'));
         $this->ancestorResolver->setSourcePaths(array(
@@ -83,11 +88,15 @@ class DeprecationDetector
         /** @var ParsedPhpFileFinder $files */
         $files = $this->deprecationFinder->in($sourceArg);
         $violations = $this->violationDetector->getViolations($ruleSet, $files);
+        $this->output->endUsageDetection();
 
+        $this->output->startRendering();
         $this->renderer->renderViolations($violations);
         if ($files->hasParserErrors()) {
             $this->renderer->renderParserErrors($files->getParserErrors());
         }
+        $this->output->endRendering();
+        $this->output->endProgress($files->count());
 
         return $violations;
     }
