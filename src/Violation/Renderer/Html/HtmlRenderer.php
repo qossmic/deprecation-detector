@@ -44,7 +44,7 @@ class HtmlRenderer implements RendererInterface
     {
         $orderedViolations = array();
         // sorting and grouping violations
-        foreach ($violations as  $violation) {
+        foreach ($violations as $violation) {
 
             $key = $violation->getFile()->getPathname();
             if (!array_key_exists($key, $orderedViolations)) {
@@ -58,7 +58,7 @@ class HtmlRenderer implements RendererInterface
         }
 
         ob_start();
-        include __DIR__.'/../../../Resources/templates/htmlTable.phtml';
+        include __DIR__ . '/../../../Resources/templates/htmlTable.phtml';
         $htmlOutput = ob_get_clean();
 
         $this->fileSystem->mkdir(dirname($this->outputFilename));
