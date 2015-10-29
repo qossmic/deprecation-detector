@@ -123,7 +123,7 @@ class DetectorFactory
 
         $ruleSetLoader = $this->getRuleSetLoader($deprecationDirectoryTraverser, $configuration);
 
-        $progressOutput = new DefaultProgressOutput($output, new Stopwatch(), false);
+        $progressOutput = new DefaultProgressOutput($output, new Stopwatch());
 
         return new DeprecationDetector(
             $ruleSetLoader,
@@ -333,10 +333,10 @@ class DetectorFactory
     {
         $ruleSetCache = new Cache(new Filesystem());
 
-        if ($configuration->noCache()) {
+        if ($configuration->useCachedRuleSet()) {
             $ruleSetCache->disable();
         } else {
-            $ruleSetCache->setCacheDir($configuration->cacheDir());
+            $ruleSetCache->setCacheDir($configuration->ruleSetCacheDir());
         }
 
         if (is_dir($configuration->ruleSet())) {
