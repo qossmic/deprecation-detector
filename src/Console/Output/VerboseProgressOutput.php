@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\DeprecationDetector\Output;
+namespace SensioLabs\DeprecationDetector\Console\Output;
 
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use Symfony\Component\Console\Helper\ProgressBar;

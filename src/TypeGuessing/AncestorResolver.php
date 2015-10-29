@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector;
+namespace SensioLabs\DeprecationDetector\TypeGuessing;
 
 use Composer\Autoload\ClassLoader;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;

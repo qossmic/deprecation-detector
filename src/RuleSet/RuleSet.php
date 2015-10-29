@@ -5,7 +5,7 @@ namespace SensioLabs\DeprecationDetector\RuleSet;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation;
-use SensioLabs\DeprecationDetector\DeprecationCollectionInterface;
+use SensioLabs\DeprecationDetector\FileInfo\DeprecationCollectionInterface;
 
 class RuleSet implements DeprecationCollectionInterface
 {

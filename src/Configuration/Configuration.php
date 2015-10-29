@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\DeprecationDetector\Configuration;
+namespace SensioLabs\DeprecationDetector\Configuration;
 
 class Configuration
 {

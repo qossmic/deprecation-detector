@@ -2,7 +2,7 @@
 
 namespace SensioLabs\DeprecationDetector\Finder;
 
-use SensioLabs\DeprecationDetector\DeprecationDetector\Output\VerboseProgressOutput;
+use SensioLabs\DeprecationDetector\Console\Output\VerboseProgressOutput;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Parser\ParserInterface;
 use Symfony\Component\Finder\Finder;

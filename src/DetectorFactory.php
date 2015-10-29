@@ -1,14 +1,12 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\DeprecationDetector\Factory;
+namespace SensioLabs\DeprecationDetector;
 
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
-use SensioLabs\DeprecationDetector\AncestorResolver;
-use SensioLabs\DeprecationDetector\DeprecationDetector\Configuration\Configuration;
-use SensioLabs\DeprecationDetector\DeprecationDetector\DeprecationDetector;
-use SensioLabs\DeprecationDetector\DeprecationDetector\Output\DefaultProgressOutput;
-use SensioLabs\DeprecationDetector\DeprecationDetector\Output\VerboseProgressOutput;
+use SensioLabs\DeprecationDetector\Configuration\Configuration;
+use SensioLabs\DeprecationDetector\Console\Output\DefaultProgressOutput;
+use SensioLabs\DeprecationDetector\Console\Output\VerboseProgressOutput;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
 use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
 use SensioLabs\DeprecationDetector\Parser\UsageParser;
@@ -18,6 +16,7 @@ use SensioLabs\DeprecationDetector\RuleSet\Loader\DirectoryLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\LoaderInterface;
 use SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser;
+use SensioLabs\DeprecationDetector\TypeGuessing\AncestorResolver;
 use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver;
 use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\Visitor\ConstructorResolverVisitor;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\ComposedResolver;
@@ -62,7 +61,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Stopwatch\Stopwatch;
 
-class DefaultFactory implements FactoryInterface
+class DetectorFactory
 {
     /**
      * @var SymbolTable

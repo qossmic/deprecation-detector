@@ -1,11 +1,11 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\DeprecationDetector;
+namespace SensioLabs\DeprecationDetector;
 
-use SensioLabs\DeprecationDetector\AncestorResolver;
-use SensioLabs\DeprecationDetector\DeprecationDetector\Output\DefaultProgressOutput;
+use SensioLabs\DeprecationDetector\Console\Output\DefaultProgressOutput;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\LoaderInterface;
+use SensioLabs\DeprecationDetector\TypeGuessing\AncestorResolver;
 use SensioLabs\DeprecationDetector\Violation\Violation;
 use SensioLabs\DeprecationDetector\Violation\ViolationDetector;
 use SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface;

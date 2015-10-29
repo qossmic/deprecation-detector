@@ -10,7 +10,7 @@ class ParsedPhpFileFinderTest extends \PHPUnit_Framework_TestCase
     {
         $parser = $this->prophesize('SensioLabs\DeprecationDetector\Parser\ParserInterface');
         $progressOutput = $this->prophesize(
-            'SensioLabs\DeprecationDetector\DeprecationDetector\Output\VerboseProgressOutput'
+            'SensioLabs\DeprecationDetector\Console\Output\VerboseProgressOutput'
         );
 
         $finder = new ParsedPhpFileFinder(

@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\DeprecationDetector\Output;
+namespace SensioLabs\DeprecationDetector\Console\Output;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Stopwatch\Stopwatch;
