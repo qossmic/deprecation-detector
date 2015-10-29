@@ -13,7 +13,7 @@ class DetectorFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('SensioLabs\DeprecationDetector\DetectorFactory', $factory);
     }
 
-    public function testBuildDetector()
+    public function testCreateDetector()
     {
         $configuration = $this->prophesize('SensioLabs\DeprecationDetector\Configuration\Configuration');
         $output = $this->prophesize('Symfony\Component\Console\Output\OutputInterface');
@@ -22,7 +22,7 @@ class DetectorFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf(
             'SensioLabs\DeprecationDetector\DeprecationDetector',
-            $factory->buildDetector(
+            $factory->create(
                 $configuration->reveal(),
                 $output->reveal()
             )

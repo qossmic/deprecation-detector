@@ -79,7 +79,7 @@ class DetectorFactory
      *
      * @return DeprecationDetector
      */
-    public function buildDetector(Configuration $configuration, OutputInterface $output)
+    public function create(Configuration $configuration, OutputInterface $output)
     {
         $this->symbolTable = new SymbolTable();
 
