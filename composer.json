@@ -1,5 +1,5 @@
 {
-    "name": "sensiolabs/deprecation-detector",
+    "name": "sensiolabs-de/deprecation-detector",
     "type": "application",
     "description": "Command line tool to detect usage of deprecated code",
     "license": "MIT",
