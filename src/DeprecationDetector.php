@@ -78,7 +78,8 @@ class DeprecationDetector
         $this->output->endRuleSetGeneration();
 
         $this->output->startUsageDetection();
-        // TODO: not hard coded
+
+        // TODO: Move to AncestorResolver not hard coded
         $lib = (is_dir($ruleSetArg) ? $ruleSetArg : realpath('vendor'));
         $this->ancestorResolver->setSourcePaths(array(
             $sourceArg,
