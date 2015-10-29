@@ -47,10 +47,7 @@ class ComposerLoader implements LoaderInterface
 
         $ruleSet = new RuleSet();
         foreach ($packages as $i => $package) {
-            $packageRuleSet = $this->loadPackageRuleSet($package);
-            if (null !== $packageRuleSet) {
-                $ruleSet->merge($packageRuleSet);
-            }
+            $ruleSet->merge($this->loadPackageRuleSet($package));
         }
 
         return $ruleSet;
@@ -105,7 +102,7 @@ class ComposerLoader implements LoaderInterface
     /**
      * @param $package
      *
-     * @return RuleSet|null
+     * @return RuleSet
      */
     private function loadPackageRuleSet(\stdClass $package)
     {

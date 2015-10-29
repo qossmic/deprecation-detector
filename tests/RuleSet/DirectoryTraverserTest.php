@@ -9,10 +9,34 @@ class DirectoryTraverserTest extends \PHPUnit_Framework_TestCase
     public function testClassIsInitializable()
     {
         $deprecationFileFinder = $this->prophesize('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder');
-        $dispatcher = $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcher');
 
-        $directoryTraverser = new DirectoryTraverser($deprecationFileFinder->reveal(), $dispatcher->reveal());
+        $directoryTraverser = new DirectoryTraverser($deprecationFileFinder->reveal());
 
         $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser', $directoryTraverser);
+    }
+
+    public function testTraverse()
+    {
+        $aPhpFileInfo = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
+        $aPhpFileInfo->hasDeprecations()->willReturn(true);
+        $aPhpFileInfo->classDeprecations()->willReturn(array());
+        $aPhpFileInfo->methodDeprecations()->willReturn(array());
+        $aPhpFileInfo->interfaceDeprecations()->willReturn(array());
+
+        $anotherPhpFileInfo = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
+        $anotherPhpFileInfo->hasDeprecations()->willReturn(false);
+
+        $deprecationFileFinder = $this->prophesize('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder');
+        $deprecationFileFinder->in('some_dir')->willReturn(array(
+            $aPhpFileInfo->reveal(),
+            $anotherPhpFileInfo->reveal()
+        ));
+
+        $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
+        $ruleSet->merge($aPhpFileInfo->reveal())->shouldBeCalled();
+        $ruleSet->merge($anotherPhpFileInfo->reveal())->shouldNotBeCalled();
+
+        $directoryTraverser = new DirectoryTraverser($deprecationFileFinder->reveal());
+        $directoryTraverser->traverse('some_dir', $ruleSet->reveal());
     }
 }

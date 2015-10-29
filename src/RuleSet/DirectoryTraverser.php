@@ -28,23 +28,25 @@ class DirectoryTraverser
 
     /**
      * @param string $path
+     * @param RuleSet $ruleSet
      *
-     * @return null|RuleSet
+     * @return RuleSet
      */
-    public function traverse($path)
+    public function traverse($path, RuleSet $ruleSet = null)
     {
         $files = $this->finder->in($path);
 
-        $ruleSet = new RuleSet();
-        $hasDeprecations = false;
+        if (!$ruleSet instanceof RuleSet) {
+            $ruleSet = new RuleSet();
+        }
+
         foreach ($files as $i => $file) {
             /** @var PhpFileInfo $file */
             if ($file->hasDeprecations()) {
                 $ruleSet->merge($file);
-                $hasDeprecations = true;
             }
         }
 
-        return ($hasDeprecations ? $ruleSet : null);
+        return $ruleSet;
     }
 }
