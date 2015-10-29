@@ -14,7 +14,7 @@ use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
 class DirectoryTraverser
 {
     /**
-     * @var DeprecationParser
+     * @var ParsedPhpFileFinder
      */
     private $finder;
 
@@ -33,7 +33,6 @@ class DirectoryTraverser
      */
     public function traverse($path)
     {
-        /* @TODO remove $quiet from DirectoryTraverser */
         $files = $this->finder->in($path);
 
         $ruleSet = new RuleSet();

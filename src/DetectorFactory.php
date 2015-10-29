@@ -207,7 +207,6 @@ class DetectorFactory
      */
     private function getViolationVisitors()
     {
-        /* @TODO init dynamicly using the config */
         return array(
             new FindInterfaces(),
             new FindArguments(),
@@ -284,8 +283,6 @@ class DetectorFactory
     private function getRenderer(Configuration $configuration, $output)
     {
         $messageHelper = $this->getMessageHelper();
-
-        /* @TODO If config is set use html output */
 
         return new ConsoleOutputRenderer($output, $messageHelper);
     }

@@ -17,7 +17,7 @@ class ParsedPhpFileFinder extends Finder
     /**
      * @var VerboseProgressOutput
      */
-    protected $dispatcher;
+    protected $progressOutput;
 
     /**
      * @var \PhpParser\Error[]
