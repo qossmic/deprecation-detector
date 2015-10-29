@@ -66,17 +66,16 @@ class Configuration
         $this->verbose = $verbose;
     }
 
+    public function overrideConfiguration()
+    {
+    }
+
     /**
      * @return string
      */
     public function ruleSet()
     {
         return $this->ruleSet;
-    }
-
-    public function overrideConfiguration()
-    {
-        /* @TODO */
     }
 
     /**
@@ -90,7 +89,7 @@ class Configuration
     /**
      * @return bool
      */
-    public function noCache()
+    public function useCachedRuleSet()
     {
         return $this->noCache;
     }
@@ -98,7 +97,7 @@ class Configuration
     /**
      * @return string
      */
-    public function cacheDir()
+    public function ruleSetCacheDir()
     {
         return $this->cacheDir;
     }
