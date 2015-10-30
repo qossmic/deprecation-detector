@@ -19,7 +19,7 @@ class FileLoaderTest extends \PHPUnit_Framework_TestCase
 
         $this->setExpectedException(
             'SensioLabs\DeprecationDetector\RuleSet\Loader\CouldNotLoadRuleSetException',
-            '<error>Ruleset "no_such.file" does not exist, aborting.</error>'
+            'Ruleset "no_such.file" does not exist, aborting.'
         );
         $loader->loadRuleSet('no_such.file');
     }

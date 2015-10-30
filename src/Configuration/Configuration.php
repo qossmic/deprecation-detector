@@ -17,12 +17,12 @@ class Configuration
     /**
      * @var bool
      */
-    private $noCache;
+    private $useCachedRuleSet;
 
     /**
      * @var string
      */
-    private $cacheDir;
+    private $ruleSetCacheDir;
 
     /**
      * @var string
@@ -32,7 +32,7 @@ class Configuration
     /**
      * @var bool
      */
-    private $fail;
+    private $failOnDeprecation;
 
     /**
      * @var bool
@@ -59,10 +59,10 @@ class Configuration
     {
         $this->ruleSet = $ruleSet;
         $this->containerPath = $containerPath;
-        $this->noCache = $noCache;
-        $this->cacheDir = $cacheDir;
+        $this->useCachedRuleSet = $noCache;
+        $this->ruleSetCacheDir = $cacheDir;
         $this->filterMethodCalls = $filterMethodCalls;
-        $this->fail = $fail;
+        $this->failOnDeprecation = $fail;
         $this->verbose = $verbose;
     }
 
@@ -91,7 +91,7 @@ class Configuration
      */
     public function useCachedRuleSet()
     {
-        return $this->noCache;
+        return $this->useCachedRuleSet;
     }
 
     /**
@@ -99,7 +99,7 @@ class Configuration
      */
     public function ruleSetCacheDir()
     {
-        return $this->cacheDir;
+        return $this->ruleSetCacheDir;
     }
 
     /**
@@ -115,7 +115,7 @@ class Configuration
      */
     public function failOnDeprecation()
     {
-        return $this->fail;
+        return $this->failOnDeprecation;
     }
 
     /**

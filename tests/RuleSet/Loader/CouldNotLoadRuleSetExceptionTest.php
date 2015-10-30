@@ -20,6 +20,6 @@ class CouldNotLoadRuleSetExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $exception = new CouldNotLoadRuleSetException('an exception message');
 
-        $this->assertSame('<error>an exception message</error>', $exception->getMessage());
+        $this->assertSame('an exception message', $exception->getMessage());
     }
 }

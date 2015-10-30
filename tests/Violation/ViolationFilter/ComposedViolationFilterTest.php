@@ -20,19 +20,6 @@ class ComposedViolationFilterTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($composedViolationFilter->isViolationFiltered($violation->reveal()));
     }
 
-    public function testAddViolationFilter()
-    {
-        $violation = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\Violation');
-        $violationFilter = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\ViolationFilter\ViolationFilterInterface');
-        $violationFilter->isViolationFiltered($violation->reveal())->willReturn(true);
-
-        $composedViolationFilter = new ComposedViolationFilter(array());
-        $this->assertFalse($composedViolationFilter->isViolationFiltered($violation->reveal()));
-
-        $composedViolationFilter->addViolationFilter($violationFilter->reveal());
-        $this->assertTrue($composedViolationFilter->isViolationFiltered($violation->reveal()));
-    }
-
     public function testFilterOneFiltering()
     {
         $violation = $this->prophesize('\SensioLabs\DeprecationDetector\Violation\Violation');

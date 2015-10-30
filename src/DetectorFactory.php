@@ -268,10 +268,9 @@ class DetectorFactory
     {
         $violationFilter = new ComposedViolationFilter(array());
 
+        $violationFilters = array();
         if ('' !== $configuration->filteredMethodCalls()) {
-            $violationFilter->addViolationFilter(
-                MethodViolationFilter::fromString($configuration->filteredMethodCalls())
-            );
+            $violationFilters[] = MethodViolationFilter::fromString($configuration->filteredMethodCalls());
         }
 
         return $violationFilter;

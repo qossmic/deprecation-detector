@@ -9,8 +9,6 @@ class CouldNotLoadRuleSetException extends \Exception
      */
     public function __construct($message)
     {
-        parent::__construct(
-            sprintf('<error>%s</error>', $message)
-        );
+        parent::__construct($message);
     }
 }
