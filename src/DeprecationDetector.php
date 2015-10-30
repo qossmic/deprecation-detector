@@ -91,12 +91,12 @@ class DeprecationDetector
         $violations = $this->violationDetector->getViolations($ruleSet, $files);
         $this->output->endUsageDetection();
 
-        $this->output->startRendering();
+        $this->output->startOutputRendering();
         $this->renderer->renderViolations($violations);
         if ($files->hasParserErrors()) {
             $this->renderer->renderParserErrors($files->getParserErrors());
         }
-        $this->output->endRendering();
+        $this->output->endOutputRendering();
 
         $this->output->endProgress($files->count(), count($violations));
 

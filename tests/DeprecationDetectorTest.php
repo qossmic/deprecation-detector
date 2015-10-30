@@ -53,7 +53,7 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
         $anotherViolation = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Violation');
         $violations = array(
             $aViolation->reveal(),
-            $anotherViolation->reveal()
+            $anotherViolation->reveal(),
         );
 
         $violationDetector = $this->prophesize('SensioLabs\DeprecationDetector\Violation\ViolationDetector');
@@ -71,8 +71,8 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
         $defaultOutput->endRuleSetGeneration()->shouldBeCalled();
         $defaultOutput->startUsageDetection()->shouldBeCalled();
         $defaultOutput->endUsageDetection()->shouldBeCalled();
-        $defaultOutput->startRendering()->shouldBeCalled();
-        $defaultOutput->endRendering()->shouldBeCalled();
+        $defaultOutput->startOutputRendering()->shouldBeCalled();
+        $defaultOutput->endOutputRendering()->shouldBeCalled();
         $defaultOutput->endProgress($fileCount, $violationCount)->shouldBeCalled();
 
         $detector = new DeprecationDetector(
@@ -112,7 +112,7 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
         $anotherViolation = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Violation');
         $violations = array(
             $aViolation->reveal(),
-            $anotherViolation->reveal()
+            $anotherViolation->reveal(),
         );
 
         $violationDetector = $this->prophesize('SensioLabs\DeprecationDetector\Violation\ViolationDetector');
@@ -130,8 +130,8 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
         $defaultOutput->endRuleSetGeneration()->shouldBeCalled();
         $defaultOutput->startUsageDetection()->shouldBeCalled();
         $defaultOutput->endUsageDetection()->shouldBeCalled();
-        $defaultOutput->startRendering()->shouldBeCalled();
-        $defaultOutput->endRendering()->shouldBeCalled();
+        $defaultOutput->startOutputRendering()->shouldBeCalled();
+        $defaultOutput->endOutputRendering()->shouldBeCalled();
         $defaultOutput->endProgress($fileCount, $violationCount)->shouldBeCalled();
 
         $detector = new DeprecationDetector(

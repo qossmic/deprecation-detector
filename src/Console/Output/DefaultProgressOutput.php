@@ -62,7 +62,6 @@ class DefaultProgressOutput
     public function startRuleSetGeneration()
     {
         $this->output->writeln('Loading RuleSet...');
-        $this->output->writeln('');
     }
 
     public function endRuleSetGeneration()
@@ -73,7 +72,6 @@ class DefaultProgressOutput
     public function startUsageDetection()
     {
         $this->output->writeln('Searching for deprecations...');
-        $this->output->writeln('');
     }
 
     public function endUsageDetection()
@@ -81,13 +79,12 @@ class DefaultProgressOutput
         $this->output->writeln('Finished searching for deprecations.');
     }
 
-    public function startRendering()
+    public function startOutputRendering()
     {
         $this->output->writeln('Rendering output...');
-        $this->output->writeln('');
     }
 
-    public function endRendering()
+    public function endOutputRendering()
     {
         $this->output->writeln('Finished rendering output.');
     }

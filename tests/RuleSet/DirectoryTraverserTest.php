@@ -29,7 +29,7 @@ class DirectoryTraverserTest extends \PHPUnit_Framework_TestCase
         $deprecationFileFinder = $this->prophesize('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder');
         $deprecationFileFinder->in('some_dir')->willReturn(array(
             $aPhpFileInfo->reveal(),
-            $anotherPhpFileInfo->reveal()
+            $anotherPhpFileInfo->reveal(),
         ));
 
         $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
