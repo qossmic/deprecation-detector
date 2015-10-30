@@ -4,7 +4,6 @@ namespace SensioLabs\DeprecationDetector\RuleSet;
 
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
-use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
 
 /**
  * Class Traverser.
@@ -27,7 +26,7 @@ class DirectoryTraverser
     }
 
     /**
-     * @param string $path
+     * @param string  $path
      * @param RuleSet $ruleSet
      *
      * @return RuleSet

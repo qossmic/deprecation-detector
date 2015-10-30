@@ -52,7 +52,7 @@ class VerboseProgressOutput
     }
 
     /**
-     * @param int $current
+     * @param int         $current
      * @param PhpFileInfo $file
      */
     public function advance($current, PhpFileInfo $file)
