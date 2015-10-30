@@ -35,6 +35,10 @@ class DefaultProgressOutput
         $this->output->writeln('Checking your application for deprecations - this could take a while ...');
     }
 
+    /**
+     * @param int $fileCount
+     * @param int $violationCount
+     */
     public function endProgress($fileCount, $violationCount)
     {
         $stats = $this->stopwatch->stop(static::PROGRESS_NAME);

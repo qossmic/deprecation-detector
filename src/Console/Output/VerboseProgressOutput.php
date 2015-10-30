@@ -37,6 +37,9 @@ class VerboseProgressOutput
         $this->label = $label;
     }
 
+    /**
+     * @param int $total
+     */
     public function start($total)
     {
         if (!$this->verbose) {
@@ -48,7 +51,11 @@ class VerboseProgressOutput
         $this->progressBar->start($total);
     }
 
-    public function advance($current, PhpFileInfo $file = null)
+    /**
+     * @param int $current
+     * @param PhpFileInfo $file
+     */
+    public function advance($current, PhpFileInfo $file)
     {
         if (!$this->verbose) {
             return;
@@ -60,11 +67,8 @@ class VerboseProgressOutput
             $this->progressBar->setFormat($format);
         }
 
-        if ($file instanceof PhpFileInfo) {
-            $message = $file->getRelativePathname();
-            $this->progressBar->setMessage($message);
-        }
-
+        $message = $file->getRelativePathname();
+        $this->progressBar->setMessage($message);
         $this->progressBar->clear();
         $this->progressBar->advance();
         $this->progressBar->display();

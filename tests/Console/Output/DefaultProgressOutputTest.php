@@ -47,7 +47,7 @@ class DefaultProgressOutputTest extends \PHPUnit_Framework_TestCase
         $defaultProgressOutput->endUsageDetection();
         $defaultProgressOutput->startOutputRendering();
         $defaultProgressOutput->endOutputRendering();
-        $defaultProgressOutput->endProgress(0,0);
+        $defaultProgressOutput->endProgress(0, 0);
     }
 
     public function testEndProgressWithoutViolations()
