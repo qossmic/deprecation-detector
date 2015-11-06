@@ -80,7 +80,7 @@ class CheckCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testCommandWithFilterMethodOption()
     {
-        $this->executeCommand('examples', 'examples', ['--filter-method-calls' => 'OtherClass::hello,foo4::bar']);
+        $this->executeCommand('examples', 'examples', ['--filter-methods' => 'OtherClass::hello,foo4::bar']);
 
         $display = $this->commandTester->getDisplay();
 
