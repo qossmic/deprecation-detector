@@ -65,9 +65,31 @@ class CheckCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testCommandWithExampleCodeWorks()
     {
+        $this->executeCommand('examples', 'examples');
 
+        $this->assertEquals(0, $this->commandTester->getStatusCode());
+
+        $display = $this->commandTester->getDisplay();
+
+        $this->assertRegExp('/27 deprecations found/', $display);
+
+//        echo $display;
     }
 
+    public function testCommandWithFailOption()
+    {
+        $this->executeCommand('examples', 'examples', ['--fail' => true]);
+
+        $this->assertGreaterThan(0, $this->commandTester->getStatusCode());
+    }
+
+    /**
+     * Helper method for simplified executing of CheckCommand
+     *
+     * @param string $sourcePath     source argument
+     * @param string $rulesetPath    ruleset argument
+     * @param array $options Further options as key => value array
+     */
     private function executeCommand($sourcePath, $rulesetPath, $options = array())
     {
         $arguments = array_merge(
