@@ -32,7 +32,7 @@ class CheckCommandTest extends \PHPUnit_Framework_TestCase
      * @param $rulesetPath
      * @param $mentionedArgument
      *
-     * @dataProvider invalidPaths
+     * @dataProvider invalidPathsProvider
      */
     public function testCommandThrowsHelpfulExceptionWithInvalidPaths($sourcePath, $rulesetPath, $mentionedArgument)
     {
@@ -49,12 +49,12 @@ class CheckCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * returns invalid sourcePath and rulesetPath pairs, together with the argument,
-     * that should be mentioned in the exception message.
+     * returns invalid sourcePath and rulesetPath pairs, together with
+     * the argument, that should be mentioned in the exception message.
      *
      * @return array
      */
-    public function invalidPaths()
+    public function invalidPathsProvider()
     {
         return [
             ['doesnotexist', 'doesnotexist', 'Source directory'], // both are invalid
@@ -68,12 +68,7 @@ class CheckCommandTest extends \PHPUnit_Framework_TestCase
         $this->executeCommand('examples', 'examples');
 
         $this->assertEquals(0, $this->commandTester->getStatusCode());
-
-        $display = $this->commandTester->getDisplay();
-
-        $this->assertRegExp('/27 deprecations found/', $display);
-
-//        echo $display;
+        $this->assertRegExp('/27 deprecations found/', $this->commandTester->getDisplay());
     }
 
     public function testCommandWithFailOption()
@@ -81,6 +76,16 @@ class CheckCommandTest extends \PHPUnit_Framework_TestCase
         $this->executeCommand('examples', 'examples', ['--fail' => true]);
 
         $this->assertGreaterThan(0, $this->commandTester->getStatusCode());
+    }
+
+    public function testCommandWithFilterMethodOption()
+    {
+        $this->executeCommand('examples', 'examples', ['--filter-method-calls' => 'OtherClass::hello,foo4::bar']);
+
+        $display = $this->commandTester->getDisplay();
+
+        $this->assertNotRegExp('/foo4->bar\(\)/', $display);
+        $this->assertNotRegExp('/OtherClass->hello\(\)/', $display);
     }
 
     /**
