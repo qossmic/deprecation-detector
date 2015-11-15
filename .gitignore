@@ -1,4 +1,3 @@
 vendor
 phpunit.xml
 .rules/
-output.html
