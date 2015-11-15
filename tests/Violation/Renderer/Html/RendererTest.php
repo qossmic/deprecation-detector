@@ -1,14 +1,14 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\Tests\Violation\Renderer\HtmlOutput;
+namespace SensioLabs\DeprecationDetector\Tests\Violation\Renderer\Html;
 
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit_Framework_TestCase;
 use Prophecy\Argument;
-use SensioLabs\DeprecationDetector\Violation\Renderer\Html\HtmlRenderer;
+use SensioLabs\DeprecationDetector\Violation\Renderer\Html\Renderer;
 
-class HtmlOutputRendererTest extends PHPUnit_Framework_TestCase
+class RendererTest extends PHPUnit_Framework_TestCase
 {
 
     /**
@@ -40,7 +40,7 @@ class HtmlOutputRendererTest extends PHPUnit_Framework_TestCase
         $messageHelper = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper');
         $messageHelper->getViolationMessage($violation->reveal())->willReturn('testMethod');
 
-        $renderer = new HtmlRenderer(
+        $renderer = new Renderer(
             $messageHelper->reveal(),
             $fileSystem->reveal(),
             vfsStream::url('exampleDir/output.html')

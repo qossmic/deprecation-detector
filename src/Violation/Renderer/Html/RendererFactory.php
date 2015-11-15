@@ -5,7 +5,7 @@ namespace SensioLabs\DeprecationDetector\Violation\Renderer\Html;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
 use Symfony\Component\Filesystem\Filesystem;
 
-class HtmlRendererFactory
+class RendererFactory
 {
     private $messageHelper;
     private $filesystem;
@@ -18,6 +18,6 @@ class HtmlRendererFactory
 
     public function createHtmlOutputRenderer($outputFile)
     {
-        return new HtmlRenderer($this->messageHelper, $this->filesystem, $outputFile);
+        return new Renderer($this->messageHelper, $this->filesystem, $outputFile);
     }
 }
