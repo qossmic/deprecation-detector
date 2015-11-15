@@ -8,6 +8,11 @@ use PHPUnit_Framework_TestCase;
 use Prophecy\Argument;
 use SensioLabs\DeprecationDetector\Violation\Renderer\Html\Renderer;
 
+/**
+ * Class RendererTest
+ *
+ * @author Karl Spies <karl.spies@gmx.net>
+ */
 class RendererTest extends PHPUnit_Framework_TestCase
 {
 

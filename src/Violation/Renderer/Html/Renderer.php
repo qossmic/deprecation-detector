@@ -7,6 +7,14 @@ use SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface;
 use SensioLabs\DeprecationDetector\Violation\Violation;
 use Symfony\Component\Filesystem\Filesystem;
 
+/**
+ * Class Renderer
+ *
+ * This Renderer will take a list of violations and will transform them into
+ * a HTML page.
+ *
+ * @author Karl Spies <karl.spies@gmx.net>
+ */
 class Renderer implements RendererInterface
 {
     /**
@@ -31,7 +39,8 @@ class Renderer implements RendererInterface
         MessageHelper $messageHelper,
         Filesystem $filesystem,
         $outputFilename
-    ) {
+    )
+    {
         $this->messageHelper = $messageHelper;
         $this->fileSystem = $filesystem;
         $this->outputFilename = $outputFilename;
