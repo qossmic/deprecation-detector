@@ -50,11 +50,11 @@ class HtmlOutputRendererTest extends PHPUnit_Framework_TestCase
 
         $this->assertFileExists(vfsStream::url('exampleDir/output.html'));
 
-        $fileOutPut = file_get_contents(vfsStream::url('exampleDir/output.html'));
+        $fileContent = file_get_contents(vfsStream::url('exampleDir/output.html'));
 
-        $this->assertContains('testMethod', $fileOutPut);
-        $this->assertContains('12', $fileOutPut);
-        $this->assertContains('Just a comment', $fileOutPut);
+        $this->assertContains('testMethod', $fileContent);
+        $this->assertContains('12', $fileContent);
+        $this->assertContains('Just a comment', $fileContent);
     }
 
 }

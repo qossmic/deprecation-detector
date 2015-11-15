@@ -25,7 +25,7 @@ class HtmlRenderer implements RendererInterface
     /**
      * @param MessageHelper $messageHelper
      * @param Filesystem $filesystem
-     * @param $outputFilename
+     * @param string $outputFilename
      */
     public function __construct(
         MessageHelper $messageHelper,
