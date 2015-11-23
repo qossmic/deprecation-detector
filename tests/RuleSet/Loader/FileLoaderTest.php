@@ -6,10 +6,7 @@ class FileLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $dispatcher = $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcher');
-        $loader = new \SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader($dispatcher->reveal());
-
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader', $loader);
+        $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader', $this->getInstance());
     }
 
     /**
@@ -18,15 +15,18 @@ class FileLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadingNotExistingFileThrowsAnException()
     {
-        $dispatcher = $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcher');
-        $loader = new \SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader($dispatcher->reveal());
-
-        $loader->loadRuleSet('no_such.file');
+        $this->getInstance()->loadRuleSet('no_such.file');
     }
 
     public function testLoadRuleSetThrowsExceptionIfCachedIsNotAnInstanceOfRuleset()
     {
         //@TODO: file_get_contents is untestable
         $this->markTestSkipped();
+    }
+
+    protected function getInstance()
+    {
+        $dispatcher = $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcher');
+        return new \SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader($dispatcher->reveal());
     }
 }
