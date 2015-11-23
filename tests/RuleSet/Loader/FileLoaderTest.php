@@ -2,6 +2,8 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\RuleSet\Loader;
 
+use org\bovigo\vfs\vfsStream;
+
 class FileLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
@@ -18,10 +20,20 @@ class FileLoaderTest extends \PHPUnit_Framework_TestCase
         $this->getInstance()->loadRuleSet('no_such.file');
     }
 
+    /**
+     * @expectedException \RuntimeException
+     * @expectedExceptionMessage Rule set file is not valid.
+     */
     public function testLoadRuleSetThrowsExceptionIfCachedIsNotAnInstanceOfRuleset()
     {
-        //@TODO: file_get_contents is untestable
-        $this->markTestSkipped();
+        $dummy = 'This is not a RuleSet';
+
+        $root = vfsStream::setup();
+        $virtualFile = vfsStream::newFile('dummy')
+            ->withContent(serialize($dummy))
+            ->at($root);
+
+        $this->getInstance()->loadRuleSet($virtualFile->url());
     }
 
     protected function getInstance()
