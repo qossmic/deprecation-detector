@@ -3,6 +3,7 @@
 namespace SensioLabs\DeprecationDetector\Tests\RuleSet\Loader;
 
 use org\bovigo\vfs\vfsStream;
+use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 
 class FileLoaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,6 +35,22 @@ class FileLoaderTest extends \PHPUnit_Framework_TestCase
             ->at($root);
 
         $this->getInstance()->loadRuleSet($virtualFile->url());
+    }
+
+    public function testLoadRuleSetSuccess()
+    {
+        $ruleSet = new RuleSet();
+
+        $root = vfsStream::setup();
+        $virtualFile = vfsStream::newFile('ruleSet')
+            ->withContent(serialize($ruleSet))
+            ->at($root);
+
+        $loader = $this->getInstance();
+
+        $actualRuleSet = $loader->loadRuleSet($virtualFile->url());
+
+        $this->assertInstanceOf('\SensioLabs\DeprecationDetector\RuleSet\RuleSet', $actualRuleSet);
     }
 
     protected function getInstance()
