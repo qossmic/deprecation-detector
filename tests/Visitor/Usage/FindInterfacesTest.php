@@ -2,6 +2,9 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\Visitor\Usage;
 
+use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\Class_;
+use Prophecy\Argument;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindInterfaces;
@@ -52,5 +55,20 @@ EOC;
             array(),
             $phpFileInfo->interfaceUsages()
         );
+    }
+
+    public function testSkipsAnonymousClasses()
+    {
+        $phpFileInfo = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
+        $phpFileInfo->addInterfaceUsage(Argument::any())->shouldNotBeCalled();
+
+        $visitor = new FindInterfaces();
+
+        $node = new Class_(
+            null,
+            array('implements' => array(new Name('SomeInterface')))
+        );
+
+        $visitor->enterNode($node);
     }
 }

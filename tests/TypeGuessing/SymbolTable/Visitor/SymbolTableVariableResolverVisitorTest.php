@@ -3,9 +3,11 @@
 namespace SensioLabs\DeprecationDetector\Tests\TypeGuessing\SymbolTable\Visitor;
 
 use PhpParser\Lexer\Emulative;
+use PhpParser\Node\Stmt\Class_;
 use PhpParser\NodeTraverser;
 use PhpParser\NodeVisitor\NameResolver;
 use PhpParser\Parser;
+use Prophecy\Argument;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\PropertyAssignResolver;
@@ -26,6 +28,21 @@ class SymbolTableVariableResolverVisitorTest extends \PHPUnit_Framework_TestCase
             'SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Visitor\SymbolTableVariableResolverVisitor',
             $visitor
         );
+    }
+
+    public function testSkipsAnonymousClasses()
+    {
+        $symbolTable = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $symbolTable->enterScope(Argument::any())->shouldNotBeCalled();
+        $symbolTable->setSymbol(Argument::any())->shouldNotBeCalled();
+        $symbolTable->leaveScope()->shouldNotBeCalled();
+
+        $resolver = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\ComposedResolver');
+        $visitor = new SymbolTableVariableResolverVisitor($resolver->reveal(), $symbolTable->reveal());
+
+        $node = new Class_(null);
+
+        $visitor->enterNode($node);
     }
 
     public function testVariableResolver()

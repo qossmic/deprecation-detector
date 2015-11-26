@@ -2,6 +2,9 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\Visitor\Usage;
 
+use PhpParser\Node\Name;
+use PhpParser\Node\Stmt\Class_;
+use Prophecy\Argument;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindSuperTypes;
@@ -54,5 +57,20 @@ EOC;
             array(),
             $phpFileInfo->superTypeUsages()
         );
+    }
+
+    public function testSkipsAnonymousClasses()
+    {
+        $phpFileInfo = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
+        $phpFileInfo->addSuperTypeUsage(Argument::any())->shouldNotBeCalled();
+
+        $visitor = new FindSuperTypes();
+
+        $node = new Class_(
+            null,
+            array('extends' => new Name('SomeInterface'))
+        );
+
+        $visitor->enterNode($node);
     }
 }
