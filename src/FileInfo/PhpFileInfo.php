@@ -6,6 +6,7 @@ use SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\ClassUsage;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage\DeprecatedLanguageUsageInterface;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage;
@@ -18,6 +19,11 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
      * @var ClassUsage[]
      */
     protected $classUsages = array();
+
+    /**
+     * @var DeprecatedLanguageUsageInterface[]
+     */
+    protected $deprecatedLanguageUsages = array();
 
     /**
      * @var InterfaceUsage[]
@@ -359,6 +365,22 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
         return $this->hasMethodDeprecation($methodName, $className)
             ? $this->methodDeprecations[$className][$methodName]
             : null;
+    }
+
+    /**
+     * @param DeprecatedLanguageUsageInterface $deprecatedLanguageUsage
+     */
+    public function addDeprecatedLanguageUsage(DeprecatedLanguageUsageInterface $deprecatedLanguageUsage)
+    {
+        $this->deprecatedLanguageUsages[] = $deprecatedLanguageUsage;
+    }
+
+    /**
+     * @return DeprecatedLanguageUsageInterface[]
+     */
+    public function getDeprecatedLanguageUsages()
+    {
+        return $this->deprecatedLanguageUsages;
     }
 
     /**
