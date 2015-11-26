@@ -41,6 +41,10 @@ class FindDeprecatedTagsVisitor extends NodeVisitorAbstract implements Deprecati
     public function enterNode(Node $node)
     {
         if ($node instanceof Node\Stmt\ClassLike) {
+            if ($node->name === null) {
+                return;
+            }
+
             $this->parentName = $node->namespacedName->toString();
         }
 

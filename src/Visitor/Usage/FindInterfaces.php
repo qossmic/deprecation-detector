@@ -33,6 +33,10 @@ class FindInterfaces extends NodeVisitorAbstract implements ViolationVisitorInte
     public function enterNode(Node $node)
     {
         if ($node instanceof Node\Stmt\Class_) {
+            if ($node->name === null) {
+                return;
+            }
+
             $phpFileInfo = $this->phpFileInfo;
             array_map(function (Node\Name $interface) use ($node, $phpFileInfo) {
                 $interfaceUsage = new InterfaceUsage(
