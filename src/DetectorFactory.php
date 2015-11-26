@@ -53,6 +53,7 @@ use SensioLabs\DeprecationDetector\Visitor\StaticAnalysisVisitorInterface;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindArguments;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindClasses;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindInterfaces;
+use SensioLabs\DeprecationDetector\Visitor\Usage\FindLanguageDeprecations;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindMethodCalls;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindMethodDefinitions;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindStaticMethodCalls;
@@ -217,6 +218,7 @@ class DetectorFactory
             new FindMethodCalls(),
             new FindMethodDefinitions(),
             new FindStaticMethodCalls(),
+            new FindLanguageDeprecations(),
         );
     }
 
