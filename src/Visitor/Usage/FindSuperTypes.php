@@ -33,7 +33,7 @@ class FindSuperTypes extends NodeVisitorAbstract implements ViolationVisitorInte
     public function enterNode(Node $node)
     {
         if ($node instanceof Node\Stmt\Class_ && $node->extends instanceof Node\Name) {
-            if ($node->name === null) {
+            if ($node->isAnonymous()) {
                 return;
             }
 

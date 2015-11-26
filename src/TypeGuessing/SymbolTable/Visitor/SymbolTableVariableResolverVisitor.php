@@ -40,7 +40,7 @@ class SymbolTableVariableResolverVisitor extends NodeVisitorAbstract implements 
     public function enterNode(Node $node)
     {
         if ($node instanceof Node\Stmt\ClassLike) {
-            if ($node->name === null) {
+            if ($node instanceof Node\Stmt\Class_ && $node->isAnonymous()) {
                 return;
             }
 
@@ -67,7 +67,7 @@ class SymbolTableVariableResolverVisitor extends NodeVisitorAbstract implements 
                 || $node instanceof Node\Stmt\Interface_
                 || $node instanceof Node\Stmt\Trait_) {
 
-            if ($node->name === null) {
+            if ($node instanceof Node\Stmt\Class_ && $node->isAnonymous()) {
                 return;
             }
 
