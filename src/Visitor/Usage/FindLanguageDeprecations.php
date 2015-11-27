@@ -5,8 +5,7 @@ namespace SensioLabs\DeprecationDetector\Visitor\Usage;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
-use SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage\AssignReferenceUsage;
-use SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage\OldConstructorUsage;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage;
 use SensioLabs\DeprecationDetector\Visitor\ViolationVisitorInterface;
 
 class FindLanguageDeprecations extends NodeVisitorAbstract implements ViolationVisitorInterface
@@ -35,7 +34,7 @@ class FindLanguageDeprecations extends NodeVisitorAbstract implements ViolationV
     {
         if ($node instanceof Node\Expr\AssignRef) {
             $this->phpFileInfo->addDeprecatedLanguageUsage(
-                new AssignReferenceUsage($node->getLine())
+                new DeprecatedLanguageUsage('assign by reference(&=)', 'Since PHP 5.3 use normal assignment instead.', $node->getLine())
             );
         }
 
@@ -43,7 +42,11 @@ class FindLanguageDeprecations extends NodeVisitorAbstract implements ViolationV
             $method = $node->getMethod($node->name);
             if ($method instanceof Node\Stmt\ClassMethod) {
                 $this->phpFileInfo->addDeprecatedLanguageUsage(
-                    new OldConstructorUsage($method->getLine())
+                    new DeprecatedLanguageUsage(
+                        'PHP4 constructor',
+                        'Since PHP 7.0, use __construct() instead.',
+                        $method->getLine()
+                    )
                 );
             }
         }
