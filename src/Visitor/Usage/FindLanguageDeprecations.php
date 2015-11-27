@@ -50,5 +50,17 @@ class FindLanguageDeprecations extends NodeVisitorAbstract implements ViolationV
                 );
             }
         }
+
+        if ($node instanceof Node\Arg) {
+            if (true === $node->byRef) {
+                $this->phpFileInfo->addDeprecatedLanguageUsage(
+                    new DeprecatedLanguageUsage(
+                        'call-time pass-by-reference',
+                        'Since PHP 5.3 and removed in PHP 5.4',
+                        $node->getLine()
+                    )
+                );
+            }
+        }
     }
 }

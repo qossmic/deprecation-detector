@@ -2,7 +2,6 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\Violation\Renderer\MessageHelper\Message;
 
-use SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\LanguageDeprecationMessage;
 
 class LanguageDeprecationMessageTest extends \PHPUnit_Framework_TestCase

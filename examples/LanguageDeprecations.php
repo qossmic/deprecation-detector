@@ -10,5 +10,6 @@ class LanguageDeprecations
         $b =& new Bar();
 
         call_user_method('methodName', $b);
+        $b->methodCall(&$b);
     }
 }
