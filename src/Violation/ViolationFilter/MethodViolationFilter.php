@@ -34,7 +34,7 @@ class MethodViolationFilter implements ViolationFilterInterface
     public function isViolationFiltered(Violation $violation)
     {
         $usage = $violation->getUsage();
-        if (!$usage instanceof MethodUsage and !$usage instanceof MethodDefinition) {
+        if (!$usage instanceof MethodUsage && !$usage instanceof MethodDefinition) {
             return false;
         }
 
