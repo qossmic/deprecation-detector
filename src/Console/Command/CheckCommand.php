@@ -123,6 +123,7 @@ EOF
         if ($config->failOnDeprecation() && !empty($violations)) {
             return 1;
         }
+        $ruleSet->merge($this->getApplication()->getPhpDeprecationRuleset());
 
         return 0;
     }

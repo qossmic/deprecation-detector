@@ -3,6 +3,7 @@
 namespace SensioLabs\DeprecationDetector\FileInfo;
 
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation;
+use SensioLabs\DeprecationDetector\FileInfo\Deprecation\FunctionDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\ClassUsage;
@@ -65,6 +66,11 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
      * @var MethodDeprecation[]
      */
     protected $methodDeprecations = array();
+
+    /**
+     * @var FunctionDeprecation[]
+     */
+    protected $functionDeprecations = array();
 
     /**
      * @var array
@@ -406,10 +412,38 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
     }
 
     /**
+     * @return FunctionDeprecation[]
+     */
+    public function functionDeprecations()
+    {
+        return $this->functionDeprecations;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasFunctionDeprecations()
+    {
+        return count($this->functionDeprecations) > 0;
+    }
+
+    /**
+     * @param FunctionDeprecation $deprecation
+     */
+    public function addFunctionDeprecation(FunctionDeprecation $deprecation)
+    {
+        $this->functionDeprecations[$deprecation->name()] = $deprecation;
+    }
+
+    /**
      * @return bool
      */
     public function hasDeprecations()
     {
-        return $this->hasClassDeprecations() || $this->hasInterfaceDeprecations() || $this->hasMethodDeprecations();
+        return
+            $this->hasClassDeprecations() ||
+            $this->hasInterfaceDeprecations() ||
+            $this->hasMethodDeprecations() ||
+            $this->hasFunctionDeprecations();
     }
 }

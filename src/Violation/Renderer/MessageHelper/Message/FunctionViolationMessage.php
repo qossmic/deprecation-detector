@@ -22,7 +22,7 @@ class FunctionViolationMessage extends BaseViolationMessage implements Violation
     }
 
     return sprintf(
-        'Using deprecated function call <info>%s()</info>',
+        'Using deprecated function <info>%s()</info>',
         $usage->name()
     );
 }
