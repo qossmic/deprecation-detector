@@ -10,6 +10,13 @@ class BaseController
     }
 }
 
+/**
+ * @deprecated Since 2.0
+ */
+function hello() {
+    echo 'hello';
+}
+
 class DemoController extends BaseController
 {
     public function demoAction()
@@ -17,5 +24,7 @@ class DemoController extends BaseController
         $em = $this->getEntityManager();
 
         $em = parent::getEntityManager();
+
+        hello();
     }
 }

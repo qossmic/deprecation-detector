@@ -33,6 +33,7 @@ use SensioLabs\DeprecationDetector\Violation\Renderer\ConsoleOutputRenderer;
 use SensioLabs\DeprecationDetector\Violation\Renderer\Html\Renderer;
 use SensioLabs\DeprecationDetector\Violation\Renderer\Html\RendererFactory;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\ClassViolationMessage;
+use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\FunctionViolationMessage;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\InterfaceViolationMessage;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\LanguageDeprecationMessage;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\MethodDefinitionViolationMessage;
@@ -41,6 +42,7 @@ use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\Supe
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ClassViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ComposedViolationChecker;
+use SensioLabs\DeprecationDetector\Violation\ViolationChecker\FunctionViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\InterfaceViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\MethodDefinitionViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\MethodViolationChecker;
@@ -53,6 +55,7 @@ use SensioLabs\DeprecationDetector\Visitor\Deprecation\FindDeprecatedTagsVisitor
 use SensioLabs\DeprecationDetector\Visitor\StaticAnalysisVisitorInterface;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindArguments;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindClasses;
+use SensioLabs\DeprecationDetector\Visitor\Usage\FindFunctionCalls;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindInterfaces;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindLanguageDeprecations;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindMethodCalls;
@@ -220,6 +223,7 @@ class DetectorFactory
             new FindMethodDefinitions(),
             new FindStaticMethodCalls(),
             new FindLanguageDeprecations(),
+            new FindFunctionCalls(),
         );
     }
 
@@ -258,6 +262,7 @@ class DetectorFactory
                 new SuperTypeViolationChecker(),
                 new TypeHintViolationChecker(),
                 new MethodDefinitionViolationChecker($this->ancestorResolver),
+                new FunctionViolationChecker()
             )
         );
 
@@ -307,7 +312,8 @@ class DetectorFactory
                 new MethodViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage'),
                 new MethodDefinitionViolationMessage('SensioLabs\DeprecationDetector\FileInfo\MethodDefinition'),
                 new SuperTypeViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage'),
-                new LanguageDeprecationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage')
+                new LanguageDeprecationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage'),
+                new FunctionViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\FunctionUsage'),
             )
         );
     }
