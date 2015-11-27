@@ -84,7 +84,7 @@ class DeprecationDetector
 
         $this->output->startRuleSetGeneration();
         $ruleSet = $this->ruleSetLoader->loadRuleSet($ruleSetArg);
-        $ruleSet = $ruleSet->merge($this->preDefinedRuleSet);
+        $ruleSet->merge($this->preDefinedRuleSet);
         $this->output->endRuleSetGeneration();
 
         $this->output->startUsageDetection();
