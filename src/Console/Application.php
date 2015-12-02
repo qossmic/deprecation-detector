@@ -20,7 +20,7 @@ use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorR
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\ComposedResolver;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Visitor\SymbolTableVariableResolverVisitor;
 use SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader;
-use SensioLabs\DeprecationDetector\Violation\Renderer\Html\HtmlRendererFactory;
+use SensioLabs\DeprecationDetector\Violation\Renderer\Html\RendererFactory;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ClassViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ComposedViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\InterfaceViolationChecker;
@@ -296,7 +296,7 @@ class Application extends BaseApplication
         };
 
         $c['violation.renderer.html'] = function ($c) {
-            return new HtmlRendererFactory($c['violation.message_helper'], new Filesystem());
+            return new RendererFactory($c['violation.message_helper'], new Filesystem());
         };
 
         // ANCESTOR RESOLVER
