@@ -5,7 +5,6 @@ namespace SensioLabs\DeprecationDetector\TypeGuessing;
 use Composer\Autoload\ClassLoader;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\UsageInterface;
-use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
 use SensioLabs\DeprecationDetector\Parser\UsageParser;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
@@ -33,20 +32,13 @@ class AncestorResolver
     protected $usageParser;
 
     /**
-     * @var ParsedPhpFileFinder
+     * @param UsageParser $usageParser
      */
-    protected $finder;
-
-    /**
-     * @param UsageParser         $usageParser
-     * @param ParsedPhpFileFinder $finder
-     */
-    public function __construct(UsageParser $usageParser, ParsedPhpFileFinder $finder)
+    public function __construct(UsageParser $usageParser)
     {
         $this->definitionFiles = array();
         $this->sourcePaths = array();
         $this->usageParser = $usageParser;
-        $this->finder = $finder;
     }
 
     /**
@@ -268,7 +260,9 @@ class AncestorResolver
             $namespace = '';
         }
 
-        $files = $this->finder
+        $files = new Finder();
+        $files
+            ->name('*.php')
             ->contains(sprintf('/%s.*%s/s', $namespace, $definition))
             ->in($this->sourcePaths)
         ;
@@ -279,10 +273,12 @@ class AncestorResolver
 
         $file = current(iterator_to_array($files));
 
-        if (!$file instanceof PhpFileInfo) {
+        if (!$file instanceof SplFileInfo) {
             return;
         }
 
-        return $file;
+        $baseFile = PhpFileInfo::create($file);
+
+        return $this->usageParser->parseFile($baseFile);
     }
 }
