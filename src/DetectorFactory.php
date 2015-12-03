@@ -283,9 +283,9 @@ class DetectorFactory
     {
         $messageHelper = $this->getMessageHelper();
 
-        if ($path = $configuration->logHtml()) {
+        if ($logFilePath = $configuration->logHtml()) {
             $factory = new RendererFactory($messageHelper, new Filesystem());
-            return $factory->createHtmlOutputRenderer($path);
+            return $factory->createHtmlOutputRenderer($logFilePath);
         }
 
         return new ConsoleOutputRenderer($output, $messageHelper);
