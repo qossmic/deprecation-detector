@@ -20,6 +20,7 @@ use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorR
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\ComposedResolver;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Visitor\SymbolTableVariableResolverVisitor;
 use SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader;
+use SensioLabs\DeprecationDetector\Violation\Renderer\Html\RendererFactory;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ClassViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ComposedViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\InterfaceViolationChecker;
@@ -89,9 +90,11 @@ class Application extends BaseApplication
 
         // RULESET TRAVERSER
         // TODO: fix container injection
-        $c['ruleset.traverser'] = $c->factory(function ($c) {
-            return new Traverser($c, $c['event_dispatcher']);
-        });
+        $c['ruleset.traverser'] = $c->factory(
+            function ($c) {
+                return new Traverser($c, $c['event_dispatcher']);
+            }
+        );
 
         // RULESET LOADER
         $c['ruleset.loader.directory'] = function ($c) {
@@ -218,29 +221,31 @@ class Application extends BaseApplication
         };
 
         // FINDER
-        $c['finder.php_usage'] = $c->factory(function ($c) {
-            $finder = new ParsedPhpFileFinder();
-            $finder
-                ->exclude('vendor')
-                ->exclude('Tests')
-                ->exclude('Test')
-                ->setParser($c['parser.usage'])
-            ;
+        $c['finder.php_usage'] = $c->factory(
+            function ($c) {
+                $finder = new ParsedPhpFileFinder();
+                $finder
+                    ->exclude('vendor')
+                    ->exclude('Tests')
+                    ->exclude('Test')
+                    ->setParser($c['parser.usage']);
 
-            return $finder;
-        });
-        $c['finder.php_deprecation'] = $c->factory(function ($c) {
-            $finder = new ParsedPhpFileFinder();
-            $finder
-                ->contains('@deprecated')
-                ->exclude('vendor')
-                ->exclude('Tests')
-                ->exclude('Test')
-                ->setParser($c['parser.deprecation'])
-            ;
+                return $finder;
+            }
+        );
+        $c['finder.php_deprecation'] = $c->factory(
+            function ($c) {
+                $finder = new ParsedPhpFileFinder();
+                $finder
+                    ->contains('@deprecated')
+                    ->exclude('vendor')
+                    ->exclude('Tests')
+                    ->exclude('Test')
+                    ->setParser($c['parser.deprecation']);
 
-            return $finder;
-        });
+                return $finder;
+            }
+        );
 
         // VIOLATION MESSAGEHELPER
         $c['violation.message_helper.class_message'] = function () {
@@ -286,8 +291,12 @@ class Application extends BaseApplication
         };
 
         // VIOLATION RENDERER
-        $c['violation.renderer'] = function ($c) {
+        $c['violation.renderer.console'] = function ($c) {
             return new Renderer\ConsoleOutputRenderer(new ConsoleOutput(), $c['violation.message_helper']);
+        };
+
+        $c['violation.renderer.html'] = function ($c) {
+            return new RendererFactory($c['violation.message_helper'], new Filesystem());
         };
 
         // ANCESTOR RESOLVER
