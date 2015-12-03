@@ -40,6 +40,10 @@ class SymbolTableVariableResolverVisitor extends NodeVisitorAbstract implements 
     public function enterNode(Node $node)
     {
         if ($node instanceof Node\Stmt\ClassLike) {
+            if ($node instanceof Node\Stmt\Class_ && $node->isAnonymous()) {
+                return;
+            }
+
             $this->table->enterScope(new TableScope(TableScope::CLASS_LIKE_SCOPE));
             $this->table->setSymbol('this', $node->namespacedName->toString());
         }
@@ -62,6 +66,11 @@ class SymbolTableVariableResolverVisitor extends NodeVisitorAbstract implements 
         if ($node instanceof Node\Stmt\Class_
                 || $node instanceof Node\Stmt\Interface_
                 || $node instanceof Node\Stmt\Trait_) {
+
+            if ($node instanceof Node\Stmt\Class_ && $node->isAnonymous()) {
+                return;
+            }
+
             $this->table->leaveScope();
         }
 
