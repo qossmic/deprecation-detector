@@ -49,8 +49,9 @@ class Renderer implements RendererInterface
 
     /**
      * @param Violation[] $violations
+     * @param Error[] $errors
      */
-    public function renderViolations(array $violations)
+    public function renderViolations(array $violations, array $errors)
     {
         $orderedViolations = array();
         // sorting and grouping violations
@@ -74,9 +75,5 @@ class Renderer implements RendererInterface
         $this->fileSystem->mkdir(dirname($this->outputFilename));
 
         file_put_contents($this->outputFilename, $htmlOutput);
-    }
-
-    public function renderParserErrors(array $errors)
-    {
     }
 }

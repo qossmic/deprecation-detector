@@ -48,6 +48,7 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
         $deprecationFinder->in($sourceArg)->willReturn($deprecationFinder->reveal());
         $deprecationFinder->hasParserErrors()->willReturn(false);
         $deprecationFinder->count()->willReturn($fileCount);
+        $deprecationFinder->getParserErrors()->willReturn(array());
 
         $aViolation = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Violation');
         $anotherViolation = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Violation');
@@ -60,8 +61,7 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
         $violationDetector->getViolations($ruleSet->reveal(), $deprecationFinder->reveal())->willReturn($violations);
 
         $renderer = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface');
-        $renderer->renderViolations($violations)->shouldBeCalled();
-        $renderer->renderParserErrors(Argument::any())->shouldNotBeCalled();
+        $renderer->renderViolations($violations, array())->shouldBeCalled();
 
         $defaultOutput = $this->prophesize(
             'SensioLabs\DeprecationDetector\Console\Output\DefaultProgressOutput'
@@ -104,7 +104,6 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
 
         $deprecationFinder = $this->prophesize('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder');
         $deprecationFinder->in($sourceArg)->willReturn($deprecationFinder->reveal());
-        $deprecationFinder->hasParserErrors()->willReturn(true);
         $deprecationFinder->count()->willReturn($fileCount);
         $deprecationFinder->getParserErrors()->willReturn($parserErrors);
 
@@ -119,8 +118,7 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
         $violationDetector->getViolations($ruleSet->reveal(), $deprecationFinder->reveal())->willReturn($violations);
 
         $renderer = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface');
-        $renderer->renderViolations($violations)->shouldBeCalled();
-        $renderer->renderParserErrors($parserErrors)->shouldBeCalled();
+        $renderer->renderViolations($violations, $parserErrors)->shouldBeCalled();
 
         $defaultOutput = $this->prophesize(
             'SensioLabs\DeprecationDetector\Console\Output\DefaultProgressOutput'

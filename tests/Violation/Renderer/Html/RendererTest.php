@@ -51,7 +51,7 @@ class RendererTest extends PHPUnit_Framework_TestCase
             vfsStream::url('exampleDir/output.html')
         );
 
-        $renderer->renderViolations(array($violation->reveal()));
+        $renderer->renderViolations(array($violation->reveal()), array());
 
         $this->assertFileExists(vfsStream::url('exampleDir/output.html'));
 

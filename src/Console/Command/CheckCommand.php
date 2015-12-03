@@ -118,14 +118,7 @@ EOF
 
         $factory = new DetectorFactory();
         $detector = $factory->create($config, $output);
-
-        try {
-            $violations = $detector->checkForDeprecations($sourceArg, $ruleSetArg);
-        } catch (\Exception $e) {
-            $output->writeln('<error>'.$e->getMessage().'</error>');
-
-            return 1;
-        }
+        $violations = $detector->checkForDeprecations($sourceArg, $ruleSetArg);
 
         if ($config->failOnDeprecation() && !empty($violations)) {
             return 1;
