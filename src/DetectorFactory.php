@@ -8,6 +8,7 @@ use SensioLabs\DeprecationDetector\Configuration\Configuration;
 use SensioLabs\DeprecationDetector\Console\Output\DefaultProgressOutput;
 use SensioLabs\DeprecationDetector\Console\Output\VerboseProgressOutput;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\FunctionDeprecation;
+use SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
 use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
 use SensioLabs\DeprecationDetector\Parser\UsageParser;
@@ -382,9 +383,14 @@ class DetectorFactory
      */
     private function getPredefinedRuleSet()
     {
+        $deprecatedPhpMethods = array(
+            'IntlDateFormatter' => array(
+                'setTimeZoneID' => new MethodDeprecation('IntlDateFormatter', 'setTimeZoneID', 'Since PHP 5.5 use IntlDateFormatter->setTimeZone() instead'),
+            )
+        );
         $deprecatedPhpFunctions = array(
-            'call_user_method' => new FunctionDeprecation('call_user_method', 'Since PHP 5.3, use call_user_func() instead'),
-            'call_user_method_array' => new FunctionDeprecation('call_user_method_array', 'Since PHP 5.3, call_user_func_array() instead'),
+            'call_user_method' => new FunctionDeprecation('call_user_method', 'Since PHP 4.1, use call_user_func() instead'),
+            'call_user_method_array' => new FunctionDeprecation('call_user_method_array', 'Since PHP 4.1, call_user_func_array() instead'),
             'define_syslog_variables' => new FunctionDeprecation('define_syslog_variables', 'Since PHP 5.3'),
             'dl' => new FunctionDeprecation('dl', 'Since PHP 5.3'),
             'ereg' => new FunctionDeprecation('ereg', 'Since PHP 5.3, use  preg_match() instead'),
@@ -455,8 +461,29 @@ class DetectorFactory
             'mysql_tablename' => new FunctionDeprecation('mysql_tablename', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
             'mysql_thread_id' => new FunctionDeprecation('mysql_thread_id', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
             'mysql_unbuffered_query' => new FunctionDeprecation('mysql_unbuffered_query', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'mysql' => new FunctionDeprecation('mysql', 'Since 5.3.0 Use mysql_db_query instead.'),
+            'mysql_fieldtable' => new FunctionDeprecation('mysql_fieldtable', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'mysql_fieldlen' => new FunctionDeprecation('mysql_fieldlen', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'mysql_fieldtype' => new FunctionDeprecation('mysql_fieldtype', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'mysql_fieldflags' => new FunctionDeprecation('mysql_fieldflags', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'mysql_selectdb' => new FunctionDeprecation('mysql_selectdb', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'mysql_freeresult' => new FunctionDeprecation('mysql_freeresult', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'mysql_numfields' => new FunctionDeprecation('mysql_numfields', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'mysql_numrows' => new FunctionDeprecation('mysql_numrows', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'mysql_listdbs' => new FunctionDeprecation('mysql_listdbs', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'mysql_listtables' => new FunctionDeprecation('mysql_listtables', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'mysql_listfields' => new FunctionDeprecation('mysql_listfields', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'mysql_dbname' => new FunctionDeprecation('mysql_dbname', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'mysql_table_name' => new FunctionDeprecation('mysql_table_name', 'Since PHP 5.5, The original MySQL extension is deprecated use the MySQLi or PDO_MySQL extensions instead.'),
+            'datefmt_set_timezone_id' => new FunctionDeprecation('datefmt_set_timezone_id', 'Since PHP 5.5 use datefmt_set_timezone() instead'),
+            'import_request_variables' => new FunctionDeprecation('import_request_variables', 'This function has been DEPRECATED as of PHP 5.3.0 and REMOVED as of PHP 5.4.0.'),
+            'php_logo_guid' => new FunctionDeprecation('php_logo_guid', '5.5 Removed in PHP 5.5 Gets the logo guid'),
+            'php_real_logo_guid' => new FunctionDeprecation('php_real_logo_guid', '5.5 Removed in PHP 5.5'),
+            'php_egg_logo_guid' => new FunctionDeprecation('php_real_logo_guid', '5.5 Removed in PHP 5.5'),
+            'zend_logo_guid' => new FunctionDeprecation('zend_logo_guid', '5.5 Removed in PHP 5.5'),
+            'key_exists' => new FunctionDeprecation('key_exists', 'Since PHP 4.0.7'),
         );
 
-        return new RuleSet(array(), array(), array(), $deprecatedPhpFunctions);
+        return new RuleSet(array(), array(), $deprecatedPhpMethods, $deprecatedPhpFunctions);
     }
 }
