@@ -37,6 +37,7 @@ class CheckCommand extends Command
                     ),
                     new InputOption('no-cache', null, InputOption::VALUE_NONE, 'Disable rule set cache'),
                     new InputOption('cache-dir', null, InputOption::VALUE_REQUIRED, 'Cache directory', '.rules/'),
+                    new InputOption('log-html', null, InputOption::VALUE_REQUIRED, 'Generate HTML report'),
                     new InputOption('filter-methods', null, InputOption::VALUE_OPTIONAL, 'Filter methods', ''),
                     new InputOption('fail', null, InputOption::VALUE_NONE, 'Fails, if any deprecation is detected'),
                 )
@@ -111,7 +112,8 @@ EOF
             $input->getOption('cache-dir'),
             $input->getOption('filter-methods'),
             $input->getOption('fail'),
-            $input->getOption('verbose')
+            $input->getOption('verbose'),
+            $input->getOption('log-html')
         );
 
         $factory = new DetectorFactory();

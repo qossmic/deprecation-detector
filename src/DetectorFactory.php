@@ -30,6 +30,8 @@ use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Visitor\SymbolTableVariableResolverVisitor;
 use SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader;
 use SensioLabs\DeprecationDetector\Violation\Renderer\ConsoleOutputRenderer;
+use SensioLabs\DeprecationDetector\Violation\Renderer\Html\Renderer;
+use SensioLabs\DeprecationDetector\Violation\Renderer\Html\RendererFactory;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\ClassViolationMessage;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\InterfaceViolationMessage;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\MethodDefinitionViolationMessage;
@@ -280,6 +282,11 @@ class DetectorFactory
     private function getRenderer(Configuration $configuration, $output)
     {
         $messageHelper = $this->getMessageHelper();
+
+        if ($path = $configuration->logHtml()) {
+            $factory = new RendererFactory($messageHelper, new Filesystem());
+            return $factory->createHtmlOutputRenderer($path);
+        }
 
         return new ConsoleOutputRenderer($output, $messageHelper);
     }

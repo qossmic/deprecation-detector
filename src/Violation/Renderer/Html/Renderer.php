@@ -2,6 +2,7 @@
 
 namespace SensioLabs\DeprecationDetector\Violation\Renderer\Html;
 
+use PhpParser\Error;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
 use SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface;
 use SensioLabs\DeprecationDetector\Violation\Violation;
@@ -73,5 +74,9 @@ class Renderer implements RendererInterface
         $this->fileSystem->mkdir(dirname($this->outputFilename));
 
         file_put_contents($this->outputFilename, $htmlOutput);
+    }
+
+    public function renderParserErrors(array $errors)
+    {
     }
 }

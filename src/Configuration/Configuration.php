@@ -40,6 +40,11 @@ class Configuration
     private $verbose;
 
     /**
+     * @var string
+     */
+    private $logHtml;
+
+    /**
      * @param string $ruleSet
      * @param string $containerPath
      * @param bool   $noCache
@@ -47,6 +52,7 @@ class Configuration
      * @param string $filterMethodCalls
      * @param bool   $fail
      * @param bool   $verbose
+     * @param string $logHtml
      */
     public function __construct(
         $ruleSet,
@@ -55,7 +61,8 @@ class Configuration
         $cacheDir,
         $filterMethodCalls,
         $fail,
-        $verbose)
+        $verbose,
+        $logHtml)
     {
         $this->ruleSet = $ruleSet;
         $this->containerPath = $containerPath;
@@ -64,6 +71,7 @@ class Configuration
         $this->filterMethodCalls = $filterMethodCalls;
         $this->failOnDeprecation = $fail;
         $this->verbose = $verbose;
+        $this->logHtml = $logHtml;
     }
 
     public function overrideConfiguration()
@@ -124,5 +132,11 @@ class Configuration
     public function isVerbose()
     {
         return $this->verbose;
+    }
+
+
+    public function logHtml()
+    {
+        return $this->logHtml;
     }
 }
