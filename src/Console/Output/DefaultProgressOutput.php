@@ -32,7 +32,7 @@ class DefaultProgressOutput
     public function startProgress()
     {
         $this->stopwatch->start(static::PROGRESS_NAME);
-        $this->output->writeln('Checking your application for deprecations - this could take a while ...');
+        $this->output->writeln('Checking your application for deprecations - this could take a while ...' . PHP_EOL);
     }
 
     /**
@@ -65,31 +65,31 @@ class DefaultProgressOutput
 
     public function startRuleSetGeneration()
     {
-        $this->output->writeln('Loading RuleSet...');
+        $this->output->writeln('Loading RuleSet...' . PHP_EOL);
     }
 
     public function endRuleSetGeneration()
     {
-        $this->output->writeln('RuleSet loaded.');
+        $this->output->writeln('RuleSet loaded.' . PHP_EOL);
     }
 
     public function startUsageDetection()
     {
-        $this->output->writeln('Searching for deprecations...');
+        $this->output->writeln('Parsing files & Searching for deprecations...' . PHP_EOL);
     }
 
     public function endUsageDetection()
     {
-        $this->output->writeln('Finished searching for deprecations.');
+        $this->output->writeln('Finished searching for deprecations.' . PHP_EOL);
     }
 
     public function startOutputRendering()
     {
-        $this->output->writeln('Rendering output...');
+        $this->output->writeln('Rendering output...' . PHP_EOL);
     }
 
     public function endOutputRendering()
     {
-        $this->output->writeln('Finished rendering output.');
+        $this->output->writeln('Finished rendering output.' . PHP_EOL);
     }
 }
