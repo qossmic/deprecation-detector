@@ -52,15 +52,8 @@ $ sudo mv deprecation-detector.phar /usr/local/bin/deprecation-detector
 
 ## Usage
 
-Assuming you are in a Symfony2 project, simply run:
 
-```bash
-$ deprecation-detector check
-```
-
-(The `check` command name can be ommitted, if you do not provide arguments or options.)
-
-To use the DeprecationDetector in a non-Symfony2 project, you need to provide the `source` and the `ruleset` arguments
+To use the DeprecationDetector you need to provide the `source` and the `ruleset` arguments
 
 ```bash
 $ deprecation-detector check src/ vendor/
