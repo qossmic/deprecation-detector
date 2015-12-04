@@ -24,7 +24,7 @@ class DeprecatedLanguageUsage implements UsageInterface, DeprecationInterface
     /**
      * @param string $name
      * @param string $comment
-     * @param int $line
+     * @param int    $line
      */
     public function __construct($name, $comment, $line)
     {

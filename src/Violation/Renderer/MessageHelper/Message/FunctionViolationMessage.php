@@ -11,19 +11,19 @@ class FunctionViolationMessage extends BaseViolationMessage implements Violation
      * @param string $usageName
      */
     public function __construct($usageName)
-{
-    parent::__construct($usageName);
-}
-
-    public function message(UsageInterface $usage)
-{
-    if (!$usage instanceof FunctionUsage) {
-        return '';
+    {
+        parent::__construct($usageName);
     }
 
-    return sprintf(
+    public function message(UsageInterface $usage)
+    {
+        if (!$usage instanceof FunctionUsage) {
+            return '';
+        }
+
+        return sprintf(
         'Using deprecated function <info>%s()</info>',
         $usage->name()
     );
-}
+    }
 }

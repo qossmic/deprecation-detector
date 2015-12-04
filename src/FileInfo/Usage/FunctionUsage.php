@@ -16,7 +16,7 @@ class FunctionUsage implements UsageInterface
 
     /**
      * @param string $name
-     * @param int $line
+     * @param int    $line
      */
     public function __construct($name, $line)
     {

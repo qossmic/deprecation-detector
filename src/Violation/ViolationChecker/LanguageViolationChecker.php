@@ -9,7 +9,7 @@ use SensioLabs\DeprecationDetector\Violation\Violation;
 class LanguageViolationChecker implements ViolationCheckerInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function check(PhpFileInfo $phpFileInfo, RuleSet $ruleSet)
     {

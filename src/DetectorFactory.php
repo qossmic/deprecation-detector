@@ -137,8 +137,7 @@ class DetectorFactory
         $progressOutput = new DefaultProgressOutput($output, new Stopwatch());
 
         return new DeprecationDetector(
-            $this->getPredefinedRuleSet()
-            ,
+            $this->getPredefinedRuleSet(),
             $ruleSetLoader,
             $this->ancestorResolver,
             $deprecationUsageFinder,
@@ -388,7 +387,7 @@ class DetectorFactory
         $deprecatedPhpMethods = array(
             'IntlDateFormatter' => array(
                 'setTimeZoneID' => new MethodDeprecation('IntlDateFormatter', 'setTimeZoneID', 'Since PHP 5.5 use IntlDateFormatter->setTimeZone() instead'),
-            )
+            ),
         );
         $deprecatedPhpFunctions = array(
             'call_user_method' => new FunctionDeprecation('call_user_method', 'Since PHP 4.1, use call_user_func() instead'),
