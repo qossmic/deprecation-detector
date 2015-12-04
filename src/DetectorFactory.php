@@ -47,6 +47,7 @@ use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ClassViolationChec
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ComposedViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\FunctionViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\InterfaceViolationChecker;
+use SensioLabs\DeprecationDetector\Violation\ViolationChecker\LanguageViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\MethodDefinitionViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\MethodViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\SuperTypeViolationChecker;
@@ -267,7 +268,8 @@ class DetectorFactory
                 new SuperTypeViolationChecker(),
                 new TypeHintViolationChecker(),
                 new MethodDefinitionViolationChecker($this->ancestorResolver),
-                new FunctionViolationChecker()
+                new FunctionViolationChecker(),
+                new LanguageViolationChecker(),
             )
         );
 

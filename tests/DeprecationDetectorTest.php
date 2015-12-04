@@ -142,6 +142,7 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
         $defaultOutput->endProgress($fileCount, $violationCount)->shouldBeCalled();
 
         $detector = new DeprecationDetector(
+            $preDefinedRuleSet->reveal(),
             $ruleSetLoader->reveal(),
             $ancestorResolver->reveal(),
             $deprecationFinder->reveal(),

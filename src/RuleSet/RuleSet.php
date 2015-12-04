@@ -26,6 +26,11 @@ class RuleSet implements DeprecationCollectionInterface
     private $methodDeprecations;
 
     /**
+     * @var array
+     */
+    private $functionDeprecations;
+
+    /**
      * @param array $classDeprecations
      * @param array $interfaceDeprecations
      * @param array $methodDeprecations
