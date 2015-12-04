@@ -285,6 +285,7 @@ class DetectorFactory
 
         if ($logFilePath = $configuration->logHtml()) {
             $factory = new RendererFactory($messageHelper, new Filesystem());
+
             return $factory->createHtmlOutputRenderer($logFilePath);
         }
 

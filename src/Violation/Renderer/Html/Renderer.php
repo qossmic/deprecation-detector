@@ -9,7 +9,7 @@ use SensioLabs\DeprecationDetector\Violation\Violation;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class Renderer
+ * Class Renderer.
  *
  * This Renderer will take a list of violations and will transform them into
  * a HTML page.
@@ -33,15 +33,14 @@ class Renderer implements RendererInterface
 
     /**
      * @param MessageHelper $messageHelper
-     * @param Filesystem $filesystem
-     * @param string $outputFilename
+     * @param Filesystem    $filesystem
+     * @param string        $outputFilename
      */
     public function __construct(
         MessageHelper $messageHelper,
         Filesystem $filesystem,
         $outputFilename
-    )
-    {
+    ) {
         $this->messageHelper = $messageHelper;
         $this->fileSystem = $filesystem;
         $this->outputFilename = $outputFilename;
@@ -49,14 +48,13 @@ class Renderer implements RendererInterface
 
     /**
      * @param Violation[] $violations
-     * @param Error[] $errors
+     * @param Error[]     $errors
      */
     public function renderViolations(array $violations, array $errors)
     {
         $orderedViolations = array();
         // sorting and grouping violations
         foreach ($violations as $violation) {
-
             $key = $violation->getFile()->getPathname();
             if (!array_key_exists($key, $orderedViolations)) {
                 $orderedViolations[$key] = array();
@@ -69,7 +67,7 @@ class Renderer implements RendererInterface
         }
 
         ob_start();
-        include __DIR__ . '/../../../Resources/templates/htmlTable.phtml';
+        include __DIR__.'/../../../Resources/templates/htmlTable.phtml';
         $htmlOutput = ob_get_clean();
 
         $this->fileSystem->mkdir(dirname($this->outputFilename));

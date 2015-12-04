@@ -9,7 +9,7 @@ interface RendererInterface
 {
     /**
      * @param Violation[] $violations
-     * @param Error[] $errors
+     * @param Error[]     $errors
      */
     public function renderViolations(array $violations, array $errors);
 }

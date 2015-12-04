@@ -134,7 +134,6 @@ class Configuration
         return $this->verbose;
     }
 
-
     public function logHtml()
     {
         return $this->logHtml;
