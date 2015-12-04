@@ -61,6 +61,15 @@ $ deprecation-detector check src/ composer.lock
 $ deprecation-detector check src/ .rules/some_generated_rule_set
 ```
 
+### Output
+
+There are different output formats available, by default the output is printed in the commandline.
+
+#### Html
+```bash
+$ deprecation-detector check src/ vendor/ --log-html deprecationlog.html
+```
+
 You can get a list of all options and arguments by running
 
 ```bash
