@@ -6,6 +6,13 @@ use SensioLabs\DeprecationDetector\Violation\ViolationFilter\ComposedViolationFi
 
 class ComposedViolationFilterTest extends \PHPUnit_Framework_TestCase
 {
+    public function testClassIsInitializable()
+    {
+        $composedViolationFilter = new ComposedViolationFilter(array());
+
+        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\ViolationFilter\ComposedViolationFilter', $composedViolationFilter);
+    }
+
     public function testFilterNoFilters()
     {
         $composedViolationFilter = new ComposedViolationFilter(array());

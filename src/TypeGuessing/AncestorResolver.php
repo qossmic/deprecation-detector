@@ -1,11 +1,11 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector;
+namespace SensioLabs\DeprecationDetector\TypeGuessing;
 
 use Composer\Autoload\ClassLoader;
-use Pimple\Container;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\UsageInterface;
+use SensioLabs\DeprecationDetector\Parser\UsageParser;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
 
@@ -22,23 +22,23 @@ class AncestorResolver
     protected $sourcePaths;
 
     /**
-     * @var Container
-     */
-    protected $container;
-
-    /**
      * @var ClassLoader
      */
     protected $composerLoader;
 
     /**
-     * @param Container $container
+     * @var UsageParser
      */
-    public function __construct(Container $container)
+    protected $usageParser;
+
+    /**
+     * @param UsageParser $usageParser
+     */
+    public function __construct(UsageParser $usageParser)
     {
         $this->definitionFiles = array();
         $this->sourcePaths = array();
-        $this->container = $container;
+        $this->usageParser = $usageParser;
     }
 
     /**
@@ -184,7 +184,7 @@ class AncestorResolver
 
         $file = new PhpFileInfo($filePath, null, null);
 
-        return $this->container['parser.usage']->parseFile($file);
+        return $this->usageParser->parseFile($file);
     }
 
     protected function initComposerLoader()
@@ -230,7 +230,7 @@ class AncestorResolver
         foreach ($finder as $file) {
             if (empty($namespace) || is_int(strpos($file->getContents(), $namespace))) {
                 $baseFile = PhpFileInfo::create($file);
-                $files[] = $this->container['parser.usage']->parseFile($baseFile);
+                $files[] = $this->usageParser->parseFile($baseFile);
             }
         }
 
@@ -260,7 +260,9 @@ class AncestorResolver
             $namespace = '';
         }
 
-        $files = $this->container['finder.php_usage']
+        $files = new Finder();
+        $files
+            ->name('*.php')
             ->contains(sprintf('/%s.*%s/s', $namespace, $definition))
             ->in($this->sourcePaths)
         ;
@@ -271,10 +273,12 @@ class AncestorResolver
 
         $file = current(iterator_to_array($files));
 
-        if (!$file instanceof PhpFileInfo) {
+        if (!$file instanceof SplFileInfo) {
             return;
         }
 
-        return $file;
+        $baseFile = PhpFileInfo::create($file);
+
+        return $this->usageParser->parseFile($baseFile);
     }
 }

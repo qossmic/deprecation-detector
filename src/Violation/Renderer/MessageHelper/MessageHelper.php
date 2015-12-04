@@ -10,19 +10,27 @@ class MessageHelper
     /**
      * @var ViolationMessageInterface[]
      */
-    private $messages = array();
+    private $violationMessages = array();
+
+    /**
+     * @param ViolationMessageInterface[] $violationMessages
+     */
+    public function __construct(array $violationMessages = array())
+    {
+        $this->violationMessages = $violationMessages;
+    }
 
     /**
      * @param ViolationMessageInterface $message
      */
     public function addViolationMessage(ViolationMessageInterface $message)
     {
-        $this->messages[] = $message;
+        $this->violationMessages[] = $message;
     }
 
     public function getViolationMessage(Violation $violation)
     {
-        foreach ($this->messages as $message) {
+        foreach ($this->violationMessages as $message) {
             if ($message->supports($violation->getUsage())) {
                 return $message->message($violation->getUsage());
             }

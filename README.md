@@ -76,10 +76,10 @@ $ deprecation-detector check --help
 
 ## Excluding deprecated method calls
 
-You can exclude deprecated method calls by using the `filter-method-calls` option. This option takes a comma separated list of method references to exclude.
+You can exclude deprecated method calls by using the `filter-methods` option. This option takes a comma separated list of method references to exclude.
 
 ```bash
-$ deprecation-detector check --filter-method-calls=MyClass::method,Foo::bar src/ vendor/
+$ deprecation-detector check --filter-methods=MyClass::method,Foo::bar src/ vendor/
 ```
 
 This will exclude all deprecated calls to MyClass::method and Foo::bar.

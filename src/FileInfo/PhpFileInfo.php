@@ -2,7 +2,6 @@
 
 namespace SensioLabs\DeprecationDetector\FileInfo;
 
-use SensioLabs\DeprecationDetector\DeprecationCollectionInterface;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation;

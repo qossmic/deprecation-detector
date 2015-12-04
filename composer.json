@@ -21,8 +21,6 @@
         "phpdocumentor/reflection-docblock": "~2.0",
         "symfony/stopwatch": "^2.7",
         "symfony/filesystem": "^2.7",
-        "symfony/event-dispatcher": "^2.7",
-        "pimple/pimple": "~3.0",
         "symfony/dependency-injection": "^2.7",
         "symfony/config": "^2.7",
         "symfony/expression-language": "^2.7"

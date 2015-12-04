@@ -1,11 +1,12 @@
 <?php
+
 namespace SensioLabs\DeprecationDetector\Violation\Renderer\Html;
 
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class RendererFactory
+ * Class RendererFactory.
  *
  * This class will assists in creating new instance of HTML renderer.
  *

@@ -66,7 +66,6 @@ class SymbolTableVariableResolverVisitor extends NodeVisitorAbstract implements 
         if ($node instanceof Node\Stmt\Class_
                 || $node instanceof Node\Stmt\Interface_
                 || $node instanceof Node\Stmt\Trait_) {
-
             if ($node instanceof Node\Stmt\Class_ && $node->isAnonymous()) {
                 return;
             }

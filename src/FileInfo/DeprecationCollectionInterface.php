@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector;
+namespace SensioLabs\DeprecationDetector\FileInfo;
 
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation;

@@ -17,7 +17,7 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
     {
         $ruleSet = new RuleSet();
 
-        $deprecationCollection = $this->prophesize('SensioLabs\DeprecationDetector\DeprecationCollectionInterface');
+        $deprecationCollection = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\DeprecationCollectionInterface');
         $deprecationCollection->classDeprecations()->willReturn(array())->shouldBeCalled();
         $deprecationCollection->interfaceDeprecations()->willReturn(array())->shouldBeCalled();
         $deprecationCollection->methodDeprecations()->willReturn(array())->shouldBeCalled();

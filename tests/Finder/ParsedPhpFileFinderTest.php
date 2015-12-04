@@ -8,7 +8,15 @@ class ParsedPhpFileFinderTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $finder = new ParsedPhpFileFinder();
+        $parser = $this->prophesize('SensioLabs\DeprecationDetector\Parser\ParserInterface');
+        $progressOutput = $this->prophesize(
+            'SensioLabs\DeprecationDetector\Console\Output\VerboseProgressOutput'
+        );
+
+        $finder = new ParsedPhpFileFinder(
+            $parser->reveal(),
+            $progressOutput->reveal()
+        );
 
         $this->assertInstanceOf('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder', $finder);
     }

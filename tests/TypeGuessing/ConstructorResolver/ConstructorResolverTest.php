@@ -28,9 +28,9 @@ class ConstructorResolverTest extends \PHPUnit_Framework_TestCase
             new ClassMethod(
                 '__construct',
                 array(
-                    'type' => Class_::MODIFIER_ABSTRACT
+                    'type' => Class_::MODIFIER_ABSTRACT,
                 )
-            )
+            ),
         );
         $classNode = new Class_('SomeClass');
         $classNode->stmts = $classMethods;

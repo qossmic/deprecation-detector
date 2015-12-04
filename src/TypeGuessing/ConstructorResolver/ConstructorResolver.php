@@ -21,11 +21,13 @@ class ConstructorResolver
     private $visitors;
 
     /**
-     * @param SymbolTable $table
+     * @param SymbolTable        $table
+     * @param VisitorInterface[] $visitors
      */
-    public function __construct(SymbolTable $table)
+    public function __construct(SymbolTable $table, array $visitors = array())
     {
         $this->table = $table;
+        $this->visitors = $visitors;
     }
 
     /**
