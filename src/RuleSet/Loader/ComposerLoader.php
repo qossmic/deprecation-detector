@@ -112,7 +112,7 @@ class ComposerLoader implements LoaderInterface
         if ($this->cache->has($key)) {
             $ruleSet = $this->cache->getCachedRuleSet($key);
         } elseif (is_dir($path = $this->getPackagePath($package))) {
-            $ruleSet = $this->traverser->traverse($path, true);
+            $ruleSet = $this->traverser->traverse($path);
             $this->cache->cacheRuleSet($key, $ruleSet);
         }
 
