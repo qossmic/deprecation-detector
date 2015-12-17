@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\tests;
+namespace SensioLabs\DeprecationDetector\Tests;
 
 use SensioLabs\DeprecationDetector\DetectorFactory;
 
