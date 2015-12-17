@@ -39,6 +39,19 @@ class ConsoleOutputRenderer implements RendererInterface
      */
     public function renderViolations(array $violations, array $errors)
     {
+        $this->printViolations($violations);
+        $this->printErrors($errors);
+    }
+
+    /**
+     * @param Violation[] $violations
+     */
+    private function printViolations(array $violations)
+    {
+        if (0 === count($violations)) {
+            return;
+        }
+
         $table = new Table($this->output);
         $table->setHeaders(array('#', 'Usage', 'Line', 'Comment'));
 
@@ -62,6 +75,16 @@ class ConsoleOutputRenderer implements RendererInterface
         }
 
         $table->render();
+    }
+
+    /**
+     * @param Error[] $errors
+     */
+    private function printErrors(array $errors)
+    {
+        if (0 === count($errors)) {
+            return;
+        }
 
         $this->output->writeln('<error>Your project contains invalid code:</error>');
         foreach ($errors as $error) {
