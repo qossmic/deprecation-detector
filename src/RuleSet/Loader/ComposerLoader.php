@@ -106,7 +106,7 @@ class ComposerLoader implements LoaderInterface
      */
     private function loadPackageRuleSet(\stdClass $package)
     {
-        $ruleSet = null;
+        $ruleSet = new RuleSet();
         $key = $this->generatePackageKey($package);
 
         if ($this->cache->has($key)) {
