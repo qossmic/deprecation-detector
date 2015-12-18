@@ -85,4 +85,47 @@ class ParsedPhpFileFinder extends Finder
     {
         return $this->parserErrors;
     }
+
+    /**
+     * @param ParserInterface $parser
+     * @param VerboseProgressOutput $progressOutput
+     * @return ParsedPhpFileFinder
+     */
+    public static function deprecationFinder(ParserInterface $parser, VerboseProgressOutput $progressOutput)
+    {
+        return (new ParsedPhpFileFinder($parser, $progressOutput))
+            ->contains('@deprecated')
+            ->exclude('vendor')
+            ->exclude('Tests')
+            ->exclude('Test');
+    }
+
+    /**
+     * @param ParserInterface $parser
+     * @param VerboseProgressOutput $progressOutput
+     * @return ParsedPhpFileFinder
+     */
+    public static function usageFinder(ParserInterface $parser, VerboseProgressOutput $progressOutput)
+    {
+        return (new ParsedPhpFileFinder($parser, $progressOutput))
+            ->exclude('vendor')
+            ->exclude('Tests')
+            ->exclude('Test');
+    }
+
+    /**
+     * @return ParserInterface
+     */
+    public function getParser()
+    {
+        return $this->parser;
+    }
+
+    /**
+     * @return VerboseProgressOutput
+     */
+    public function getOutput()
+    {
+        return $this->progressOutput;
+    }
 }

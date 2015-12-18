@@ -48,4 +48,12 @@ class DirectoryTraverser
 
         return $ruleSet;
     }
+
+    public function reset()
+    {
+        $this->finder = ParsedPhpFileFinder::deprecationFinder(
+            $this->finder->getParser(),
+            $this->finder->getOutput()
+        );
+    }
 }

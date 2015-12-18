@@ -100,14 +100,10 @@ class DetectorFactory
             'Deprecation detection'
         );
         $deprecationUsageParser = $this->getUsageParser($configuration);
-        $deprecationUsageFinder = new ParsedPhpFileFinder(
+        $deprecationUsageFinder = ParsedPhpFileFinder::usageFinder(
             $deprecationUsageParser,
             $deprecationProgressOutput
         );
-        $deprecationUsageFinder
-            ->exclude('vendor')
-            ->exclude('Tests')
-            ->exclude('Test');
 
         $this->ancestorResolver = new AncestorResolver($deprecationUsageParser);
 
@@ -117,15 +113,10 @@ class DetectorFactory
             'RuleSet generation'
         );
         $ruleSetDeprecationParser = $this->getDeprecationParser();
-        $ruleSetDeprecationFinder = new ParsedPhpFileFinder(
+        $ruleSetDeprecationFinder = ParsedPhpFileFinder::deprecationFinder(
             $ruleSetDeprecationParser,
             $ruleSetProgressOutput
         );
-        $ruleSetDeprecationFinder
-            ->contains('@deprecated')
-            ->exclude('vendor')
-            ->exclude('Tests')
-            ->exclude('Test');
         $deprecationDirectoryTraverser = new DirectoryTraverser($ruleSetDeprecationFinder);
 
         $violationDetector = $this->getViolationDetector($configuration);
