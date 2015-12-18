@@ -31,7 +31,7 @@ class Package
      */
     public static function fromArray(array $package)
     {
-        return new Package(
+        return new self(
             $package['name'],
             $package['version']
         );
@@ -47,10 +47,11 @@ class Package
 
     /**
      * @param string $prefix
+     *
      * @return string
      */
     public function getPackagePath($prefix)
     {
-        return $prefix . $this->name;
+        return $prefix.$this->name;
     }
 }

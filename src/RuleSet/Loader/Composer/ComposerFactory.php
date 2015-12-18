@@ -10,7 +10,9 @@ class ComposerFactory
 {
     /**
      * @param string $lockPath
+     *
      * @return Composer
+     *
      * @throws ComposerFileDoesNotExistsException
      * @throws ComposerFileIsInvalidException
      */
@@ -29,12 +31,12 @@ class ComposerFactory
 
         $packages = array();
         foreach ($decodedData['packages'] as $package) {
-            $packages[] = Package::fromArray($package, false);
+            $packages[] = Package::fromArray($package);
         }
 
         $devPackages = array();
         foreach ($decodedData['packages-dev'] as $package) {
-            $devPackages[] = Package::fromArray($package, true);
+            $devPackages[] = Package::fromArray($package);
         }
 
         return new Composer($packages, $devPackages, true);

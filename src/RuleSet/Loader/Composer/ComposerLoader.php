@@ -32,7 +32,7 @@ class ComposerLoader implements LoaderInterface
     /**
      * @param DirectoryTraverser $traverser
      * @param Cache              $cache
-     * @param ComposerFactory   $factory
+     * @param ComposerFactory    $factory
      */
     public function __construct(DirectoryTraverser $traverser, Cache $cache, ComposerFactory $factory)
     {

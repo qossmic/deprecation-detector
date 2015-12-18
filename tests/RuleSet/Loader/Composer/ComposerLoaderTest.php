@@ -6,7 +6,6 @@ use org\bovigo\vfs\vfsStream;
 use Prophecy\Argument;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Exception\ComposerFileDoesNotExistsException;
-use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 
 class ComposerLoaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +26,6 @@ class ComposerLoaderTest extends \PHPUnit_Framework_TestCase
         $cache = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Cache')->reveal();
         $factory = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerFactory');
         $factory->fromLock($path)->willThrow(new ComposerFileDoesNotExistsException($path));
-
 
         $this->setExpectedException(
             'SensioLabs\DeprecationDetector\RuleSet\Loader\CouldNotLoadRuleSetException',
@@ -86,7 +84,6 @@ class ComposerLoaderTest extends \PHPUnit_Framework_TestCase
         $traverser = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser');
         $traverser->traverse(vfsStream::url('root/vendor/avendor/anotherlib'))->willReturn($aVendorAnotherLibRuleSet);
         $cache->cacheRuleSet('vendor_anotherlib_1.0.0', $aVendorAnotherLibRuleSet)->shouldBeCalled();
-
 
         $factory = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerFactory');
         $factory->fromLock(vfsStream::url('composer.lock'))->willReturn($composer);

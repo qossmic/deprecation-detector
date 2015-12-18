@@ -10,7 +10,7 @@ class PackageTest extends \PHPUnit_Framework_TestCase
     {
         $package = Package::fromArray(array(
             'name' => 'vendor/lib',
-            'version' => '1.0.0'
+            'version' => '1.0.0',
         ));
 
         $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Package', $package);
@@ -20,7 +20,7 @@ class PackageTest extends \PHPUnit_Framework_TestCase
     {
         $package = Package::fromArray(array(
             'name' => 'vendor/lib',
-            'version' => '1.0.0'
+            'version' => '1.0.0',
         ));
 
         $this->assertEquals('vendor_lib_1.0.0', $package->generatePackageKey());
@@ -30,7 +30,7 @@ class PackageTest extends \PHPUnit_Framework_TestCase
     {
         $package = Package::fromArray(array(
             'name' => 'vendor/lib',
-            'version' => '1.0.0'
+            'version' => '1.0.0',
         ));
 
         $this->assertEquals('vendor/vendor/lib', $package->getPackagePath('vendor/'));

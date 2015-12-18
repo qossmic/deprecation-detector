@@ -22,7 +22,7 @@ class Composer
     /**
      * @param Package[] $packages
      * @param Package[] $devPackages
-     * @param bool $includeDev
+     * @param bool      $includeDev
      */
     public function __construct(array $packages, array $devPackages, $includeDev)
     {
