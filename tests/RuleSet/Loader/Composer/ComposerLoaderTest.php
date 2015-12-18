@@ -13,5 +13,6 @@ class ComposerLoaderTest extends \PHPUnit_Framework_TestCase
         $factory = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerFactory')->reveal();
 
         $loader = new ComposerLoader($traverser, $cache, $factory);
+        $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerLoader', $loader);
     }
 }
