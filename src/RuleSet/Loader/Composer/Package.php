@@ -46,14 +46,6 @@ class Package
     }
 
     /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
      * @param string $prefix
      * @return string
      */

@@ -8,6 +8,12 @@ use Symfony\Component\Finder\SplFileInfo;
 
 class ComposerFactory
 {
+    /**
+     * @param string $lockPath
+     * @return Composer
+     * @throws ComposerFileDoesNotExistsException
+     * @throws ComposerFileIsInvalidException
+     */
     public function fromLock($lockPath)
     {
         if (!is_file($lockPath)) {
