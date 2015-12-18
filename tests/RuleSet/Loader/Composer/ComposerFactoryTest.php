@@ -48,7 +48,7 @@ class ComposerFactoryTest extends \PHPUnit_Framework_TestCase
         $root = vfsStream::setup('root');
         $file = vfsStream::newFile('composer.lock');
         $file->setContent(
-            '{"_readme": [],"hash": "ac82fae1f7095370dc4c7299aa637a30","content-hash": "3faf23edaf51060bfe1830506104ec83","packages": [], "packages-dev": []}'
+            '{"_readme": [],"hash": "ac82fae1f7095370dc4c7299aa637a30","content-hash": "3faf23edaf51060bfe1830506104ec83","packages": [{"name": "vendor/lib","version": "v2.7.6"}], "packages-dev": [{"name": "vendor/devlib","version": "v0.0.6"}]}'
         );
         $root->addChild($file);
         $this->assertInstanceOf(

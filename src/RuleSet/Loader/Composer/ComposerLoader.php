@@ -75,6 +75,8 @@ class ComposerLoader implements LoaderInterface
         } elseif (is_dir($path = $package->getPackagePath(self::PACKAGE_PATH))) {
             $ruleSet = $this->traverser->traverse($path);
             $this->cache->cacheRuleSet($key, $ruleSet);
+        } else {
+            // there is no vendor package in the given path
         }
 
         return $ruleSet;
