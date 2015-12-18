@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\SensioLabs\DeprecationDetector\Console\Command\CheckCommand;
+namespace SensioLabs\DeprecationDetector\Tests\Console\Command\CheckCommand;
 
 use SensioLabs\DeprecationDetector\Console\Command\CheckCommand;
 use Symfony\Component\Console\Command\Command;

@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\tests\RuleSet\Loader;
+namespace SensioLabs\DeprecationDetector\Tests\RuleSet\Loader;
 
 use SensioLabs\DeprecationDetector\RuleSet\Loader\CouldNotLoadRuleSetException;
 
