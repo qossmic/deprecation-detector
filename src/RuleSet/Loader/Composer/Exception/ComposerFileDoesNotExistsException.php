@@ -7,7 +7,7 @@ class ComposerFileDoesNotExistsException extends ComposerException
     public function __construct($lockPath)
     {
         parent::__construct(
-            sprintf('composer.lock file "%s" does not exist', $lockPath)
+            sprintf('composer.lock file "%s" does not exist.', $lockPath)
         );
     }
 }

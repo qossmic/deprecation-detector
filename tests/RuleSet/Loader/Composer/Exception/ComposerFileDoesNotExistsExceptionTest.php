@@ -10,6 +10,6 @@ class ComposerFileDoesNotExistsExceptionTest extends \PHPUnit_Framework_TestCase
     {
         $exception = new ComposerFileDoesNotExistsException('path/to/lock');
         $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Exception\ComposerException', $exception);
-        $this->assertEquals('composer.lock file "path/to/lock" does not exist', $exception->getMessage());
+        $this->assertEquals('composer.lock file "path/to/lock" does not exist.', $exception->getMessage());
     }
 }
