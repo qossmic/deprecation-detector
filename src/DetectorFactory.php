@@ -11,7 +11,8 @@ use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
 use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
 use SensioLabs\DeprecationDetector\Parser\UsageParser;
 use SensioLabs\DeprecationDetector\RuleSet\Cache;
-use SensioLabs\DeprecationDetector\RuleSet\Loader\ComposerLoader;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerFactory;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\DirectoryLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\LoaderInterface;
@@ -344,7 +345,7 @@ class DetectorFactory
         if (is_dir($configuration->ruleSet())) {
             $loader = new DirectoryLoader($traverser, $ruleSetCache);
         } elseif ('composer.lock' === basename($configuration->ruleSet())) {
-            $loader = new ComposerLoader($traverser, $ruleSetCache);
+            $loader = new ComposerLoader($traverser, $ruleSetCache, new ComposerFactory());
         } else {
             $loader = new FileLoader();
         }
