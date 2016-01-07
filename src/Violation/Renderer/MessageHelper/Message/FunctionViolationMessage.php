@@ -5,14 +5,13 @@ namespace SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Messag
 use SensioLabs\DeprecationDetector\FileInfo\Usage\FunctionUsage;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\UsageInterface;
 
-class FunctionViolationMessage extends BaseViolationMessage implements ViolationMessageInterface
+class FunctionViolationMessage extends BaseViolationMessage
 {
-    /**
-     * @param string $usageName
-     */
-    public function __construct($usageName)
+    const USAGE_NAME = 'SensioLabs\DeprecationDetector\FileInfo\Usage\FunctionUsage';
+
+    public function __construct()
     {
-        parent::__construct($usageName);
+        parent::__construct(self::USAGE_NAME);
     }
 
     public function message(UsageInterface $usage)

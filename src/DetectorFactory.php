@@ -34,7 +34,6 @@ use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Visitor\SymbolTableVariableResolverVisitor;
 use SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader;
 use SensioLabs\DeprecationDetector\Violation\Renderer\ConsoleOutputRenderer;
-use SensioLabs\DeprecationDetector\Violation\Renderer\Html\Renderer;
 use SensioLabs\DeprecationDetector\Violation\Renderer\Html\RendererFactory;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\ClassViolationMessage;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\FunctionViolationMessage;
@@ -314,13 +313,13 @@ class DetectorFactory
     {
         return new MessageHelper(
             array(
-                new ClassViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\ClassUsage'),
-                new InterfaceViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage'),
-                new MethodViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage'),
-                new MethodDefinitionViolationMessage('SensioLabs\DeprecationDetector\FileInfo\MethodDefinition'),
-                new SuperTypeViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage'),
-                new LanguageDeprecationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage'),
-                new FunctionViolationMessage('SensioLabs\DeprecationDetector\FileInfo\Usage\FunctionUsage'),
+                new ClassViolationMessage(),
+                new InterfaceViolationMessage(),
+                new MethodViolationMessage(),
+                new MethodDefinitionViolationMessage(),
+                new SuperTypeViolationMessage(),
+                new LanguageDeprecationMessage(),
+                new FunctionViolationMessage(),
             )
         );
     }
