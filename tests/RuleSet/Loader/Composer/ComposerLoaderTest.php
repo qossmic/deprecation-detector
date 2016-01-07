@@ -57,6 +57,7 @@ class ComposerLoaderTest extends \PHPUnit_Framework_TestCase
         $aVendorALibRuleSet->classDeprecations()->willReturn(array());
         $aVendorALibRuleSet->interfaceDeprecations()->willReturn(array());
         $aVendorALibRuleSet->methodDeprecations()->willReturn(array());
+        $aVendorALibRuleSet->functionDeprecations()->willReturn(array());
         $aVendorALibRuleSet = $aVendorALibRuleSet->reveal();
 
         $aVendorAnotherLib = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Package');
@@ -66,6 +67,7 @@ class ComposerLoaderTest extends \PHPUnit_Framework_TestCase
         $aVendorAnotherLibRuleSet->classDeprecations()->willReturn(array());
         $aVendorAnotherLibRuleSet->interfaceDeprecations()->willReturn(array());
         $aVendorAnotherLibRuleSet->methodDeprecations()->willReturn(array());
+        $aVendorAnotherLibRuleSet->functionDeprecations()->willReturn(array());
         $aVendorAnotherLibRuleSet = $aVendorAnotherLibRuleSet->reveal();
 
         $anotherVendorALib = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Package');
