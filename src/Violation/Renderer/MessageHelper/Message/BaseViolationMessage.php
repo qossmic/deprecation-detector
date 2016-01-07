@@ -18,10 +18,6 @@ abstract class BaseViolationMessage implements ViolationMessageInterface
 
     public function supports(UsageInterface $usage)
     {
-        if ($usage instanceof $this->usageName) {
-            return true;
-        }
-
-        return false;
+        return $usage instanceof $this->usageName;
     }
 }

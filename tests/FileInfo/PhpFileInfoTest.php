@@ -162,7 +162,7 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
     {
         $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
         $this->assertFalse($fileInfo->hasSuperTypeUsageByClass('someClass'));
-        $this->assertSame(null, $fileInfo->getSuperTypeUsageByClass('someClass'));
+        $this->assertNull($fileInfo->getSuperTypeUsageByClass('someClass'));
 
         $superTypeUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage');
         $superTypeUsage->className()->willReturn('someClass');

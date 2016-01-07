@@ -30,8 +30,8 @@ class FileLoader implements LoaderInterface
 
         if (!$ruleSet instanceof RuleSet) {
             throw new CouldNotLoadRuleSetException(sprintf(
-                'Ruleset "$s" is invalid, aborting.',
-                    $path
+                'Ruleset "%s" is invalid, aborting.',
+                $path
                 )
             );
         }

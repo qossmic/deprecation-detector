@@ -51,7 +51,6 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
 
         $deprecationFinder = $this->prophesize('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder');
         $deprecationFinder->in($sourceArg)->willReturn($deprecationFinder->reveal());
-        $deprecationFinder->hasParserErrors()->willReturn(false);
         $deprecationFinder->count()->willReturn($fileCount);
         $deprecationFinder->getParserErrors()->willReturn(array());
 

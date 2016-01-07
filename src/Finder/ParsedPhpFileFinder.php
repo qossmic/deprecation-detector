@@ -79,14 +79,6 @@ class ParsedPhpFileFinder extends Finder
     }
 
     /**
-     * @return bool
-     */
-    public function hasParserErrors()
-    {
-        return !empty($this->parserErrors);
-    }
-
-    /**
      * @return \PhpParser\Error[]
      */
     public function getParserErrors()

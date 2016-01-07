@@ -96,7 +96,7 @@ class CheckCommandTest extends \PHPUnit_Framework_TestCase
      * @param string $rulesetPath    ruleset argument
      * @param array $options Further options as key => value array
      */
-    private function executeCommand($sourcePath, $rulesetPath, $options = array())
+    private function executeCommand($sourcePath, $rulesetPath, array $options = array())
     {
         $arguments = array_merge(
             $options,

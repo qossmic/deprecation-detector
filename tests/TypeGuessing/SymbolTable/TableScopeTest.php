@@ -25,7 +25,7 @@ class TableScopeTest extends \PHPUnit_Framework_TestCase
     {
         $scope = new TableScope(TableScope::CLASS_LIKE_SCOPE);
 
-        $this->assertSame(null, $scope->findSymbol('var'));
+        $this->assertNull($scope->findSymbol('var'));
     }
 
     public function testSetAndFindSymbol()
