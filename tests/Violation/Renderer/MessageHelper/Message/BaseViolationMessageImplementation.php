@@ -7,11 +7,6 @@ use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\Base
 
 class BaseViolationMessageImplementation extends BaseViolationMessage
 {
-    public function __construct($usageName)
-    {
-        parent::__construct($usageName);
-    }
-
     public function message(UsageInterface $usage)
     {
     }

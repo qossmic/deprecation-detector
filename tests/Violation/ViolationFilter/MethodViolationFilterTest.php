@@ -15,7 +15,7 @@ class MethodViolationFilterTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        parent::setup();
+        parent::setUp();
         $this->methodViolationFilter = new MethodViolationFilter($this->filterList);
     }
 
