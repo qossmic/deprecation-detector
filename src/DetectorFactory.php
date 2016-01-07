@@ -293,7 +293,13 @@ class DetectorFactory
     /**
      * Renderer.
      */
-    private function getRenderer(Configuration $configuration, $output)
+
+    /**
+     * @param Configuration   $configuration
+     * @param OutputInterface $output
+     * @return ConsoleOutputRenderer|Violation\Renderer\Html\Renderer
+     */
+    private function getRenderer(Configuration $configuration, OutputInterface $output)
     {
         $messageHelper = $this->getMessageHelper();
 
@@ -326,6 +332,10 @@ class DetectorFactory
 
     /**
      * DeprecationParser.
+     */
+
+    /**
+     * @return DeprecationParser
      */
     private function getDeprecationParser()
     {
