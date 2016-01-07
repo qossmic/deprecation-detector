@@ -5,6 +5,7 @@ namespace SensioLabs\DeprecationDetector;
 use SensioLabs\DeprecationDetector\Console\Output\DefaultProgressOutput;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\LoaderInterface;
+use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 use SensioLabs\DeprecationDetector\TypeGuessing\AncestorResolver;
 use SensioLabs\DeprecationDetector\Violation\Violation;
 use SensioLabs\DeprecationDetector\Violation\ViolationDetector;
@@ -12,6 +13,11 @@ use SensioLabs\DeprecationDetector\Violation\Renderer\RendererInterface;
 
 class DeprecationDetector
 {
+    /**
+     * @var RuleSet
+     */
+    private $preDefinedRuleSet;
+
     /**
      * @var LoaderInterface
      */
@@ -38,6 +44,7 @@ class DeprecationDetector
     private $output;
 
     /**
+     * @param RuleSet               $preDefinedRuleSet
      * @param LoaderInterface       $ruleSetLoader
      * @param AncestorResolver      $ancestorResolver
      * @param ParsedPhpFileFinder   $deprecationFinder
@@ -46,6 +53,7 @@ class DeprecationDetector
      * @param DefaultProgressOutput $output
      */
     public function __construct(
+        RuleSet $preDefinedRuleSet,
         LoaderInterface $ruleSetLoader,
         AncestorResolver $ancestorResolver,
         ParsedPhpFileFinder $deprecationFinder,
@@ -53,6 +61,7 @@ class DeprecationDetector
         RendererInterface $renderer,
         DefaultProgressOutput $output
     ) {
+        $this->preDefinedRuleSet = $preDefinedRuleSet;
         $this->ruleSetLoader = $ruleSetLoader;
         $this->ancestorResolver = $ancestorResolver;
         $this->deprecationFinder = $deprecationFinder;
@@ -75,6 +84,7 @@ class DeprecationDetector
 
         $this->output->startRuleSetGeneration();
         $ruleSet = $this->ruleSetLoader->loadRuleSet($ruleSetArg);
+        $ruleSet->merge($this->preDefinedRuleSet);
         $this->output->endRuleSetGeneration();
 
         $this->output->startUsageDetection();

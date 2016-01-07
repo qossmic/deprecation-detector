@@ -3,6 +3,7 @@
 namespace SensioLabs\DeprecationDetector\RuleSet;
 
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation;
+use SensioLabs\DeprecationDetector\FileInfo\Deprecation\FunctionDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\DeprecationCollectionInterface;
@@ -25,18 +26,26 @@ class RuleSet implements DeprecationCollectionInterface
     private $methodDeprecations;
 
     /**
+     * @var array
+     */
+    private $functionDeprecations;
+
+    /**
      * @param array $classDeprecations
      * @param array $interfaceDeprecations
      * @param array $methodDeprecations
+     * @param array $functionDeprecations
      */
     public function __construct(
         array $classDeprecations = array(),
         array $interfaceDeprecations = array(),
-        array $methodDeprecations = array()
+        array $methodDeprecations = array(),
+        array $functionDeprecations = array()
     ) {
         $this->classDeprecations = $classDeprecations;
         $this->interfaceDeprecations = $interfaceDeprecations;
         $this->methodDeprecations = $methodDeprecations;
+        $this->functionDeprecations = $functionDeprecations;
     }
 
     /**
@@ -55,6 +64,10 @@ class RuleSet implements DeprecationCollectionInterface
         $this->methodDeprecations = array_merge(
             $this->methodDeprecations(),
             $collection->methodDeprecations()
+        );
+        $this->functionDeprecations = array_merge(
+            $this->functionDeprecations,
+            $collection->functionDeprecations()
         );
     }
 
@@ -154,5 +167,37 @@ class RuleSet implements DeprecationCollectionInterface
         }
 
         return $this->methodDeprecations[$class][$method];
+    }
+
+    /**
+     * @return FunctionDeprecation[]
+     */
+    public function functionDeprecations()
+    {
+        return $this->functionDeprecations;
+    }
+
+    /**
+     * @param string $function
+     *
+     * @return bool
+     */
+    public function hasFunction($function)
+    {
+        return isset($this->functionDeprecations[$function]);
+    }
+
+    /**
+     * @param string $function
+     *
+     * @return FunctionDeprecation|null
+     */
+    public function getFunction($function)
+    {
+        if (!$this->hasFunction($function)) {
+            return;
+        }
+
+        return $this->functionDeprecations[$function];
     }
 }

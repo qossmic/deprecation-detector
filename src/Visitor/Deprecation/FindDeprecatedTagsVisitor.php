@@ -6,6 +6,7 @@ use phpDocumentor\Reflection\DocBlock;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation;
+use SensioLabs\DeprecationDetector\FileInfo\Deprecation\FunctionDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
@@ -49,6 +50,14 @@ class FindDeprecatedTagsVisitor extends NodeVisitorAbstract implements Deprecati
         }
 
         if (!$this->hasDeprecatedDocComment($node)) {
+            return;
+        }
+
+        if ($node instanceof Node\Stmt\Function_) {
+            $this->phpFileInfo->addFunctionDeprecation(
+                new FunctionDeprecation($node->name, $this->getDeprecatedDocComment($node))
+            );
+
             return;
         }
 

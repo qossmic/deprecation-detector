@@ -184,4 +184,47 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(array($methodDefinition), $fileInfo->methodDefinitions());
     }
+
+    public function testFunctionDeprecation()
+    {
+        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $this->assertSame(array(), $fileInfo->functionDeprecations());
+
+        $functionDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\FunctionDeprecation');
+        $functionDeprecation->name()->willReturn('functionName');
+        $functionDeprecation = $functionDeprecation->reveal();
+
+        $this->assertFalse($fileInfo->hasDeprecations());
+        $this->assertFalse($fileInfo->hasFunctionDeprecations());
+
+        $fileInfo->addFunctionDeprecation($functionDeprecation);
+        $this->assertSame(array('functionName' => $functionDeprecation), $fileInfo->functionDeprecations());
+
+        $this->assertTrue($fileInfo->hasDeprecations());
+        $this->assertTrue($fileInfo->hasFunctionDeprecations());
+    }
+
+    public function testAddAndGetFunctionUsage()
+    {
+        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $this->assertSame(array(), $fileInfo->getFunctionUsages());
+
+        $functionUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\FunctionUsage')->reveal();
+
+        $fileInfo->addFunctionUsage($functionUsage);
+
+        $this->assertSame(array($functionUsage), $fileInfo->getFunctionUsages());
+    }
+
+    public function testAddAndGetDeprecatedLanguageUsage()
+    {
+        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $this->assertSame(array(), $fileInfo->getDeprecatedLanguageUsages());
+
+        $deprecatedLanguageUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage')->reveal();
+
+        $fileInfo->addDeprecatedLanguageUsage($deprecatedLanguageUsage);
+
+        $this->assertSame(array($deprecatedLanguageUsage), $fileInfo->getDeprecatedLanguageUsages());
+    }
 }

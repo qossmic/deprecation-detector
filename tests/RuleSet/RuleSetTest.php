@@ -21,6 +21,7 @@ class RuleSetTest extends \PHPUnit_Framework_TestCase
         $deprecationCollection->classDeprecations()->willReturn(array())->shouldBeCalled();
         $deprecationCollection->interfaceDeprecations()->willReturn(array())->shouldBeCalled();
         $deprecationCollection->methodDeprecations()->willReturn(array())->shouldBeCalled();
+        $deprecationCollection->functionDeprecations()->willReturn(array())->shouldBeCalled();
 
         $ruleSet->merge($deprecationCollection->reveal());
     }

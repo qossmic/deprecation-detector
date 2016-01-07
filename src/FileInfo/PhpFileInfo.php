@@ -3,9 +3,12 @@
 namespace SensioLabs\DeprecationDetector\FileInfo;
 
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation;
+use SensioLabs\DeprecationDetector\FileInfo\Deprecation\FunctionDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\ClassUsage;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\FunctionUsage;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage;
@@ -18,6 +21,11 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
      * @var ClassUsage[]
      */
     protected $classUsages = array();
+
+    /**
+     * @var DeprecatedLanguageUsage[]
+     */
+    protected $deprecatedLanguageUsages = array();
 
     /**
      * @var InterfaceUsage[]
@@ -33,6 +41,11 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
      * @var MethodUsage[]
      */
     protected $methodUsages = array();
+
+    /**
+     * @var FunctionUsage[]
+     */
+    protected $functionUsages = array();
 
     /**
      * @var TypeHintUsage[]
@@ -53,6 +66,11 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
      * @var MethodDeprecation[]
      */
     protected $methodDeprecations = array();
+
+    /**
+     * @var FunctionDeprecation[]
+     */
+    protected $functionDeprecations = array();
 
     /**
      * @var array
@@ -362,10 +380,70 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
     }
 
     /**
+     * @param DeprecatedLanguageUsage $deprecatedLanguageUsage
+     */
+    public function addDeprecatedLanguageUsage(DeprecatedLanguageUsage $deprecatedLanguageUsage)
+    {
+        $this->deprecatedLanguageUsages[] = $deprecatedLanguageUsage;
+    }
+
+    /**
+     * @return DeprecatedLanguageUsage[]
+     */
+    public function getDeprecatedLanguageUsages()
+    {
+        return $this->deprecatedLanguageUsages;
+    }
+
+    /**
+     * @param FunctionUsage $usage
+     */
+    public function addFunctionUsage(FunctionUsage $usage)
+    {
+        $this->functionUsages[] = $usage;
+    }
+
+    /**
+     * @return FunctionUsage[]
+     */
+    public function getFunctionUsages()
+    {
+        return $this->functionUsages;
+    }
+
+    /**
+     * @return FunctionDeprecation[]
+     */
+    public function functionDeprecations()
+    {
+        return $this->functionDeprecations;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasFunctionDeprecations()
+    {
+        return count($this->functionDeprecations) > 0;
+    }
+
+    /**
+     * @param FunctionDeprecation $deprecation
+     */
+    public function addFunctionDeprecation(FunctionDeprecation $deprecation)
+    {
+        $this->functionDeprecations[$deprecation->name()] = $deprecation;
+    }
+
+    /**
      * @return bool
      */
     public function hasDeprecations()
     {
-        return $this->hasClassDeprecations() || $this->hasInterfaceDeprecations() || $this->hasMethodDeprecations();
+        return
+            $this->hasClassDeprecations() ||
+            $this->hasInterfaceDeprecations() ||
+            $this->hasMethodDeprecations() ||
+            $this->hasFunctionDeprecations();
     }
 }
