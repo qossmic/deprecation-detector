@@ -93,11 +93,15 @@ class ParsedPhpFileFinder extends Finder
      */
     public static function deprecationFinder(ParserInterface $parser, VerboseProgressOutput $progressOutput)
     {
-        return (new ParsedPhpFileFinder($parser, $progressOutput))
+        $finder = new ParsedPhpFileFinder($parser, $progressOutput);
+        $finder
             ->contains('@deprecated')
             ->exclude('vendor')
             ->exclude('Tests')
             ->exclude('Test');
+
+        return $finder;
+
     }
 
     /**
@@ -107,10 +111,13 @@ class ParsedPhpFileFinder extends Finder
      */
     public static function usageFinder(ParserInterface $parser, VerboseProgressOutput $progressOutput)
     {
-        return (new ParsedPhpFileFinder($parser, $progressOutput))
+        $finder = new ParsedPhpFileFinder($parser, $progressOutput);
+        $finder
             ->exclude('vendor')
             ->exclude('Tests')
             ->exclude('Test');
+
+        return $finder;
     }
 
     /**
