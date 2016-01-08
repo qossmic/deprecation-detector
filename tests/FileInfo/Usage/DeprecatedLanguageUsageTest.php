@@ -2,7 +2,6 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\FileInfo\Usage;
 
-
 use SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage;
 
 class DeprecatedLanguageUsageTest extends \PHPUnit_Framework_TestCase

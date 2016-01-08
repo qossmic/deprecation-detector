@@ -33,8 +33,8 @@ class ViolationDetector
     }
 
     /**
-     * @param RuleSet             $ruleSet
-     * @param PhpFileInfo[]       $files
+     * @param RuleSet       $ruleSet
+     * @param PhpFileInfo[] $files
      *
      * @return BaseViolation[]
      */

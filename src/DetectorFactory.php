@@ -292,6 +292,7 @@ class DetectorFactory
     /**
      * @param Configuration   $configuration
      * @param OutputInterface $output
+     *
      * @return ConsoleOutputRenderer|Violation\Renderer\Html\Renderer
      */
     private function getRenderer(Configuration $configuration, OutputInterface $output)

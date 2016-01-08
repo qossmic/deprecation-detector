@@ -19,4 +19,3 @@ class DeprecationFinderFactory implements FinderFactoryInterface
         return $finder;
     }
 }
-

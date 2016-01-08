@@ -16,7 +16,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testParsedFiles()
     {
         $parsedFiles = array(
-            $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo')
+            $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo'),
         );
 
         $result = new Result($parsedFiles, array(), 10);
@@ -27,7 +27,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testParserErrors()
     {
         $parserErrors = array(
-            $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo')
+            $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo'),
         );
 
         $result = new Result(array(), $parserErrors, 10);

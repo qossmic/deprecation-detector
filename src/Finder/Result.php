@@ -15,8 +15,8 @@ class Result
 
     /**
      * @param PhpFileInfo[] $files
-     * @param Error[] $errors
-     * @param int $fileCount
+     * @param Error[]       $errors
+     * @param int           $fileCount
      */
     public function __construct(array $files, array $errors, $fileCount)
     {

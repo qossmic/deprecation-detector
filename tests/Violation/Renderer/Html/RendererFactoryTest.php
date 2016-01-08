@@ -1,4 +1,5 @@
 <?php
+
 namespace SensioLabs\DeprecationDetector\Tests\Violation\Renderer\Html;
 
 use PHPUnit_Framework_TestCase;
@@ -7,7 +8,7 @@ use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelpe
 use Symfony\Component\Filesystem\Filesystem;
 
 /**
- * Class RendererFactoryTest
+ * Class RendererFactoryTest.
  *
  * @author Karl Spies <karl.spies@gmx.net>
  */
