@@ -85,6 +85,7 @@ class ComposerLoaderTest extends \PHPUnit_Framework_TestCase
 
         $traverser = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser');
         $traverser->traverse(vfsStream::url('root/vendor/avendor/anotherlib'))->willReturn($aVendorAnotherLibRuleSet);
+        $traverser->reset()->shouldBeCalled();
         $cache->cacheRuleSet('vendor_anotherlib_1.0.0', $aVendorAnotherLibRuleSet)->shouldBeCalled();
 
         $factory = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerFactory');
