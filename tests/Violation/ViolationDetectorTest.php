@@ -51,15 +51,9 @@ class ViolationDetectorTest extends \PHPUnit_Framework_TestCase
             $violationFilter->reveal()
         );
 
-
-        $finder = $this->prophesize('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder');
-        $finder->getIterator()->willReturn(
-            new \ArrayIterator(array($phpFileInfo))
-        )->shouldBeCalled();
-
         $this->assertEquals(
             $expected,
-            $violationDetector->getViolations($ruleSet, $finder->reveal())
+            $violationDetector->getViolations($ruleSet, array($phpFileInfo))
         );
     }
 }

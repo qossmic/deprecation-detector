@@ -6,133 +6,66 @@ use SensioLabs\DeprecationDetector\Console\Output\VerboseProgressOutput;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Parser\ParserInterface;
 use Symfony\Component\Finder\Finder;
+use PhpParser\Error;
 
-class ParsedPhpFileFinder extends Finder
+class ParsedPhpFileFinder
 {
     /**
      * @var ParserInterface
      */
-    protected $parser;
+    private $parser;
 
     /**
      * @var VerboseProgressOutput
      */
-    protected $progressOutput;
+    private $progressOutput;
 
     /**
-     * @var \PhpParser\Error[]
+     * @var FinderFactoryInterface
      */
-    protected $parserErrors = array();
+    private $finderFactory;
 
     /**
-     * @param ParserInterface       $parser
-     * @param VerboseProgressOutput $progressOutput
+     * @param ParserInterface           $parser
+     * @param VerboseProgressOutput     $progressOutput
+     * @param FinderFactoryInterface    $finderFactory
      */
-    public function __construct(ParserInterface $parser, VerboseProgressOutput $progressOutput)
+    public function __construct(ParserInterface $parser, VerboseProgressOutput $progressOutput, FinderFactoryInterface $finderFactory)
     {
-        parent::__construct();
-
         $this->parser = $parser;
-        $this->files()->name('*.php');
-
         $this->progressOutput = $progressOutput;
+        $this->finderFactory = $finderFactory;
     }
 
     /**
-     * @return \Iterator
+     * @param string $path
+     * @return Result
      */
-    public function getIterator()
+    public function parsePhpFiles($path)
     {
-        $iterator = parent::getIterator();
-        $files = new \ArrayIterator();
-        $total = $this->count();
+        $files = $this->finderFactory->createFinder()->in($path);
+        $parsedFiles = array();
+        $parserErrors = array();
 
-        $this->progressOutput->start($total);
+        $this->progressOutput->start($fileCount = $files->count());
 
         $i = 0;
-        foreach ($iterator as $file) {
+        foreach ($files->getIterator() as $file) {
             $file = PhpFileInfo::create($file);
 
             try {
                 $this->progressOutput->advance(++$i, $file);
                 $this->parser->parseFile($file);
-            } catch (\PhpParser\Error $ex) {
+            } catch (Error $ex) {
                 $raw = $ex->getRawMessage().' in file '.$file;
                 $ex->setRawMessage($raw);
-                $this->parserErrors[] = $ex;
+                $parserErrors[] = $ex;
             }
 
-            $files->append($file);
+            $parsedFiles[] = $file;
         }
 
         $this->progressOutput->end();
-
-        return $files;
-    }
-
-    /**
-     * @return int
-     */
-    public function count()
-    {
-        return iterator_count(parent::getIterator());
-    }
-
-    /**
-     * @return \PhpParser\Error[]
-     */
-    public function getParserErrors()
-    {
-        return $this->parserErrors;
-    }
-
-    /**
-     * @param ParserInterface $parser
-     * @param VerboseProgressOutput $progressOutput
-     * @return ParsedPhpFileFinder
-     */
-    public static function deprecationFinder(ParserInterface $parser, VerboseProgressOutput $progressOutput)
-    {
-        $finder = new ParsedPhpFileFinder($parser, $progressOutput);
-        $finder
-            ->contains('@deprecated')
-            ->exclude('vendor')
-            ->exclude('Tests')
-            ->exclude('Test');
-
-        return $finder;
-
-    }
-
-    /**
-     * @param ParserInterface $parser
-     * @param VerboseProgressOutput $progressOutput
-     * @return ParsedPhpFileFinder
-     */
-    public static function usageFinder(ParserInterface $parser, VerboseProgressOutput $progressOutput)
-    {
-        $finder = new ParsedPhpFileFinder($parser, $progressOutput);
-        $finder
-            ->exclude('vendor')
-            ->exclude('Tests')
-            ->exclude('Test');
-
-        return $finder;
-    }
-
-    /**
-     * @return ParserInterface
-     */
-    public function getParser()
-    {
-        return $this->parser;
-    }
-
-    /**
-     * @return VerboseProgressOutput
-     */
-    public function getOutput()
-    {
-        return $this->progressOutput;
+        return new Result($parsedFiles, $parserErrors, $fileCount);
     }
 }

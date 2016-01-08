@@ -9,7 +9,9 @@ use SensioLabs\DeprecationDetector\Console\Output\DefaultProgressOutput;
 use SensioLabs\DeprecationDetector\Console\Output\VerboseProgressOutput;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\FunctionDeprecation;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation;
+use SensioLabs\DeprecationDetector\Finder\DeprecationFinderFactory;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
+use SensioLabs\DeprecationDetector\Finder\UsageFinderFactory;
 use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
 use SensioLabs\DeprecationDetector\Parser\UsageParser;
 use SensioLabs\DeprecationDetector\RuleSet\Cache;
@@ -100,9 +102,10 @@ class DetectorFactory
             'Deprecation detection'
         );
         $deprecationUsageParser = $this->getUsageParser($configuration);
-        $deprecationUsageFinder = ParsedPhpFileFinder::usageFinder(
+        $deprecationUsageFinder = new ParsedPhpFileFinder(
             $deprecationUsageParser,
-            $deprecationProgressOutput
+            $deprecationProgressOutput,
+            new UsageFinderFactory()
         );
 
         $this->ancestorResolver = new AncestorResolver($deprecationUsageParser);
@@ -113,9 +116,10 @@ class DetectorFactory
             'RuleSet generation'
         );
         $ruleSetDeprecationParser = $this->getDeprecationParser();
-        $ruleSetDeprecationFinder = ParsedPhpFileFinder::deprecationFinder(
+        $ruleSetDeprecationFinder = new ParsedPhpFileFinder(
             $ruleSetDeprecationParser,
-            $ruleSetProgressOutput
+            $ruleSetProgressOutput,
+            new DeprecationFinderFactory()
         );
         $deprecationDirectoryTraverser = new DirectoryTraverser($ruleSetDeprecationFinder);
 
