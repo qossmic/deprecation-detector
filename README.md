@@ -46,8 +46,8 @@ $ box build
 If you want to call the deprecation-detector globally, it needs to be placed in your `PATH`. For example with:
 
 ```bash
-$ sudo chmod a+x deprecation-detector.phar
-$ sudo mv deprecation-detector.phar /usr/local/bin/deprecation-detector
+$ sudo chmod a+x deprecation-detector
+$ sudo mv deprecation-detector /usr/local/bin/deprecation-detector
 ```
 
 ## Usage
