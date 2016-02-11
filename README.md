@@ -23,6 +23,16 @@ The command works in three steps:
 
 ## Installation
 
+### Composer
+
+For a system-wide installation via Composer, you can run:
+
+```bash
+$ composer global require sensiolabs-de/deprecation-detector
+```
+
+Make sure you have `~/.composer/vendor/bin/` in your `PATH` and you will be able to call the `deprecation-detector` command.
+
 ### Standalone installation
 
 Clone the repository
@@ -43,12 +53,14 @@ Create phar archive with [Box](http://box-project.github.io/box2/) (optional)
 $ box build
 ```
 
-If you want to call the deprecation-detector globally, it needs to be placed in your `PATH`. For example with:
+Provided you created the phar archive, if you want to call the deprecation-detector globally, it needs to be placed in your `PATH`. For example with:
 
 ```bash
-$ sudo chmod a+x deprecation-detector.phar
-$ sudo mv deprecation-detector.phar /usr/local/bin/deprecation-detector
+$ chmod a+x deprecation-detector.phar
+$ mv deprecation-detector.phar /usr/local/bin/deprecation-detector
 ```
+
+Otherwise you can call `bin/deprecation-detector` directly.
 
 ## Usage
 
