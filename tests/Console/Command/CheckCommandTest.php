@@ -90,11 +90,11 @@ class CheckCommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Helper method for simplified executing of CheckCommand
+     * Helper method for simplified executing of CheckCommand.
      *
-     * @param string $sourcePath     source argument
-     * @param string $rulesetPath    ruleset argument
-     * @param array $options Further options as key => value array
+     * @param string $sourcePath  source argument
+     * @param string $rulesetPath ruleset argument
+     * @param array  $options     Further options as key => value array
      */
     private function executeCommand($sourcePath, $rulesetPath, array $options = array())
     {

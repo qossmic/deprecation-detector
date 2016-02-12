@@ -96,16 +96,15 @@ class DeprecationDetector
             $lib,
         ));
 
-        /** @var ParsedPhpFileFinder $files */
-        $files = $this->deprecationFinder->in($sourceArg);
-        $violations = $this->violationDetector->getViolations($ruleSet, $files);
+        $result = $this->deprecationFinder->parsePhpFiles($sourceArg);
+        $violations = $this->violationDetector->getViolations($ruleSet, $result->parsedFiles());
         $this->output->endUsageDetection();
 
         $this->output->startOutputRendering();
-        $this->renderer->renderViolations($violations, $files->getParserErrors());
+        $this->renderer->renderViolations($violations, $result->parserErrors());
         $this->output->endOutputRendering();
 
-        $this->output->endProgress($files->count(), count($violations));
+        $this->output->endProgress($result->fileCount(), count($violations));
 
         return $violations;
     }

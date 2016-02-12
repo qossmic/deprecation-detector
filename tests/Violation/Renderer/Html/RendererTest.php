@@ -5,24 +5,22 @@ namespace SensioLabs\DeprecationDetector\Tests\Violation\Renderer\Html;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit_Framework_TestCase;
-use Prophecy\Argument;
 use SensioLabs\DeprecationDetector\Violation\Renderer\Html\Renderer;
 
 /**
- * Class RendererTest
+ * Class RendererTest.
  *
  * @author Karl Spies <karl.spies@gmx.net>
  */
 class RendererTest extends PHPUnit_Framework_TestCase
 {
-
     /**
-     * @var  vfsStreamDirectory
+     * @var vfsStreamDirectory
      */
     private $root;
 
     /**
-     * set up test environment
+     * set up test environment.
      */
     public function setUp()
     {
@@ -61,5 +59,4 @@ class RendererTest extends PHPUnit_Framework_TestCase
         $this->assertContains('12', $fileContent);
         $this->assertContains('Just a comment', $fileContent);
     }
-
 }

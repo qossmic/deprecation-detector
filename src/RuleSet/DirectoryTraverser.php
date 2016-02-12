@@ -2,14 +2,8 @@
 
 namespace SensioLabs\DeprecationDetector\RuleSet;
 
-use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
 
-/**
- * Class Traverser.
- *
- * @author Christopher Hertel <christopher.hertel@sensiolabs.de>
- */
 class DirectoryTraverser
 {
     /**
@@ -33,27 +27,18 @@ class DirectoryTraverser
      */
     public function traverse($path, RuleSet $ruleSet = null)
     {
-        $files = $this->finder->in($path);
+        $result = $this->finder->parsePhpFiles($path);
 
         if (!$ruleSet instanceof RuleSet) {
             $ruleSet = new RuleSet();
         }
 
-        foreach ($files as $i => $file) {
-            /** @var PhpFileInfo $file */
+        foreach ($result->parsedFiles() as $file) {
             if ($file->hasDeprecations()) {
                 $ruleSet->merge($file);
             }
         }
 
         return $ruleSet;
-    }
-
-    public function reset()
-    {
-        $this->finder = ParsedPhpFileFinder::deprecationFinder(
-            $this->finder->getParser(),
-            $this->finder->getOutput()
-        );
     }
 }

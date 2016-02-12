@@ -26,11 +26,14 @@ class DirectoryTraverserTest extends \PHPUnit_Framework_TestCase
         $anotherPhpFileInfo = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
         $anotherPhpFileInfo->hasDeprecations()->willReturn(false);
 
-        $deprecationFileFinder = $this->prophesize('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder');
-        $deprecationFileFinder->in('some_dir')->willReturn(array(
+        $deprecationResult = $this->prophesize('SensioLabs\DeprecationDetector\Finder\Result');
+        $deprecationResult->parsedFiles()->willReturn(array(
             $aPhpFileInfo->reveal(),
             $anotherPhpFileInfo->reveal(),
         ));
+
+        $deprecationFileFinder = $this->prophesize('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder');
+        $deprecationFileFinder->parsePhpFiles('some_dir')->willReturn($deprecationResult->reveal());
 
         $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
         $ruleSet->merge($aPhpFileInfo->reveal())->shouldBeCalled();
