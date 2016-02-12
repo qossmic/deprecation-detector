@@ -4,6 +4,7 @@ namespace SensioLabs\DeprecationDetector;
 
 use SensioLabs\DeprecationDetector\Console\Output\DefaultProgressOutput;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\DirectoryLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\LoaderInterface;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 use SensioLabs\DeprecationDetector\TypeGuessing\AncestorResolver;
@@ -42,18 +43,24 @@ class DeprecationDetector
      * @var DefaultProgressOutput
      */
     private $output;
+    /**
+     * @var DirectoryLoader
+     */
+    private $sourceRuleSetLoader;
 
     /**
-     * @param RuleSet               $preDefinedRuleSet
-     * @param LoaderInterface       $ruleSetLoader
-     * @param AncestorResolver      $ancestorResolver
-     * @param ParsedPhpFileFinder   $deprecationFinder
-     * @param ViolationDetector     $violationDetector
-     * @param RendererInterface     $renderer
+     * @param RuleSet $preDefinedRuleSet
+     * @param DirectoryLoader $sourceRuleSetLoader
+     * @param LoaderInterface $ruleSetLoader
+     * @param AncestorResolver $ancestorResolver
+     * @param ParsedPhpFileFinder $deprecationFinder
+     * @param ViolationDetector $violationDetector
+     * @param RendererInterface $renderer
      * @param DefaultProgressOutput $output
      */
     public function __construct(
         RuleSet $preDefinedRuleSet,
+        DirectoryLoader $sourceRuleSetLoader,
         LoaderInterface $ruleSetLoader,
         AncestorResolver $ancestorResolver,
         ParsedPhpFileFinder $deprecationFinder,
@@ -68,6 +75,7 @@ class DeprecationDetector
         $this->violationDetector = $violationDetector;
         $this->renderer = $renderer;
         $this->output = $output;
+        $this->sourceRuleSetLoader = $sourceRuleSetLoader;
     }
 
     /**
@@ -83,10 +91,12 @@ class DeprecationDetector
         $this->output->startProgress();
 
         $this->output->startRuleSetGeneration();
+        $sourceRuleSet = $this->sourceRuleSetLoader->loadRuleSet($sourceArg);
         $ruleSet = $this->ruleSetLoader->loadRuleSet($ruleSetArg);
         $ruleSet->merge($this->preDefinedRuleSet);
-        $this->output->endRuleSetGeneration();
+        $ruleSet->merge($sourceRuleSet);
 
+        $this->output->endRuleSetGeneration();
         $this->output->startUsageDetection();
 
         // TODO: Move to AncestorResolver not hard coded
