@@ -19,11 +19,8 @@ matrix:
         - php: 7
     fast_finish: true
 
-before_install:
-    - composer self-update
-
 install:
-    - composer install
+    - composer install --prefer-dist
 
 script:
-    - vendor/bin/phpunit
+    - phpunit
