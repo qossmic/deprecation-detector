@@ -5,6 +5,7 @@ namespace SensioLabs\DeprecationDetector\Violation\Renderer;
 use PhpParser\Error;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
+use SensioLabs\DeprecationDetector\Violation\Renderer\PathFormatter\PathFormatterInterface;
 use SensioLabs\DeprecationDetector\Violation\Violation;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\TableCell;
@@ -24,13 +25,20 @@ class ConsoleOutputRenderer implements RendererInterface
     private $messageHelper;
 
     /**
-     * @param OutputInterface $output
-     * @param MessageHelper   $messageHelper
+     * @var PathFormatterInterface
      */
-    public function __construct(OutputInterface $output, MessageHelper $messageHelper)
+    private $pathFormatter;
+
+    /**
+     * @param OutputInterface           $output
+     * @param MessageHelper             $messageHelper
+     * @param PathFormatterInterface    $formatter
+     */
+    public function __construct(OutputInterface $output, MessageHelper $messageHelper, PathFormatterInterface $formatter)
     {
         $this->output = $output;
         $this->messageHelper = $messageHelper;
+        $this->pathFormatter = $formatter;
     }
 
     /**
@@ -105,7 +113,7 @@ class ConsoleOutputRenderer implements RendererInterface
     protected function getFileHeader(PhpFileInfo $file)
     {
         $cell = new TableCell(
-            sprintf('<comment>%s</comment>', $file->getPathname()),
+            sprintf('<comment>%s</comment>', $this->pathFormatter->format($file->getPathname())),
             array('colspan' => 3)
         );
 

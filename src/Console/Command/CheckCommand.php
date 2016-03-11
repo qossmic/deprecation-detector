@@ -35,6 +35,13 @@ class CheckCommand extends Command
                         'The path to symfony container cache',
                         'app/cache/dev/appDevDebugProjectContainer.xml'
                     ),
+                    new InputOption(
+                        'short-paths',
+                        null,
+                        InputOption::VALUE_REQUIRED,
+                        'The ommited prefix path',
+                        false
+                    ),
                     new InputOption('no-cache', null, InputOption::VALUE_NONE, 'Disable rule set cache'),
                     new InputOption('cache-dir', null, InputOption::VALUE_REQUIRED, 'Cache directory', '.rules/'),
                     new InputOption('log-html', null, InputOption::VALUE_REQUIRED, 'Generate HTML report'),
@@ -113,7 +120,8 @@ EOF
             $input->getOption('filter-methods'),
             $input->getOption('fail'),
             $input->getOption('verbose'),
-            $input->getOption('log-html')
+            $input->getOption('log-html'),
+            $input->getOption('short-paths')
         );
 
         $factory = new DetectorFactory();
