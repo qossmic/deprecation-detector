@@ -13,7 +13,7 @@ class PackageTest extends \PHPUnit_Framework_TestCase
             'version' => '1.0.0',
         ));
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Package', $package);
+        $this->assertInstanceOf(Package::class, $package);
     }
 
     public function testGeneratePackageKey()

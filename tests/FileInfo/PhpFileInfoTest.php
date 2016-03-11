@@ -2,33 +2,46 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\FileInfo;
 
+use SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation;
+use SensioLabs\DeprecationDetector\FileInfo\Deprecation\FunctionDeprecation;
+use SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation;
+use SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation;
+use SensioLabs\DeprecationDetector\FileInfo\MethodDefinition;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\ClassUsage;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\FunctionUsage;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\TypeHintUsage;
+use Symfony\Component\Finder\SplFileInfo;
 
 class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo', $fileInfo);
+        $this->assertInstanceOf(PhpFileInfo::class, $fileInfo);
     }
 
     public function testAddAndGetClassUsages()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertSame(array(), $fileInfo->classUsages());
 
-        $classUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\ClassUsage')->reveal();
+        $classUsage = $this->prophesize(ClassUsage::class)->reveal();
         $fileInfo->addClassUsage($classUsage);
         $this->assertSame(array($classUsage), $fileInfo->classUsages());
     }
 
     public function testAddAndGetInterfaceUsages()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertSame(array(), $fileInfo->interfaceUsages());
 
-        $interfaceUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage');
+        $interfaceUsage = $this->prophesize(InterfaceUsage::class);
         $interfaceUsage->className()->willReturn('className');
         $interfaceUsage = $interfaceUsage->reveal();
 
@@ -38,10 +51,10 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 
     public function testAddAndGetSuperTypeUsages()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertSame(array(), $fileInfo->superTypeUsages());
 
-        $superTypeUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage');
+        $superTypeUsage = $this->prophesize(SuperTypeUsage::class);
         $superTypeUsage->className()->willReturn('className');
         $superTypeUsage = $superTypeUsage->reveal();
 
@@ -51,30 +64,30 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 
     public function testAddAndGetMethodUsages()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertSame(array(), $fileInfo->methodUsages());
 
-        $methodUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage')->reveal();
+        $methodUsage = $this->prophesize(MethodUsage::class)->reveal();
         $fileInfo->addMethodUsage($methodUsage);
         $this->assertSame(array($methodUsage), $fileInfo->methodUsages());
     }
 
     public function testAddAndGetTypeHintUsages()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertSame(array(), $fileInfo->methodUsages());
 
-        $typeHintUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\TypeHintUsage')->reveal();
+        $typeHintUsage = $this->prophesize(TypeHintUsage::class)->reveal();
         $fileInfo->addTypeHintUsage($typeHintUsage);
         $this->assertSame(array($typeHintUsage), $fileInfo->typeHintUsages());
     }
 
     public function testClassDeprecations()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertSame(array(), $fileInfo->classDeprecations());
 
-        $classDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation');
+        $classDeprecation = $this->prophesize(ClassDeprecation::class);
         $classDeprecation->name()->willReturn('className');
         $classDeprecation = $classDeprecation->reveal();
 
@@ -94,11 +107,11 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 
     public function testInterfaceDeprecations()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertSame(array(), $fileInfo->interfaceDeprecations());
 
         $interfaceDeprecation = $this
-            ->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\InterfaceDeprecation');
+            ->prophesize(InterfaceDeprecation::class);
         $interfaceDeprecation->name()->willReturn('interfaceName');
         $interfaceDeprecation = $interfaceDeprecation->reveal();
 
@@ -118,10 +131,10 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 
     public function testMethodDeprecations()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertSame(array(), $fileInfo->methodDeprecations());
 
-        $methodDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation');
+        $methodDeprecation = $this->prophesize(MethodDeprecation::class);
         $methodDeprecation->parentName()->willReturn('className');
         $methodDeprecation->name()->willReturn('methodName');
         $methodDeprecation = $methodDeprecation->reveal();
@@ -145,11 +158,11 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 
     public function testHasAndGetInterfaceUsageByClass()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertFalse($fileInfo->hasInterfaceUsageByClass('someClass'));
         $this->assertSame(array(), $fileInfo->getInterfaceUsageByClass('someClass'));
 
-        $interfaceUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage');
+        $interfaceUsage = $this->prophesize(InterfaceUsage::class);
         $interfaceUsage->className()->willReturn('someClass');
         $interfaceUsage = $interfaceUsage->reveal();
 
@@ -160,11 +173,11 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 
     public function testHasAndGetSuperTypeUsageByClass()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertFalse($fileInfo->hasSuperTypeUsageByClass('someClass'));
         $this->assertNull($fileInfo->getSuperTypeUsageByClass('someClass'));
 
-        $superTypeUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage');
+        $superTypeUsage = $this->prophesize(SuperTypeUsage::class);
         $superTypeUsage->className()->willReturn('someClass');
         $superTypeUsage = $superTypeUsage->reveal();
 
@@ -175,10 +188,10 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 
     public function testAddAndGetMethodDefinitions()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertSame(array(), $fileInfo->methodDefinitions());
 
-        $methodDefinition = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\MethodDefinition')->reveal();
+        $methodDefinition = $this->prophesize(MethodDefinition::class)->reveal();
 
         $fileInfo->addMethodDefinition($methodDefinition);
 
@@ -187,10 +200,10 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 
     public function testFunctionDeprecation()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertSame(array(), $fileInfo->functionDeprecations());
 
-        $functionDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\FunctionDeprecation');
+        $functionDeprecation = $this->prophesize(FunctionDeprecation::class);
         $functionDeprecation->name()->willReturn('functionName');
         $functionDeprecation = $functionDeprecation->reveal();
 
@@ -206,10 +219,10 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 
     public function testAddAndGetFunctionUsage()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertSame(array(), $fileInfo->getFunctionUsages());
 
-        $functionUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\FunctionUsage')->reveal();
+        $functionUsage = $this->prophesize(FunctionUsage::class)->reveal();
 
         $fileInfo->addFunctionUsage($functionUsage);
 
@@ -218,10 +231,10 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 
     public function testAddAndGetDeprecatedLanguageUsage()
     {
-        $fileInfo = PhpFileInfo::create($this->prophesize('Symfony\Component\Finder\SplFileInfo')->reveal());
+        $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertSame(array(), $fileInfo->getDeprecatedLanguageUsages());
 
-        $deprecatedLanguageUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage')->reveal();
+        $deprecatedLanguageUsage = $this->prophesize(DeprecatedLanguageUsage::class)->reveal();
 
         $fileInfo->addDeprecatedLanguageUsage($deprecatedLanguageUsage);
 

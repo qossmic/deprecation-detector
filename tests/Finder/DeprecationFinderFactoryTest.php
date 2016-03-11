@@ -3,6 +3,7 @@
 namespace SensioLabs\DeprecationDetector\Tests\Finder;
 
 use SensioLabs\DeprecationDetector\Finder\DeprecationFinderFactory;
+use Symfony\Component\Finder\Finder;
 
 class DeprecationFinderFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -10,6 +11,6 @@ class DeprecationFinderFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new DeprecationFinderFactory();
 
-        $this->assertInstanceOf('Symfony\Component\Finder\Finder', $factory->createFinder());
+        $this->assertInstanceOf(Finder::class, $factory->createFinder());
     }
 }

@@ -10,7 +10,7 @@ class DeprecatedLanguageUsageTest extends \PHPUnit_Framework_TestCase
     {
         $deprecatedLanguageUsage = new DeprecatedLanguageUsage('name', 'comment', 0);
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\FileInfo\Usage\DeprecatedLanguageUsage', $deprecatedLanguageUsage);
+        $this->assertInstanceOf(DeprecatedLanguageUsage::class, $deprecatedLanguageUsage);
     }
 
     public function testGetClassName()

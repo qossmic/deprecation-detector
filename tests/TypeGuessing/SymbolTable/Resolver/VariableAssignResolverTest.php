@@ -9,23 +9,24 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Expr\New_;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\VariableAssignResolver;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Symbol;
+use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable;
 
 class VariableAssignResolverTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $resolver = new VariableAssignResolver($table->reveal());
 
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\VariableAssignResolver',
+            VariableAssignResolver::class,
             $resolver
         );
     }
 
     public function testAssignPropertyWithClass()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $resolver = new VariableAssignResolver($table->reveal());
 
         $left = new Variable('var');
@@ -38,7 +39,7 @@ class VariableAssignResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testAssignPropertyWithVariable()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->lookUp('someVar')->willReturn(new Symbol('someVar', 'SomeClass'));
         $table->setSymbol('var', 'SomeClass')->shouldBeCalled();
 
@@ -54,7 +55,7 @@ class VariableAssignResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testAssignPropertyWithProperty()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->lookUpClassProperty('someProp')->willReturn(new Symbol('someProp', 'SomeClass'));
         $table->setSymbol('var', 'SomeClass')->shouldBeCalled();
 

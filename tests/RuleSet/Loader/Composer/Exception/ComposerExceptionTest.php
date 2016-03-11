@@ -9,6 +9,6 @@ class ComposerExceptionTest extends \PHPUnit_Framework_TestCase
     public function testClassIsInitializable()
     {
         $exception = new ComposerException();
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Exception\ComposerException', $exception);
+        $this->assertInstanceOf(ComposerException::class, $exception);
     }
 }

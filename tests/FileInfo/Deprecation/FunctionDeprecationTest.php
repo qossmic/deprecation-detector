@@ -11,7 +11,7 @@ class FunctionDeprecationTest extends \PHPUnit_Framework_TestCase
         $functionDeprecation = new FunctionDeprecation('functionName', 'comment');
 
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\FileInfo\Deprecation\FunctionDeprecation',
+            FunctionDeprecation::class,
             $functionDeprecation
         );
     }

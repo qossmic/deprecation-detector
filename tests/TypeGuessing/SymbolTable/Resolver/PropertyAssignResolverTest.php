@@ -9,12 +9,13 @@ use PhpParser\Node\Name;
 use PhpParser\Node\Expr\New_;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\PropertyAssignResolver;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Symbol;
+use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable;
 
 class PropertyAssignResolverTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $resolver = new PropertyAssignResolver($table->reveal());
 
         $this->assertInstanceOf(
@@ -25,7 +26,7 @@ class PropertyAssignResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testAssignPropertyWithClass()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $resolver = new PropertyAssignResolver($table->reveal());
 
         $left = new PropertyFetch(new Variable('this'), 'prop');
@@ -38,7 +39,7 @@ class PropertyAssignResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testAssignPropertyWithVariable()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->lookUp('someVar')->willReturn(new Symbol('someVar', 'SomeClass'));
         $table->setClassProperty('prop', 'SomeClass')->shouldBeCalled();
 
@@ -54,7 +55,7 @@ class PropertyAssignResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testAssignPropertyVariableWithVariable()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->setClassProperty('prop', 'SomeClass')->shouldNotBeCalled();
 
         $resolver = new PropertyAssignResolver($table->reveal());
@@ -69,7 +70,7 @@ class PropertyAssignResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testAssignPropertyWithProperty()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->lookUpClassProperty('someProp')->willReturn(new Symbol('someProp', 'SomeClass'));
         $table->setClassProperty('prop', 'SomeClass')->shouldBeCalled();
 

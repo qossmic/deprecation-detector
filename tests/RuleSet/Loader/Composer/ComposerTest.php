@@ -10,7 +10,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     {
         $composer = new Composer(array(), array(), false);
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Composer', $composer);
+        $this->assertInstanceOf(Composer::class, $composer);
     }
 
     public function testGetPackagesWithDevPackages()

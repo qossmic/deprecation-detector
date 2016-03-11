@@ -5,6 +5,7 @@ namespace SensioLabs\DeprecationDetector\Tests\Visitor\Usage;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindStaticMethodCalls;
+use Symfony\Component\Finder\SplFileInfo;
 
 class FindStaticMethodCallsTest extends FindTestCase
 {
@@ -24,7 +25,7 @@ Logger::log('hello world');
 
 EOC;
 
-        $splFileInfo = $this->prophesize('Symfony\Component\Finder\SplFileInfo');
+        $splFileInfo = $this->prophesize(SplFileInfo::class);
         $phpFileInfo = $this->parsePhpFileFromStringAndTraverseWithVisitor(
             $file = PhpFileInfo::create($splFileInfo->reveal()),
             $source,

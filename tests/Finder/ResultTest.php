@@ -2,6 +2,7 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\Finder;
 
+use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Finder\Result;
 
 class ResultTest extends \PHPUnit_Framework_TestCase
@@ -10,13 +11,13 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     {
         $result = new Result(array(), array(), 10);
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Finder\Result', $result);
+        $this->assertInstanceOf(Result::class, $result);
     }
 
     public function testParsedFiles()
     {
         $parsedFiles = array(
-            $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo'),
+            $this->prophesize(PhpFileInfo::class),
         );
 
         $result = new Result($parsedFiles, array(), 10);
@@ -27,7 +28,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
     public function testParserErrors()
     {
         $parserErrors = array(
-            $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo'),
+            $this->prophesize(PhpFileInfo::class),
         );
 
         $result = new Result(array(), $parserErrors, 10);

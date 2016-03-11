@@ -11,7 +11,7 @@ class CouldNotLoadRuleSetExceptionTest extends \PHPUnit_Framework_TestCase
         $exception = new CouldNotLoadRuleSetException('an exception message');
 
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\RuleSet\Loader\CouldNotLoadRuleSetException',
+            CouldNotLoadRuleSetException::class,
             $exception
         );
     }

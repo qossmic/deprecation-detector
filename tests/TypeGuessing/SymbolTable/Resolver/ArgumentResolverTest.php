@@ -5,23 +5,24 @@ namespace SensioLabs\DeprecationDetector\Tests\TypeGuessing\SymbolTable\Resolver
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ArgumentResolver;
+use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable;
 
 class ArgumentResolverTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $resolver = new ArgumentResolver($table->reveal());
 
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ArgumentResolver',
+            ArgumentResolver::class,
             $resolver
         );
     }
 
     public function testResolveTypedArgument()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->setSymbol('var', 'SomeClass')->shouldBeCalled();
         $resolver = new ArgumentResolver($table->reveal());
 
@@ -31,7 +32,7 @@ class ArgumentResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testSkipsUntypedArgument()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->setSymbol('var', 'SomeClass')->shouldNotBeCalled();
         $resolver = new ArgumentResolver($table->reveal());
 

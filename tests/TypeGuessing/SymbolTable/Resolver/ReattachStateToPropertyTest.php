@@ -6,23 +6,24 @@ use PhpParser\Node\Expr\PropertyFetch;
 use PhpParser\Node\Expr\Variable;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ReattachStateToProperty;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Symbol;
+use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable;
 
 class ReattachStateToPropertyTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $resolver = new ReattachStateToProperty($table->reveal());
 
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ReattachStateToProperty',
+            ReattachStateToProperty::class,
             $resolver
         );
     }
 
     public function testGuessedTypeIsReattached()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->lookUpClassProperty('prop')->willReturn(new Symbol('prop', 'SomeClass'));
 
         $resolver = new ReattachStateToProperty($table->reveal());

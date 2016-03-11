@@ -2,6 +2,10 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\Violation\ViolationChecker;
 
+use SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation;
+use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage;
+use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 use SensioLabs\DeprecationDetector\Violation\Violation;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\SuperTypeViolationChecker;
 
@@ -9,21 +13,21 @@ class SuperTypeViolationCheckerTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
+        $ruleSet = $this->prophesize(RuleSet::class);
         $checker = new SuperTypeViolationChecker($ruleSet->reveal());
 
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\Violation\ViolationChecker\SuperTypeViolationChecker',
+            SuperTypeViolationChecker::class,
             $checker
         );
     }
 
     public function testCheck()
     {
-        $superTypeUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage');
+        $superTypeUsage = $this->prophesize(SuperTypeUsage::class);
         $superTypeUsage->name()->willReturn('class');
 
-        $deprecatedSuperTypeUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage');
+        $deprecatedSuperTypeUsage = $this->prophesize(SuperTypeUsage::class);
         $deprecatedSuperTypeUsage->name()->willReturn('deprecatedClass');
         $deprecatedSuperTypeUsage->className()->willReturn('someClass');
         $deprecatedSuperTypeUsage->getLineNumber()->willReturn(10);
@@ -31,8 +35,8 @@ class SuperTypeViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $superTypeUsage = $superTypeUsage->reveal();
         $deprecatedSuperTypeUsage = $deprecatedSuperTypeUsage->reveal();
 
-        $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
-        $collection = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
+        $ruleSet = $this->prophesize(RuleSet::class);
+        $collection = $this->prophesize(PhpFileInfo::class);
         $collection->superTypeUsages()->willReturn(array(
             $superTypeUsage,
             $deprecatedSuperTypeUsage,
@@ -43,7 +47,7 @@ class SuperTypeViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $ruleSet->hasClass('deprecatedClass')->willReturn(true);
 
         $deprecationComment = 'comment';
-        $classDeprecation = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation');
+        $classDeprecation = $this->prophesize(ClassDeprecation::class);
         $classDeprecation->comment()->willReturn($deprecationComment);
 
         $ruleSet->getClass('deprecatedClass')->willReturn($classDeprecation->reveal());

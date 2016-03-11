@@ -12,7 +12,7 @@ class SymbolTableTest extends \PHPUnit_Framework_TestCase
     {
         $table = new SymbolTable();
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable', $table);
+        $this->assertInstanceOf(SymbolTable::class, $table);
     }
 
     public function testEnterLeaveAndCurrentScope()
@@ -21,7 +21,7 @@ class SymbolTableTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(TableScope::GLOBAL_SCOPE, $table->currentScope()->scope());
 
-        $classScope = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\TableScope');
+        $classScope = $this->prophesize(TableScope::class);
         $classScope->scope()->willReturn(TableScope::CLASS_LIKE_SCOPE);
         $classScope = $classScope->reveal();
         $table->enterScope($classScope);
@@ -36,7 +36,7 @@ class SymbolTableTest extends \PHPUnit_Framework_TestCase
     public function testAddSymbol()
     {
         $table = new SymbolTable();
-        $classScope = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\TableScope');
+        $classScope = $this->prophesize(TableScope::class);
         $classScope->scope()->willReturn(TableScope::GLOBAL_SCOPE);
         $classScope->setSymbol(new Symbol('var', 'class'))->shouldBeCalled();
         $classScope = $classScope->reveal();
@@ -49,10 +49,10 @@ class SymbolTableTest extends \PHPUnit_Framework_TestCase
     {
         $table = new SymbolTable();
 
-        $classScope = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\TableScope');
+        $classScope = $this->prophesize(TableScope::class);
         $classScope->findSymbol('var')->willReturn($result = new Symbol('var', 'class'))->shouldBeCalled();
 
-        $methodScope = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\TableScope');
+        $methodScope = $this->prophesize(TableScope::class);
         $methodScope->findSymbol('var')->willReturn(null)->shouldBeCalled();
 
         $table->enterScope($classScope->reveal());
@@ -78,7 +78,7 @@ class SymbolTableTest extends \PHPUnit_Framework_TestCase
     public function testLookUpClassPropertyReturnsNullSymbolIfThereIsNoClassProperty()
     {
         $table = new SymbolTable();
-        $classScope = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\TableScope');
+        $classScope = $this->prophesize(TableScope::class);
         $classScope->scope()->willReturn('CLASS_LIKE_SCOPE');
         $classScope->findSymbol('property')->willReturn(null);
 
@@ -89,8 +89,8 @@ class SymbolTableTest extends \PHPUnit_Framework_TestCase
     public function testLookUpClassPropertyReturnsSymbol()
     {
         $table = new SymbolTable();
-        $symbol = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Symbol');
-        $classScope = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\TableScope');
+        $symbol = $this->prophesize(Symbol::class);
+        $classScope = $this->prophesize(TableScope::class);
         $classScope->scope()->willReturn('CLASS_LIKE_SCOPE');
         $classScope->findSymbol('property')->willReturn($symbol->reveal());
 
@@ -101,10 +101,10 @@ class SymbolTableTest extends \PHPUnit_Framework_TestCase
     public function testSetClassProperty()
     {
         $table = new SymbolTable();
-        $classScope = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\TableScope');
+        $classScope = $this->prophesize(TableScope::class);
         $classScope->scope()->willReturn('CLASS_LIKE_SCOPE');
         $classScope->setSymbol(new Symbol('property', 'type'))->shouldBeCalled();
-        $methodScope = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\TableScope');
+        $methodScope = $this->prophesize(TableScope::class);
         $methodScope->scope()->willReturn('CLASS_METHOD_SCOPE');
 
         $table->enterScope($classScope->reveal());

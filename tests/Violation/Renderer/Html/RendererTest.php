@@ -5,7 +5,11 @@ namespace SensioLabs\DeprecationDetector\Tests\Violation\Renderer\Html;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit_Framework_TestCase;
+use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Violation\Renderer\Html\Renderer;
+use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
+use SensioLabs\DeprecationDetector\Violation\Violation;
+use Symfony\Component\Filesystem\Filesystem;
 
 /**
  * Class RendererTest.
@@ -29,18 +33,18 @@ class RendererTest extends PHPUnit_Framework_TestCase
 
     public function testRenderViolations()
     {
-        $fileSystem = $this->prophesize('Symfony\Component\Filesystem\Filesystem');
+        $fileSystem = $this->prophesize(Filesystem::class);
         $fileSystem->mkdir('exampleDir');
 
-        $fileInfo = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
+        $fileInfo = $this->prophesize(PhpFileInfo::class);
         $fileInfo->getPathname()->willReturn('just/a/path');
 
-        $violation = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Violation');
+        $violation = $this->prophesize(Violation::class);
         $violation->getFile()->willReturn($fileInfo->reveal());
         $violation->getLine()->willReturn('12');
         $violation->getComment()->willReturn('Just a comment');
 
-        $messageHelper = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper');
+        $messageHelper = $this->prophesize(MessageHelper::class);
         $messageHelper->getViolationMessage($violation->reveal())->willReturn('testMethod');
 
         $renderer = new Renderer(

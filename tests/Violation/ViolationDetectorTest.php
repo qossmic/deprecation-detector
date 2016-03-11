@@ -2,37 +2,42 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\Violation;
 
+use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
+use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
+use SensioLabs\DeprecationDetector\Violation\Violation;
+use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ViolationCheckerInterface;
 use SensioLabs\DeprecationDetector\Violation\ViolationDetector;
+use SensioLabs\DeprecationDetector\Violation\ViolationFilter\ViolationFilterInterface;
 
 class ViolationDetectorTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
         $violationChecker = $this->prophesize(
-            'SensioLabs\DeprecationDetector\Violation\ViolationChecker\ViolationCheckerInterface'
+            ViolationCheckerInterface::class
         );
         $violationFilter = $this->prophesize(
-            'SensioLabs\DeprecationDetector\Violation\ViolationFilter\ViolationFilterInterface'
+            ViolationFilterInterface::class
         );
         $violationDetector = new ViolationDetector(
             $violationChecker->reveal(),
             $violationFilter->reveal()
         );
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Violation\ViolationDetector', $violationDetector);
+        $this->assertInstanceOf(ViolationDetector::class, $violationDetector);
     }
 
     public function testGetViolations()
     {
-        $violation = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Violation')->reveal();
-        $filteredViolation = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Violation')->reveal();
+        $violation = $this->prophesize(Violation::class)->reveal();
+        $filteredViolation = $this->prophesize(Violation::class)->reveal();
 
         $expected = array($violation);
-        $phpFileInfo = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo')->reveal();
-        $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet')->reveal();
+        $phpFileInfo = $this->prophesize(PhpFileInfo::class)->reveal();
+        $ruleSet = $this->prophesize(RuleSet::class)->reveal();
 
         $violationChecker = $this->prophesize(
-            'SensioLabs\DeprecationDetector\Violation\ViolationChecker\ViolationCheckerInterface'
+            ViolationCheckerInterface::class
         );
 
         $violationChecker
@@ -41,7 +46,7 @@ class ViolationDetectorTest extends \PHPUnit_Framework_TestCase
             ->shouldBeCalled();
 
         $violationFilter = $this->prophesize(
-            'SensioLabs\DeprecationDetector\Violation\ViolationFilter\ViolationFilterInterface'
+            ViolationFilterInterface::class
         );
         $violationFilter->isViolationFiltered($violation)->willReturn(false)->shouldBeCalled();
         $violationFilter->isViolationFiltered($filteredViolation)->willReturn(true)->shouldBeCalled();

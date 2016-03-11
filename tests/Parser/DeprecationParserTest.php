@@ -2,24 +2,27 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\Parser;
 
+use PhpParser\NodeTraverser;
 use Prophecy\Argument;
+use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Parser\DeprecationParser;
+use SensioLabs\DeprecationDetector\Visitor\DeprecationVisitorInterface;
 
 class DeprecationParserTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $deprecationParser = new DeprecationParser(array(), $this->prophesize('PhpParser\NodeTraverser')->reveal());
+        $deprecationParser = new DeprecationParser(array(), $this->prophesize(NodeTraverser::class)->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Parser\DeprecationParser', $deprecationParser);
+        $this->assertInstanceOf(DeprecationParser::class, $deprecationParser);
     }
 
     public function testAddDeprecationVisitor()
     {
-        $visitor = $this->prophesize('SensioLabs\DeprecationDetector\Visitor\DeprecationVisitorInterface');
+        $visitor = $this->prophesize(DeprecationVisitorInterface::class);
         $visitor = $visitor->reveal();
 
-        $baseTraverser = $this->prophesize('PhpParser\NodeTraverser');
+        $baseTraverser = $this->prophesize(NodeTraverser::class);
         $baseTraverser->addVisitor($visitor)->shouldBeCalled();
 
         $deprecationParser = new DeprecationParser(array(), $baseTraverser->reveal());
@@ -28,14 +31,14 @@ class DeprecationParserTest extends \PHPUnit_Framework_TestCase
 
     public function testParseFile()
     {
-        $phpFileInfo = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo')->reveal();
+        $phpFileInfo = $this->prophesize(PhpFileInfo::class)->reveal();
 
-        $visitor = $this->prophesize('SensioLabs\DeprecationDetector\Visitor\DeprecationVisitorInterface');
+        $visitor = $this->prophesize(DeprecationVisitorInterface::class);
         $visitor->setPhpFileInfo($phpFileInfo)->shouldBeCalled();
-        $anotherVisitor = $this->prophesize('SensioLabs\DeprecationDetector\Visitor\DeprecationVisitorInterface');
+        $anotherVisitor = $this->prophesize(DeprecationVisitorInterface::class);
         $anotherVisitor->setPhpFileInfo($phpFileInfo)->shouldBeCalled();
 
-        $baseTraverser = $this->prophesize('PhpParser\NodeTraverser');
+        $baseTraverser = $this->prophesize(NodeTraverser::class);
         $baseTraverser->addVisitor($visitor)->shouldBeCalled();
         $baseTraverser->addVisitor($anotherVisitor)->shouldBeCalled();
         $baseTraverser->traverse(Argument::any())->shouldBeCalled();

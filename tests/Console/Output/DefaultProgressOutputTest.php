@@ -4,13 +4,16 @@ namespace SensioLabs\DeprecationDetector\Tests\Console\Output;
 
 use Prophecy\Argument;
 use SensioLabs\DeprecationDetector\Console\Output\DefaultProgressOutput;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Stopwatch\Stopwatch;
+use Symfony\Component\Stopwatch\StopwatchEvent;
 
 class DefaultProgressOutputTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $output = $this->prophesize('Symfony\Component\Console\Output\OutputInterface');
-        $stopwatch = $this->prophesize('Symfony\Component\Stopwatch\Stopwatch');
+        $output = $this->prophesize(OutputInterface::class);
+        $stopwatch = $this->prophesize(Stopwatch::class);
 
         $defaultProgressOutput = new DefaultProgressOutput(
             $output->reveal(),
@@ -18,18 +21,18 @@ class DefaultProgressOutputTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\Console\Output\DefaultProgressOutput',
+            DefaultProgressOutput::class,
             $defaultProgressOutput
         );
     }
 
     public function testDifferentStages()
     {
-        $output = $this->prophesize('Symfony\Component\Console\Output\OutputInterface');
+        $output = $this->prophesize(OutputInterface::class);
         $output->writeln(Argument::any())->shouldBeCalledTimes(9);
-        $stopwatch = $this->prophesize('Symfony\Component\Stopwatch\Stopwatch');
+        $stopwatch = $this->prophesize(Stopwatch::class);
         $stopwatch->start(DefaultProgressOutput::PROGRESS_NAME)->shouldBeCalled();
-        $stopwatchEvent = $this->prophesize('Symfony\Component\Stopwatch\StopwatchEvent');
+        $stopwatchEvent = $this->prophesize(StopwatchEvent::class);
         $stopwatch
             ->stop(DefaultProgressOutput::PROGRESS_NAME)
             ->willReturn($stopwatchEvent->reveal())
@@ -52,10 +55,10 @@ class DefaultProgressOutputTest extends \PHPUnit_Framework_TestCase
 
     public function testEndProgressWithoutViolations()
     {
-        $output = $this->prophesize('Symfony\Component\Console\Output\OutputInterface');
+        $output = $this->prophesize(OutputInterface::class);
         $output->writeln(Argument::any())->shouldBeCalledTimes(2);
-        $stopwatchEvent = $this->prophesize('Symfony\Component\Stopwatch\StopwatchEvent');
-        $stopwatch = $this->prophesize('Symfony\Component\Stopwatch\Stopwatch');
+        $stopwatchEvent = $this->prophesize(StopwatchEvent::class);
+        $stopwatch = $this->prophesize(Stopwatch::class);
         $stopwatch
             ->stop(DefaultProgressOutput::PROGRESS_NAME)
             ->willReturn($stopwatchEvent->reveal())
@@ -73,10 +76,10 @@ class DefaultProgressOutputTest extends \PHPUnit_Framework_TestCase
 
     public function testEndProgressWithViolations()
     {
-        $output = $this->prophesize('Symfony\Component\Console\Output\OutputInterface');
+        $output = $this->prophesize(OutputInterface::class);
         $output->writeln(Argument::any())->shouldBeCalledTimes(2);
-        $stopwatchEvent = $this->prophesize('Symfony\Component\Stopwatch\StopwatchEvent');
-        $stopwatch = $this->prophesize('Symfony\Component\Stopwatch\Stopwatch');
+        $stopwatchEvent = $this->prophesize(StopwatchEvent::class);
+        $stopwatch = $this->prophesize(Stopwatch::class);
         $stopwatch
             ->stop(DefaultProgressOutput::PROGRESS_NAME)
             ->willReturn($stopwatchEvent->reveal())

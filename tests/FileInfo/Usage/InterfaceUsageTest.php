@@ -10,7 +10,7 @@ class InterfaceUsageTest extends \PHPUnit_Framework_TestCase
     {
         $interfaceUsage = new InterfaceUsage('interface', 'class', 0);
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage', $interfaceUsage);
+        $this->assertInstanceOf(InterfaceUsage::class, $interfaceUsage);
     }
 
     public function testGetInterfaceName()

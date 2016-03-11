@@ -10,7 +10,7 @@ class TypeHintUsageTest extends \PHPUnit_Framework_TestCase
     {
         $typeHintUsage = new TypeHintUsage('TypeHint', 1);
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\FileInfo\Usage\TypeHintUsage', $typeHintUsage);
+        $this->assertInstanceOf(TypeHintUsage::class, $typeHintUsage);
     }
 
     public function testGetTypeHintName()

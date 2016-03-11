@@ -8,6 +8,7 @@ use Prophecy\Argument;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindSuperTypes;
+use Symfony\Component\Finder\SplFileInfo;
 
 class FindSuperTypesTest extends FindTestCase
 {
@@ -22,7 +23,7 @@ class Bar extends Baz {
 }
 EOC;
 
-        $splFileInfo = $this->prophesize('Symfony\Component\Finder\SplFileInfo');
+        $splFileInfo = $this->prophesize(SplFileInfo::class);
         $phpFileInfo = $this->parsePhpFileFromStringAndTraverseWithVisitor(
             $file = PhpFileInfo::create($splFileInfo->reveal()),
             $source,
@@ -46,7 +47,7 @@ class Bar {
 }
 EOC;
 
-        $splFileInfo = $this->prophesize('Symfony\Component\Finder\SplFileInfo');
+        $splFileInfo = $this->prophesize(SplFileInfo::class);
         $phpFileInfo = $this->parsePhpFileFromStringAndTraverseWithVisitor(
             $file = PhpFileInfo::create($splFileInfo->reveal()),
             $source,

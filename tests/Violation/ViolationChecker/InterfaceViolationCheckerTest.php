@@ -2,6 +2,9 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\Violation\ViolationChecker;
 
+use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage;
+use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 use SensioLabs\DeprecationDetector\Violation\Violation;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\InterfaceViolationChecker;
 
@@ -9,7 +12,7 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
+        $ruleSet = $this->prophesize(RuleSet::class);
         $checker = new InterfaceViolationChecker($ruleSet->reveal());
 
         $this->assertInstanceOf(
@@ -20,10 +23,10 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
     public function testCheck()
     {
-        $interfaceUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage');
+        $interfaceUsage = $this->prophesize(InterfaceUsage::class);
         $interfaceUsage->name()->willReturn('interface');
 
-        $deprecatedInterfaceUsage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage');
+        $deprecatedInterfaceUsage = $this->prophesize(InterfaceUsage::class);
         $deprecatedInterfaceUsage->className()->willReturn('class');
         $deprecatedInterfaceUsage->name()->willReturn('deprecatedInterface');
         $deprecatedInterfaceUsage->getLineNumber()->willReturn(10);
@@ -31,8 +34,8 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $interfaceUsage = $interfaceUsage->reveal();
         $deprecatedInterfaceUsage = $deprecatedInterfaceUsage->reveal();
 
-        $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
-        $collection = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
+        $ruleSet = $this->prophesize(RuleSet::class);
+        $collection = $this->prophesize(PhpFileInfo::class);
         $collection->interfaceUsages()->willReturn(
             array('class' => array(
             $interfaceUsage,

@@ -25,19 +25,19 @@ class SymbolTableVariableResolverVisitorTest extends \PHPUnit_Framework_TestCase
     {
         $visitor = new SymbolTableVariableResolverVisitor(new ComposedResolver(), new SymbolTable());
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Visitor\SymbolTableVariableResolverVisitor',
+            SymbolTableVariableResolverVisitor::class,
             $visitor
         );
     }
 
     public function testSkipsAnonymousClasses()
     {
-        $symbolTable = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $symbolTable = $this->prophesize(SymbolTable::class);
         $symbolTable->enterScope(Argument::any())->shouldNotBeCalled();
         $symbolTable->setSymbol(Argument::any())->shouldNotBeCalled();
         $symbolTable->leaveScope()->shouldNotBeCalled();
 
-        $resolver = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\ComposedResolver');
+        $resolver = $this->prophesize(ComposedResolver::class);
         $visitor = new SymbolTableVariableResolverVisitor($resolver->reveal(), $symbolTable->reveal());
 
         $node = new Class_(null);

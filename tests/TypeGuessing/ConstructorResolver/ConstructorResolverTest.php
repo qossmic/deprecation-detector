@@ -7,17 +7,19 @@ use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\ClassMethod;
 use Prophecy\Argument;
 use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver;
+use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\TableScope;
+use SensioLabs\DeprecationDetector\Visitor\VisitorInterface;
 
 class ConstructorResolverTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $resolver = new ConstructorResolver($table->reveal());
 
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver',
+            ConstructorResolver::class,
             $resolver
         );
     }
@@ -35,9 +37,9 @@ class ConstructorResolverTest extends \PHPUnit_Framework_TestCase
         $classNode = new Class_('SomeClass');
         $classNode->stmts = $classMethods;
 
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->enterScope(new TableScope(TableScope::CLASS_METHOD_SCOPE))->shouldNotBeCalled();
-        $visitor = $this->prophesize('SensioLabs\DeprecationDetector\Visitor\VisitorInterface');
+        $visitor = $this->prophesize(VisitorInterface::class);
         $visitor->beforeTraverse(Argument::any())->shouldNotBeCalled();
         $visitor->enterNode(Argument::any())->shouldNotBeCalled();
         $visitor->afterTraverse(Argument::any())->shouldNotBeCalled();
@@ -57,10 +59,10 @@ class ConstructorResolverTest extends \PHPUnit_Framework_TestCase
         $classNode = new Class_('SomeClass');
         $classNode->stmts = $classMethods;
 
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->enterScope(new TableScope(TableScope::CLASS_METHOD_SCOPE))->shouldBeCalled();
         $table->leaveScope()->shouldBeCalled();
-        $visitor = $this->prophesize('SensioLabs\DeprecationDetector\Visitor\VisitorInterface');
+        $visitor = $this->prophesize(VisitorInterface::class);
         $visitor->beforeTraverse(Argument::any())->shouldBeCalled();
         $visitor->enterNode(Argument::any())->shouldBeCalled();
         $visitor->afterTraverse(Argument::any())->shouldBeCalled();
@@ -78,10 +80,10 @@ class ConstructorResolverTest extends \PHPUnit_Framework_TestCase
         $classNode = new Class_('SomeClass');
         $classNode->stmts = array($classMethod);
 
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->enterScope(new TableScope(TableScope::CLASS_METHOD_SCOPE))->shouldNotBeCalled();
         $table->leaveScope()->shouldNotBeCalled();
-        $visitor = $this->prophesize('SensioLabs\DeprecationDetector\Visitor\VisitorInterface');
+        $visitor = $this->prophesize(VisitorInterface::class);
         $visitor->beforeTraverse(Argument::any())->shouldNotBeCalled();
         $visitor->enterNode(Argument::any())->shouldNotBeCalled();
         $visitor->afterTraverse(Argument::any())->shouldNotBeCalled();

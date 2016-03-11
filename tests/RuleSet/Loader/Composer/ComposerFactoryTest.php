@@ -4,6 +4,8 @@ namespace SensioLabs\DeprecationDetector\Tests\RuleSet\Loader\Composer;
 
 use org\bovigo\vfs\vfsStream;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerFactory;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Exception\ComposerFileDoesNotExistsException;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Exception\ComposerFileIsInvalidException;
 
 class ComposerFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +13,7 @@ class ComposerFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new ComposerFactory();
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerFactory', $factory);
+        $this->assertInstanceOf(ComposerFactory::class, $factory);
     }
 
     public function testFromLockThrowsComposerFileDoesNotExistException()
@@ -19,7 +21,7 @@ class ComposerFactoryTest extends \PHPUnit_Framework_TestCase
         $factory = new ComposerFactory();
 
         $this->setExpectedException(
-            'SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Exception\ComposerFileDoesNotExistsException',
+            ComposerFileDoesNotExistsException::class,
             'composer.lock file "path/to/not/existing/composer.lock" does not exist.'
         );
         $factory->fromLock('path/to/not/existing/composer.lock');
@@ -35,7 +37,7 @@ class ComposerFactoryTest extends \PHPUnit_Framework_TestCase
         $root->addChild($file);
 
         $this->setExpectedException(
-            'SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Exception\ComposerFileIsInvalidException',
+            ComposerFileIsInvalidException::class,
             'composer.lock file "vfs://root/composer.lock" is invalid.'
         );
         $factory->fromLock(vfsStream::url('root/composer.lock'));

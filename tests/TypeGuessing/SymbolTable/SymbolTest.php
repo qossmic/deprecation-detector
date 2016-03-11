@@ -10,7 +10,7 @@ class SymbolTest extends \PHPUnit_Framework_TestCase
     {
         $symbol = new Symbol('var', 'class');
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Symbol', $symbol);
+        $this->assertInstanceOf(Symbol::class, $symbol);
     }
 
     public function testGetSymbol()
