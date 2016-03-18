@@ -13,7 +13,7 @@ class InterfaceViolationChecker implements ViolationCheckerInterface
      */
     public function check(PhpFileInfo $phpFileInfo, RuleSet $ruleSet)
     {
-        $violations = array();
+        $violations = [];
 
         foreach ($phpFileInfo->interfaceUsages() as $interfaceUsageGroup) {
             foreach ($interfaceUsageGroup as $interfaceUsage) {

@@ -13,7 +13,7 @@ class LanguageViolationChecker implements ViolationCheckerInterface
      */
     public function check(PhpFileInfo $phpFileInfo, RuleSet $ruleSet)
     {
-        $violations = array();
+        $violations = [];
 
         foreach ($phpFileInfo->getDeprecatedLanguageUsages() as $deprecatedLanguageUsage) {
             $violations[] = new Violation(

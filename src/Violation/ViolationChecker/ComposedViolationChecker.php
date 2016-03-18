@@ -30,11 +30,11 @@ class ComposedViolationChecker implements ViolationCheckerInterface
                 return $checker->check($phpFileInfo, $ruleSet);
             } catch (\Exception $e) {
                 # TODO.
-                return array();
+                return [];
             }
         }, $this->violationCheckers);
 
-        $result = array();
+        $result = [];
         array_walk($violations, function ($vio) use (&$result) {
             $result = array_merge($result, $vio);
         });

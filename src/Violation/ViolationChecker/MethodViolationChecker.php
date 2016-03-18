@@ -28,7 +28,7 @@ class MethodViolationChecker implements ViolationCheckerInterface
      */
     public function check(PhpFileInfo $phpFileInfo, RuleSet $ruleSet)
     {
-        $violations = array();
+        $violations = [];
 
         foreach ($phpFileInfo->methodUsages() as $methodUsage) {
             $className = $methodUsage->className();

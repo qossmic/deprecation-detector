@@ -10,12 +10,12 @@ class MessageHelper
     /**
      * @var ViolationMessageInterface[]
      */
-    private $violationMessages = array();
+    private $violationMessages = [];
 
     /**
      * @param ViolationMessageInterface[] $violationMessages
      */
-    public function __construct(array $violationMessages = array())
+    public function __construct(array $violationMessages = [])
     {
         $this->violationMessages = $violationMessages;
     }

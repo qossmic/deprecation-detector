@@ -26,14 +26,14 @@ class ConstructorResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testSkipsAbstractConstructor()
     {
-        $classMethods = array(
+        $classMethods = [
             new ClassMethod(
                 '__construct',
-                array(
+                [
                     'type' => Class_::MODIFIER_ABSTRACT,
-                )
+                ]
             ),
-        );
+        ];
         $classNode = new Class_('SomeClass');
         $classNode->stmts = $classMethods;
 
@@ -54,8 +54,8 @@ class ConstructorResolverTest extends \PHPUnit_Framework_TestCase
     public function testResolveConstructorAndAddVisitors()
     {
         $classMethod = new ClassMethod('__construct');
-        $classMethod->stmts = array($node = new Variable('x'));
-        $classMethods = array($classMethod);
+        $classMethod->stmts = [$node = new Variable('x')];
+        $classMethods = [$classMethod];
         $classNode = new Class_('SomeClass');
         $classNode->stmts = $classMethods;
 
@@ -78,7 +78,7 @@ class ConstructorResolverTest extends \PHPUnit_Framework_TestCase
     {
         $classMethod = new ClassMethod('someMethod');
         $classNode = new Class_('SomeClass');
-        $classNode->stmts = array($classMethod);
+        $classNode->stmts = [$classMethod];
 
         $table = $this->prophesize(SymbolTable::class);
         $table->enterScope(new TableScope(TableScope::CLASS_METHOD_SCOPE))->shouldNotBeCalled();

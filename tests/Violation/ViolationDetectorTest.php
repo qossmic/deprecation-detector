@@ -32,7 +32,7 @@ class ViolationDetectorTest extends \PHPUnit_Framework_TestCase
         $violation = $this->prophesize(Violation::class)->reveal();
         $filteredViolation = $this->prophesize(Violation::class)->reveal();
 
-        $expected = array($violation);
+        $expected = [$violation];
         $phpFileInfo = $this->prophesize(PhpFileInfo::class)->reveal();
         $ruleSet = $this->prophesize(RuleSet::class)->reveal();
 
@@ -42,7 +42,7 @@ class ViolationDetectorTest extends \PHPUnit_Framework_TestCase
 
         $violationChecker
             ->check($phpFileInfo, $ruleSet)
-            ->willReturn(array($violation, $filteredViolation))
+            ->willReturn([$violation, $filteredViolation])
             ->shouldBeCalled();
 
         $violationFilter = $this->prophesize(
@@ -58,7 +58,7 @@ class ViolationDetectorTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             $expected,
-            $violationDetector->getViolations($ruleSet, array($phpFileInfo))
+            $violationDetector->getViolations($ruleSet, [$phpFileInfo])
         );
     }
 }

@@ -53,7 +53,7 @@ class ConsoleOutputRenderer implements RendererInterface
         }
 
         $table = new Table($this->output);
-        $table->setHeaders(array('#', 'Usage', 'Line', 'Comment'));
+        $table->setHeaders(['#', 'Usage', 'Line', 'Comment']);
 
         $tmpFile = null;
         foreach ($violations as $i => $violation) {
@@ -66,12 +66,12 @@ class ConsoleOutputRenderer implements RendererInterface
                 $table->addRow(new TableSeparator());
             }
 
-            $table->addRow(array(
+            $table->addRow([
                 ++$i,
                 $this->messageHelper->getViolationMessage($violation),
                 $violation->getLine(),
                 $violation->getComment(),
-            ));
+            ]);
         }
 
         $table->render();
@@ -106,9 +106,9 @@ class ConsoleOutputRenderer implements RendererInterface
     {
         $cell = new TableCell(
             sprintf('<comment>%s</comment>', $file->getPathname()),
-            array('colspan' => 3)
+            ['colspan' => 3]
         );
 
-        return array(new TableCell(), $cell);
+        return [new TableCell(), $cell];
     }
 }

@@ -18,7 +18,7 @@ class DeprecationParser extends Parser implements ParserInterface
     /**
      * @var DeprecationVisitorInterface[]
      */
-    protected $deprecationVisitors = array();
+    protected $deprecationVisitors = [];
 
     /**
      * @param DeprecationVisitorInterface[] $visitors
@@ -29,7 +29,7 @@ class DeprecationParser extends Parser implements ParserInterface
         parent::__construct(new Lexer());
         $this->traverser = $baseTraverser;
 
-        array_map(array($this, 'addDeprecationVisitor'), $visitors);
+        array_map([$this, 'addDeprecationVisitor'], $visitors);
     }
 
     /**

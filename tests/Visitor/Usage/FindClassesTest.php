@@ -29,10 +29,10 @@ EOC;
         );
 
         $this->assertEquals(
-            array(
+            [
                 new ClassUsage('X\Foo', 5),
                 new ClassUsage('Bar', 6),
-            ),
+            ],
             $phpFileInfo->classUsages()
         );
     }
@@ -54,7 +54,7 @@ EOC;
         );
 
         $this->assertEquals(
-            array(),
+            [],
             $usageCollection->classUsages()
         );
     }

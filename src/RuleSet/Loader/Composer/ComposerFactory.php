@@ -29,12 +29,12 @@ class ComposerFactory
             throw new ComposerFileIsInvalidException($lockPath);
         }
 
-        $packages = array();
+        $packages = [];
         foreach ($decodedData['packages'] as $package) {
             $packages[] = Package::fromArray($package);
         }
 
-        $devPackages = array();
+        $devPackages = [];
         foreach ($decodedData['packages-dev'] as $package) {
             $devPackages[] = Package::fromArray($package);
         }

@@ -34,7 +34,7 @@ class TypeHintViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $ruleSet = $this->prophesize(RuleSet::class);
         $phpFileInfo = $this->prophesize(PhpFileInfo::class);
-        $phpFileInfo->typeHintUsages()->willReturn(array($typeHintUsage));
+        $phpFileInfo->typeHintUsages()->willReturn([$typeHintUsage]);
         $phpFileInfo = $phpFileInfo->reveal();
 
         $classDeprecation = $this->prophesize(ClassDeprecation::class);
@@ -46,9 +46,9 @@ class TypeHintViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $checker = new TypeHintViolationChecker();
         $usage = new ClassUsage('TypeHint', 123);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             new Violation($usage, $phpFileInfo, 'comment'),
-        ), $checker->check($phpFileInfo, $ruleSet->reveal()));
+        ], $checker->check($phpFileInfo, $ruleSet->reveal()));
     }
 
     public function testInterfaceTypeHintCheck()
@@ -60,7 +60,7 @@ class TypeHintViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $ruleSet = $this->prophesize(RuleSet::class);
         $phpFileInfo = $this->prophesize(PhpFileInfo::class);
-        $phpFileInfo->typeHintUsages()->willReturn(array($typeHintUsage));
+        $phpFileInfo->typeHintUsages()->willReturn([$typeHintUsage]);
         $phpFileInfo = $phpFileInfo->reveal();
 
         $interfaceDeprecation = $this
@@ -74,8 +74,8 @@ class TypeHintViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $checker = new TypeHintViolationChecker();
         $usage = new InterfaceUsage('TypeHint', '', 123);
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             new Violation($usage, $phpFileInfo, 'comment'),
-        ), $checker->check($phpFileInfo, $ruleSet->reveal()));
+        ], $checker->check($phpFileInfo, $ruleSet->reveal()));
     }
 }

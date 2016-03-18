@@ -12,7 +12,7 @@ class DeprecationParserTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $deprecationParser = new DeprecationParser(array(), $this->prophesize(NodeTraverser::class)->reveal());
+        $deprecationParser = new DeprecationParser([], $this->prophesize(NodeTraverser::class)->reveal());
 
         $this->assertInstanceOf(DeprecationParser::class, $deprecationParser);
     }
@@ -25,7 +25,7 @@ class DeprecationParserTest extends \PHPUnit_Framework_TestCase
         $baseTraverser = $this->prophesize(NodeTraverser::class);
         $baseTraverser->addVisitor($visitor)->shouldBeCalled();
 
-        $deprecationParser = new DeprecationParser(array(), $baseTraverser->reveal());
+        $deprecationParser = new DeprecationParser([], $baseTraverser->reveal());
         $deprecationParser->addDeprecationVisitor($visitor);
     }
 
@@ -44,7 +44,7 @@ class DeprecationParserTest extends \PHPUnit_Framework_TestCase
         $baseTraverser->traverse(Argument::any())->shouldBeCalled();
 
         $deprecationParser = new DeprecationParser(
-            array($visitor->reveal(), $anotherVisitor->reveal()),
+            [$visitor->reveal(), $anotherVisitor->reveal()],
             $baseTraverser->reveal()
         );
         $deprecationParser->parseFile($phpFileInfo);

@@ -61,20 +61,20 @@ class ComposerLoaderTest extends \PHPUnit_Framework_TestCase
         $aVendorALib->generatePackageKey()->willReturn('vendor_alib_1.0.0');
         $aVendorALib->getPackagePath(Argument::any())->willReturn(vfsStream::url('root/vendor/avendor/alib'));
         $aVendorALibRuleSet = $this->prophesize(RuleSet::class);
-        $aVendorALibRuleSet->classDeprecations()->willReturn(array());
-        $aVendorALibRuleSet->interfaceDeprecations()->willReturn(array());
-        $aVendorALibRuleSet->methodDeprecations()->willReturn(array());
-        $aVendorALibRuleSet->functionDeprecations()->willReturn(array());
+        $aVendorALibRuleSet->classDeprecations()->willReturn([]);
+        $aVendorALibRuleSet->interfaceDeprecations()->willReturn([]);
+        $aVendorALibRuleSet->methodDeprecations()->willReturn([]);
+        $aVendorALibRuleSet->functionDeprecations()->willReturn([]);
         $aVendorALibRuleSet = $aVendorALibRuleSet->reveal();
 
         $aVendorAnotherLib = $this->prophesize(Package::class);
         $aVendorAnotherLib->generatePackageKey()->willReturn('vendor_anotherlib_1.0.0');
         $aVendorAnotherLib->getPackagePath(Argument::any())->willReturn(vfsStream::url('root/vendor/avendor/anotherlib'));
         $aVendorAnotherLibRuleSet = $this->prophesize(RuleSet::class);
-        $aVendorAnotherLibRuleSet->classDeprecations()->willReturn(array());
-        $aVendorAnotherLibRuleSet->interfaceDeprecations()->willReturn(array());
-        $aVendorAnotherLibRuleSet->methodDeprecations()->willReturn(array());
-        $aVendorAnotherLibRuleSet->functionDeprecations()->willReturn(array());
+        $aVendorAnotherLibRuleSet->classDeprecations()->willReturn([]);
+        $aVendorAnotherLibRuleSet->interfaceDeprecations()->willReturn([]);
+        $aVendorAnotherLibRuleSet->methodDeprecations()->willReturn([]);
+        $aVendorAnotherLibRuleSet->functionDeprecations()->willReturn([]);
         $aVendorAnotherLibRuleSet = $aVendorAnotherLibRuleSet->reveal();
 
         $anotherVendorALib = $this->prophesize(Package::class);
@@ -82,7 +82,7 @@ class ComposerLoaderTest extends \PHPUnit_Framework_TestCase
         $anotherVendorALib->getPackagePath(Argument::any())->willReturn('not/existing/path/because/it/is/a/dev/dependency');
 
         $composer = $this->prophesize(Composer::class);
-        $composer->getPackages()->willReturn(array($aVendorALib, $aVendorAnotherLib, $anotherVendorALib));
+        $composer->getPackages()->willReturn([$aVendorALib, $aVendorAnotherLib, $anotherVendorALib]);
 
         $cache = $this->prophesize(Cache::class);
         $cache->has('vendor_alib_1.0.0')->willReturn(true);

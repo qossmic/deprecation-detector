@@ -27,7 +27,7 @@ class MethodDefinitionViolationChecker implements ViolationCheckerInterface
      */
     public function check(PhpFileInfo $phpFileInfo, RuleSet $ruleSet)
     {
-        $violations = array();
+        $violations = [];
 
         foreach ($phpFileInfo->methodDefinitions() as $methodDefinition) {
             $ancestors = $this->ancestorResolver->getClassAncestors($phpFileInfo, $methodDefinition->parentName());

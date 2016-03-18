@@ -36,10 +36,10 @@ class ClassViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $ruleSet = $this->prophesize(RuleSet::class);
         $collection = $this->prophesize(PhpFileInfo::class);
-        $collection->classUsages()->willReturn(array(
+        $collection->classUsages()->willReturn([
             $classUsage,
             $deprecatedClassUsage,
-        ));
+        ]);
         $collection = $collection->reveal();
 
         $ruleSet->hasClass('class')->willReturn(false);
@@ -53,8 +53,8 @@ class ClassViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $checker = new ClassViolationChecker();
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             new Violation($deprecatedClassUsage, $collection, $deprecationComment),
-        ), $checker->check($collection, $ruleSet->reveal()));
+        ], $checker->check($collection, $ruleSet->reveal()));
     }
 }

@@ -39,11 +39,11 @@ class MethodViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $ruleSet = $this->prophesize(RuleSet::class);
         $phpFileInfo = $this->prophesize(PhpFileInfo::class);
-        $phpFileInfo->methodUsages()->willReturn(array(
+        $phpFileInfo->methodUsages()->willReturn([
             $methodUsage,
             $deprecatedMethodUsage,
-        ));
-        $phpFileInfo->getInterfaceUsageByClass('class')->willReturn(array());
+        ]);
+        $phpFileInfo->getInterfaceUsageByClass('class')->willReturn([]);
         $phpFileInfo->getSuperTypeUsageByClass('class')->willReturn(null);
         $phpFileInfo = $phpFileInfo->reveal();
 
@@ -57,12 +57,12 @@ class MethodViolationCheckerTest extends \PHPUnit_Framework_TestCase
         $ruleSet->getMethod('deprecatedMethod', 'class')->willReturn($methodDeprecation->reveal());
 
         $ancestorResolver = $this->prophesize(AncestorResolver::class);
-        $ancestorResolver->getClassAncestors($phpFileInfo, 'class')->willReturn(array());
+        $ancestorResolver->getClassAncestors($phpFileInfo, 'class')->willReturn([]);
 
         $checker = new MethodViolationChecker($ancestorResolver->reveal());
 
         $this->assertEquals(
-            array(new Violation($deprecatedMethodUsage, $phpFileInfo, $deprecationComment)),
+            [new Violation($deprecatedMethodUsage, $phpFileInfo, $deprecationComment)],
             $checker->check($phpFileInfo, $ruleSet->reveal())
         );
     }

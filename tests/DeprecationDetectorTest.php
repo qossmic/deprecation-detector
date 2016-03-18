@@ -59,25 +59,25 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
         $ancestorResolver->setSourcePaths(Argument::any())->shouldBeCalled();
 
         $deprecationResult = $this->prophesize(Result::class);
-        $deprecationResult->parsedFiles()->willReturn($parsedFiles = array());
+        $deprecationResult->parsedFiles()->willReturn($parsedFiles = []);
         $deprecationResult->fileCount()->willReturn($fileCount);
-        $deprecationResult->parserErrors()->willReturn(array());
+        $deprecationResult->parserErrors()->willReturn([]);
 
         $deprecationFinder = $this->prophesize(ParsedPhpFileFinder::class);
         $deprecationFinder->parsePhpFiles($sourceArg)->willReturn($deprecationResult->reveal());
 
         $aViolation = $this->prophesize(Violation::class);
         $anotherViolation = $this->prophesize(Violation::class);
-        $violations = array(
+        $violations = [
             $aViolation->reveal(),
             $anotherViolation->reveal(),
-        );
+        ];
 
         $violationDetector = $this->prophesize(ViolationDetector::class);
         $violationDetector->getViolations($ruleSet->reveal(), $parsedFiles)->willReturn($violations);
 
         $renderer = $this->prophesize(RendererInterface::class);
-        $renderer->renderViolations($violations, array())->shouldBeCalled();
+        $renderer->renderViolations($violations, [])->shouldBeCalled();
 
         $defaultOutput = $this->prophesize(
             DefaultProgressOutput::class

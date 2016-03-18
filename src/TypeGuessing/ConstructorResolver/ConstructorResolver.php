@@ -24,7 +24,7 @@ class ConstructorResolver
      * @param SymbolTable        $table
      * @param VisitorInterface[] $visitors
      */
-    public function __construct(SymbolTable $table, array $visitors = array())
+    public function __construct(SymbolTable $table, array $visitors = [])
     {
         $this->table = $table;
         $this->visitors = $visitors;

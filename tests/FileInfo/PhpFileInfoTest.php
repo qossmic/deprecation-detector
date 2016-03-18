@@ -29,63 +29,63 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
     public function testAddAndGetClassUsages()
     {
         $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
-        $this->assertSame(array(), $fileInfo->classUsages());
+        $this->assertSame([], $fileInfo->classUsages());
 
         $classUsage = $this->prophesize(ClassUsage::class)->reveal();
         $fileInfo->addClassUsage($classUsage);
-        $this->assertSame(array($classUsage), $fileInfo->classUsages());
+        $this->assertSame([$classUsage], $fileInfo->classUsages());
     }
 
     public function testAddAndGetInterfaceUsages()
     {
         $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
-        $this->assertSame(array(), $fileInfo->interfaceUsages());
+        $this->assertSame([], $fileInfo->interfaceUsages());
 
         $interfaceUsage = $this->prophesize(InterfaceUsage::class);
         $interfaceUsage->className()->willReturn('className');
         $interfaceUsage = $interfaceUsage->reveal();
 
         $fileInfo->addInterfaceUsage($interfaceUsage);
-        $this->assertSame(array('className' => array($interfaceUsage)), $fileInfo->interfaceUsages());
+        $this->assertSame(['className' => [$interfaceUsage]], $fileInfo->interfaceUsages());
     }
 
     public function testAddAndGetSuperTypeUsages()
     {
         $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
-        $this->assertSame(array(), $fileInfo->superTypeUsages());
+        $this->assertSame([], $fileInfo->superTypeUsages());
 
         $superTypeUsage = $this->prophesize(SuperTypeUsage::class);
         $superTypeUsage->className()->willReturn('className');
         $superTypeUsage = $superTypeUsage->reveal();
 
         $fileInfo->addSuperTypeUsage($superTypeUsage);
-        $this->assertSame(array('className' => $superTypeUsage), $fileInfo->superTypeUsages());
+        $this->assertSame(['className' => $superTypeUsage], $fileInfo->superTypeUsages());
     }
 
     public function testAddAndGetMethodUsages()
     {
         $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
-        $this->assertSame(array(), $fileInfo->methodUsages());
+        $this->assertSame([], $fileInfo->methodUsages());
 
         $methodUsage = $this->prophesize(MethodUsage::class)->reveal();
         $fileInfo->addMethodUsage($methodUsage);
-        $this->assertSame(array($methodUsage), $fileInfo->methodUsages());
+        $this->assertSame([$methodUsage], $fileInfo->methodUsages());
     }
 
     public function testAddAndGetTypeHintUsages()
     {
         $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
-        $this->assertSame(array(), $fileInfo->methodUsages());
+        $this->assertSame([], $fileInfo->methodUsages());
 
         $typeHintUsage = $this->prophesize(TypeHintUsage::class)->reveal();
         $fileInfo->addTypeHintUsage($typeHintUsage);
-        $this->assertSame(array($typeHintUsage), $fileInfo->typeHintUsages());
+        $this->assertSame([$typeHintUsage], $fileInfo->typeHintUsages());
     }
 
     public function testClassDeprecations()
     {
         $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
-        $this->assertSame(array(), $fileInfo->classDeprecations());
+        $this->assertSame([], $fileInfo->classDeprecations());
 
         $classDeprecation = $this->prophesize(ClassDeprecation::class);
         $classDeprecation->name()->willReturn('className');
@@ -97,7 +97,7 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($fileInfo->getClassDeprecation('className'));
 
         $fileInfo->addClassDeprecation($classDeprecation);
-        $this->assertSame(array('className' => $classDeprecation), $fileInfo->classDeprecations());
+        $this->assertSame(['className' => $classDeprecation], $fileInfo->classDeprecations());
 
         $this->assertTrue($fileInfo->hasDeprecations());
         $this->assertTrue($fileInfo->hasClassDeprecations());
@@ -108,7 +108,7 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
     public function testInterfaceDeprecations()
     {
         $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
-        $this->assertSame(array(), $fileInfo->interfaceDeprecations());
+        $this->assertSame([], $fileInfo->interfaceDeprecations());
 
         $interfaceDeprecation = $this
             ->prophesize(InterfaceDeprecation::class);
@@ -121,7 +121,7 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($fileInfo->getInterfaceDeprecation('interfaceName'));
 
         $fileInfo->addInterfaceDeprecation($interfaceDeprecation);
-        $this->assertSame(array('interfaceName' => $interfaceDeprecation), $fileInfo->interfaceDeprecations());
+        $this->assertSame(['interfaceName' => $interfaceDeprecation], $fileInfo->interfaceDeprecations());
 
         $this->assertTrue($fileInfo->hasDeprecations());
         $this->assertTrue($fileInfo->hasInterfaceDeprecations());
@@ -132,7 +132,7 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
     public function testMethodDeprecations()
     {
         $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
-        $this->assertSame(array(), $fileInfo->methodDeprecations());
+        $this->assertSame([], $fileInfo->methodDeprecations());
 
         $methodDeprecation = $this->prophesize(MethodDeprecation::class);
         $methodDeprecation->parentName()->willReturn('className');
@@ -146,7 +146,7 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 
         $fileInfo->addMethodDeprecation($methodDeprecation);
         $this->assertSame(
-            array('className' => array('methodName' => $methodDeprecation)),
+            ['className' => ['methodName' => $methodDeprecation]],
             $fileInfo->methodDeprecations()
         );
 
@@ -160,7 +160,7 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
     {
         $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
         $this->assertFalse($fileInfo->hasInterfaceUsageByClass('someClass'));
-        $this->assertSame(array(), $fileInfo->getInterfaceUsageByClass('someClass'));
+        $this->assertSame([], $fileInfo->getInterfaceUsageByClass('someClass'));
 
         $interfaceUsage = $this->prophesize(InterfaceUsage::class);
         $interfaceUsage->className()->willReturn('someClass');
@@ -168,7 +168,7 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
 
         $fileInfo->addInterfaceUsage($interfaceUsage);
         $this->assertTrue($fileInfo->hasInterfaceUsageByClass('someClass'));
-        $this->assertSame(array($interfaceUsage), $fileInfo->getInterfaceUsageByClass('someClass'));
+        $this->assertSame([$interfaceUsage], $fileInfo->getInterfaceUsageByClass('someClass'));
     }
 
     public function testHasAndGetSuperTypeUsageByClass()
@@ -189,19 +189,19 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
     public function testAddAndGetMethodDefinitions()
     {
         $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
-        $this->assertSame(array(), $fileInfo->methodDefinitions());
+        $this->assertSame([], $fileInfo->methodDefinitions());
 
         $methodDefinition = $this->prophesize(MethodDefinition::class)->reveal();
 
         $fileInfo->addMethodDefinition($methodDefinition);
 
-        $this->assertSame(array($methodDefinition), $fileInfo->methodDefinitions());
+        $this->assertSame([$methodDefinition], $fileInfo->methodDefinitions());
     }
 
     public function testFunctionDeprecation()
     {
         $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
-        $this->assertSame(array(), $fileInfo->functionDeprecations());
+        $this->assertSame([], $fileInfo->functionDeprecations());
 
         $functionDeprecation = $this->prophesize(FunctionDeprecation::class);
         $functionDeprecation->name()->willReturn('functionName');
@@ -211,7 +211,7 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($fileInfo->hasFunctionDeprecations());
 
         $fileInfo->addFunctionDeprecation($functionDeprecation);
-        $this->assertSame(array('functionName' => $functionDeprecation), $fileInfo->functionDeprecations());
+        $this->assertSame(['functionName' => $functionDeprecation], $fileInfo->functionDeprecations());
 
         $this->assertTrue($fileInfo->hasDeprecations());
         $this->assertTrue($fileInfo->hasFunctionDeprecations());
@@ -220,24 +220,24 @@ class PhpFileInfoTest extends \PHPUnit_Framework_TestCase
     public function testAddAndGetFunctionUsage()
     {
         $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
-        $this->assertSame(array(), $fileInfo->getFunctionUsages());
+        $this->assertSame([], $fileInfo->getFunctionUsages());
 
         $functionUsage = $this->prophesize(FunctionUsage::class)->reveal();
 
         $fileInfo->addFunctionUsage($functionUsage);
 
-        $this->assertSame(array($functionUsage), $fileInfo->getFunctionUsages());
+        $this->assertSame([$functionUsage], $fileInfo->getFunctionUsages());
     }
 
     public function testAddAndGetDeprecatedLanguageUsage()
     {
         $fileInfo = PhpFileInfo::create($this->prophesize(SplFileInfo::class)->reveal());
-        $this->assertSame(array(), $fileInfo->getDeprecatedLanguageUsages());
+        $this->assertSame([], $fileInfo->getDeprecatedLanguageUsages());
 
         $deprecatedLanguageUsage = $this->prophesize(DeprecatedLanguageUsage::class)->reveal();
 
         $fileInfo->addDeprecatedLanguageUsage($deprecatedLanguageUsage);
 
-        $this->assertSame(array($deprecatedLanguageUsage), $fileInfo->getDeprecatedLanguageUsages());
+        $this->assertSame([$deprecatedLanguageUsage], $fileInfo->getDeprecatedLanguageUsages());
     }
 }
