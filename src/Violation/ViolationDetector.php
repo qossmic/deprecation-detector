@@ -40,7 +40,7 @@ class ViolationDetector
      */
     public function getViolations(RuleSet $ruleSet, array $files)
     {
-        $result = array();
+        $result = [];
         foreach ($files as $i => $file) {
             $unfilteredResult = $this->violationChecker->check($file, $ruleSet);
             foreach ($unfilteredResult as $unfilteredViolation) {

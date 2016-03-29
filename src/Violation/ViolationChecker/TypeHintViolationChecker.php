@@ -15,7 +15,7 @@ class TypeHintViolationChecker implements ViolationCheckerInterface
      */
     public function check(PhpFileInfo $phpFileInfo, RuleSet $ruleSet)
     {
-        $violations = array();
+        $violations = [];
 
         foreach ($phpFileInfo->typeHintUsages() as $typeHintUsage) {
             $isClass = $ruleSet->hasClass($typeHintUsage->name());

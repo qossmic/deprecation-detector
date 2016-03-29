@@ -9,7 +9,7 @@ use SensioLabs\DeprecationDetector\Violation\ViolationFilter\MethodViolationFilt
 
 class MethodViolationFilterTest extends \PHPUnit_Framework_TestCase
 {
-    private $filterList = array('Checked::method', '\\Foo\\Checked::method2');
+    private $filterList = ['Checked::method', '\\Foo\\Checked::method2'];
 
     /**
      * @var MethodViolationFilter
@@ -56,12 +56,12 @@ class MethodViolationFilterTest extends \PHPUnit_Framework_TestCase
 
     public function getFilteredViolations()
     {
-        return array(
-            array('Checked', 'method', true),
-            array('\\Foo\\Checked', 'method2', true),
-            array('Checkedd', 'method', false),
-            array('\\Foo\\Checked\\Bar', 'method2', false),
+        return [
+            ['Checked', 'method', true],
+            ['\\Foo\\Checked', 'method2', true],
+            ['Checkedd', 'method', false],
+            ['\\Foo\\Checked\\Bar', 'method2', false],
 
-        );
+        ];
     }
 }

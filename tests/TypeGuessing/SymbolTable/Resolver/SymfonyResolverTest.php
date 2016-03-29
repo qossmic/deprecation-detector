@@ -56,7 +56,7 @@ class SymfonyResolverTest extends \PHPUnit_Framework_TestCase
         $var1 = new Node\Expr\Variable('this');
         $var2 = new Node\Expr\Variable('container');
 
-        $args = array(new Node\Arg(new Node\Scalar\String_('logger')));
+        $args = [new Node\Arg(new Node\Scalar\String_('logger'))];
 
         $node1 = new Node\Expr\MethodCall($var1, 'get', $args);
         $node2 = new Node\Expr\MethodCall($var2, 'get', $args);
@@ -115,8 +115,8 @@ class SymfonyResolverTest extends \PHPUnit_Framework_TestCase
         $that1 = new Node\Expr\Variable('this');
         $that2 = new Node\Expr\Variable('container');
 
-        $args1 = array(new Node\Arg(new Node\Scalar\String_('logger')));
-        $args2 = array(new Node\Arg(new Node\Scalar\String_('logger2')));
+        $args1 = [new Node\Arg(new Node\Scalar\String_('logger'))];
+        $args2 = [new Node\Arg(new Node\Scalar\String_('logger2'))];
 
         $node1 = new Node\Expr\MethodCall($that1, 'get', $args1);
         $node2 = new Node\Expr\MethodCall($that2, 'get', $args2);

@@ -31,7 +31,7 @@ EOC;
         );
 
         $this->assertEquals(
-            array('Foo\Bar' => new SuperTypeUsage('Foo\Baz', 'Foo\Bar', 4)),
+            ['Foo\Bar' => new SuperTypeUsage('Foo\Baz', 'Foo\Bar', 4)],
             $phpFileInfo->superTypeUsages()
         );
     }
@@ -55,7 +55,7 @@ EOC;
         );
 
         $this->assertEquals(
-            array(),
+            [],
             $phpFileInfo->superTypeUsages()
         );
     }
@@ -69,7 +69,7 @@ EOC;
 
         $node = new Class_(
             null,
-            array('extends' => new Name('SomeInterface'))
+            ['extends' => new Name('SomeInterface')]
         );
 
         $visitor->enterNode($node);

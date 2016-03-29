@@ -11,7 +11,7 @@ class ComposedViolationCheckerTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $checker = new ComposedViolationChecker(array());
+        $checker = new ComposedViolationChecker([]);
 
         $this->assertInstanceOf(
             'SensioLabs\DeprecationDetector\Violation\ViolationChecker\ComposedViolationChecker',
@@ -28,21 +28,21 @@ class ComposedViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $concreteChecker = $this
             ->prophesize(ViolationCheckerInterface::class);
-        $concreteChecker->check($file, $ruleSet)->willReturn(array())->shouldBeCalled();
+        $concreteChecker->check($file, $ruleSet)->willReturn([])->shouldBeCalled();
 
         $concreteCheckerTwo = $this
             ->prophesize(ViolationCheckerInterface::class);
-        $concreteCheckerTwo->check($file, $ruleSet)->willReturn(array())->shouldBeCalled();
+        $concreteCheckerTwo->check($file, $ruleSet)->willReturn([])->shouldBeCalled();
 
         $concreteCheckerThree = $this
             ->prophesize(ViolationCheckerInterface::class);
-        $concreteCheckerThree->check($file, $ruleSet)->willReturn(array())->shouldBeCalled();
+        $concreteCheckerThree->check($file, $ruleSet)->willReturn([])->shouldBeCalled();
 
-        $checker = new ComposedViolationChecker(array(
+        $checker = new ComposedViolationChecker([
             $concreteChecker->reveal(),
             $concreteCheckerTwo->reveal(),
             $concreteCheckerThree->reveal(),
-        ));
+        ]);
 
         $checker->check($file, $ruleSet->reveal());
     }
@@ -58,10 +58,10 @@ class ComposedViolationCheckerTest extends \PHPUnit_Framework_TestCase
             ->prophesize(ViolationCheckerInterface::class);
         $concreteChecker->check($file, $ruleSet)->willThrow(new \Exception())->shouldBeCalled();
 
-        $checker = new ComposedViolationChecker(array(
+        $checker = new ComposedViolationChecker([
             $concreteChecker->reveal(),
-        ));
+        ]);
 
-        $this->assertSame(array(), $checker->check($file, $ruleSet->reveal()));
+        $this->assertSame([], $checker->check($file, $ruleSet->reveal()));
     }
 }

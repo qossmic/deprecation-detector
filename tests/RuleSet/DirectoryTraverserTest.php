@@ -23,18 +23,18 @@ class DirectoryTraverserTest extends \PHPUnit_Framework_TestCase
     {
         $aPhpFileInfo = $this->prophesize(PhpFileInfo::class);
         $aPhpFileInfo->hasDeprecations()->willReturn(true);
-        $aPhpFileInfo->classDeprecations()->willReturn(array());
-        $aPhpFileInfo->methodDeprecations()->willReturn(array());
-        $aPhpFileInfo->interfaceDeprecations()->willReturn(array());
+        $aPhpFileInfo->classDeprecations()->willReturn([]);
+        $aPhpFileInfo->methodDeprecations()->willReturn([]);
+        $aPhpFileInfo->interfaceDeprecations()->willReturn([]);
 
         $anotherPhpFileInfo = $this->prophesize(PhpFileInfo::class);
         $anotherPhpFileInfo->hasDeprecations()->willReturn(false);
 
         $deprecationResult = $this->prophesize(Result::class);
-        $deprecationResult->parsedFiles()->willReturn(array(
+        $deprecationResult->parsedFiles()->willReturn([
             $aPhpFileInfo->reveal(),
             $anotherPhpFileInfo->reveal(),
-        ));
+        ]);
 
         $deprecationFileFinder = $this->prophesize(ParsedPhpFileFinder::class);
         $deprecationFileFinder->parsePhpFiles('some_dir')->willReturn($deprecationResult->reveal());

@@ -8,7 +8,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $composer = new Composer(array(), array(), false);
+        $composer = new Composer([], [], false);
 
         $this->assertInstanceOf(Composer::class, $composer);
     }
@@ -18,8 +18,8 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $aPackage = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Package')->reveal();
         $anotherPackage = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Package')->reveal();
 
-        $composer = new Composer(array($aPackage), array($anotherPackage), true);
-        $this->assertEquals(array($aPackage, $anotherPackage), $composer->getPackages());
+        $composer = new Composer([$aPackage], [$anotherPackage], true);
+        $this->assertEquals([$aPackage, $anotherPackage], $composer->getPackages());
     }
 
     public function testGetPackagesWithoutDevPackages()
@@ -27,7 +27,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $aPackage = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Package')->reveal();
         $anotherPackage = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Package')->reveal();
 
-        $composer = new Composer(array($aPackage), array($anotherPackage), false);
-        $this->assertEquals(array($aPackage), $composer->getPackages());
+        $composer = new Composer([$aPackage], [$anotherPackage], false);
+        $this->assertEquals([$aPackage], $composer->getPackages());
     }
 }

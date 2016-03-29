@@ -11,7 +11,7 @@ class SymbolTable
 
     public function __construct()
     {
-        $this->table = array(new TableScope(TableScope::GLOBAL_SCOPE));
+        $this->table = [new TableScope(TableScope::GLOBAL_SCOPE)];
     }
 
     /**

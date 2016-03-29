@@ -91,10 +91,10 @@ class DeprecationDetector
 
         // TODO: Move to AncestorResolver not hard coded
         $lib = (is_dir($ruleSetArg) ? $ruleSetArg : realpath('vendor'));
-        $this->ancestorResolver->setSourcePaths(array(
+        $this->ancestorResolver->setSourcePaths([
             $sourceArg,
             $lib,
-        ));
+        ]);
 
         $result = $this->deprecationFinder->parsePhpFiles($sourceArg);
         $violations = $this->violationDetector->getViolations($ruleSet, $result->parsedFiles());

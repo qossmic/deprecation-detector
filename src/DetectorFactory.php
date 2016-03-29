@@ -169,7 +169,7 @@ class DetectorFactory
      */
     private function getStaticAnalysisVisitors(Configuration $configuration)
     {
-        return array(
+        return [
             $symbolTableVariableResolverVisitor = new SymbolTableVariableResolverVisitor(
                 $this->getSymbolTableVariableResolver($configuration),
                 $this->symbolTable
@@ -179,12 +179,12 @@ class DetectorFactory
             new ConstructorResolverVisitor(
                 new ConstructorResolver(
                     $this->symbolTable,
-                    array(
+                    [
                         $symbolTableVariableResolverVisitor,
-                    )
+                    ]
                 )
             ),
-        );
+        ];
     }
 
     /**
@@ -214,7 +214,7 @@ class DetectorFactory
      */
     private function getViolationVisitors()
     {
-        return array(
+        return [
             new FindInterfaces(),
             new FindArguments(),
             new FindClasses(),
@@ -224,7 +224,7 @@ class DetectorFactory
             new FindStaticMethodCalls(),
             new FindLanguageDeprecations(),
             new FindFunctionCalls(),
-        );
+        ];
     }
 
     /**
@@ -255,7 +255,7 @@ class DetectorFactory
     private function getViolationChecker(Configuration $configuration)
     {
         $violationChecker = new ComposedViolationChecker(
-            array(
+            [
                 new ClassViolationChecker(),
                 new InterfaceViolationChecker(),
                 new MethodViolationChecker($this->ancestorResolver),
@@ -264,7 +264,7 @@ class DetectorFactory
                 new MethodDefinitionViolationChecker($this->ancestorResolver),
                 new FunctionViolationChecker(),
                 new LanguageViolationChecker(),
-            )
+            ]
         );
 
         return $violationChecker;
@@ -277,7 +277,7 @@ class DetectorFactory
      */
     private function getViolationFilter(Configuration $configuration)
     {
-        $violationFilters = array();
+        $violationFilters = [];
         if ('' !== $configuration->filteredMethodCalls()) {
             $violationFilters[] = MethodViolationFilter::fromString($configuration->filteredMethodCalls());
         }
@@ -314,7 +314,7 @@ class DetectorFactory
     private function getMessageHelper()
     {
         return new MessageHelper(
-            array(
+            [
                 new ClassViolationMessage(),
                 new InterfaceViolationMessage(),
                 new MethodViolationMessage(),
@@ -322,7 +322,7 @@ class DetectorFactory
                 new SuperTypeViolationMessage(),
                 new LanguageDeprecationMessage(),
                 new FunctionViolationMessage(),
-            )
+            ]
         );
     }
 
@@ -336,9 +336,9 @@ class DetectorFactory
     private function getDeprecationParser()
     {
         return new DeprecationParser(
-            array(
+            [
                 new FindDeprecatedTagsVisitor(),
-            ),
+            ],
             $this->getBaseTraverser()
         );
     }
@@ -390,14 +390,14 @@ class DetectorFactory
      */
     private function getPredefinedRuleSet()
     {
-        $deprecatedPhpMethods = array(
-            'IntlDateFormatter' => array(
+        $deprecatedPhpMethods = [
+            'IntlDateFormatter' => [
                 'setTimeZoneID' => new MethodDeprecation('IntlDateFormatter', 'setTimeZoneID', 'Since PHP 5.5 use IntlDateFormatter->setTimeZone() instead'),
-            ),
-        );
-        $deprecatedPhpFunctions = array(
+            ],
+        ];
+        $deprecatedPhpFunctions = [
             'call_user_method' => new FunctionDeprecation('call_user_method', 'Since PHP 4.1, use call_user_func() instead'),
-            'call_user_method_array' => new FunctionDeprecation('call_user_method_array', 'Since PHP 4.1, call_user_func_array() instead'),
+            'call_user_method_array' => new FunctionDeprecation('call_user_method_array', 'Since PHP 4.1, call_user_func_[] instead'),
             'define_syslog_variables' => new FunctionDeprecation('define_syslog_variables', 'Since PHP 5.3'),
             'dl' => new FunctionDeprecation('dl', 'Since PHP 5.3'),
             'ereg' => new FunctionDeprecation('ereg', 'Since PHP 5.3, use  preg_match() instead'),
@@ -489,8 +489,8 @@ class DetectorFactory
             'php_egg_logo_guid' => new FunctionDeprecation('php_real_logo_guid', '5.5 Removed in PHP 5.5'),
             'zend_logo_guid' => new FunctionDeprecation('zend_logo_guid', '5.5 Removed in PHP 5.5'),
             'key_exists' => new FunctionDeprecation('key_exists', 'Since PHP 4.0.7'),
-        );
+        ];
 
-        return new RuleSet(array(), array(), $deprecatedPhpMethods, $deprecatedPhpFunctions);
+        return new RuleSet([], [], $deprecatedPhpMethods, $deprecatedPhpFunctions);
     }
 }

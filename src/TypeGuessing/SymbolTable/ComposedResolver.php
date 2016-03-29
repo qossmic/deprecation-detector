@@ -14,7 +14,7 @@ class ComposedResolver implements ResolverInterface
 
     public function __construct()
     {
-        $this->resolver = array();
+        $this->resolver = [];
     }
 
     /**

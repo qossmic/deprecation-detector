@@ -36,12 +36,12 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $ruleSet = $this->prophesize(RuleSet::class);
         $collection = $this->prophesize(PhpFileInfo::class);
-        $collection->interfaceUsages()->willReturn(
-            array('class' => array(
-            $interfaceUsage,
-            $deprecatedInterfaceUsage,
-            ))
-        );
+        $collection->interfaceUsages()->willReturn([
+            'class' => [
+                $interfaceUsage,
+                $deprecatedInterfaceUsage,
+            ]
+        ]);
         $collection = $collection->reveal();
 
         $ruleSet->hasInterface('interface')->willReturn(false);
@@ -56,8 +56,8 @@ class InterfaceViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $checker = new InterfaceViolationChecker();
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             new Violation($deprecatedInterfaceUsage, $collection, $deprecationComment),
-        ), $checker->check($collection, $ruleSet->reveal()));
+        ], $checker->check($collection, $ruleSet->reveal()));
     }
 }

@@ -37,10 +37,10 @@ class SuperTypeViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $ruleSet = $this->prophesize(RuleSet::class);
         $collection = $this->prophesize(PhpFileInfo::class);
-        $collection->superTypeUsages()->willReturn(array(
+        $collection->superTypeUsages()->willReturn([
             $superTypeUsage,
             $deprecatedSuperTypeUsage,
-        ));
+        ]);
         $collection = $collection->reveal();
 
         $ruleSet->hasClass('class')->willReturn(false);
@@ -54,8 +54,8 @@ class SuperTypeViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
         $checker = new SuperTypeViolationChecker();
 
-        $this->assertEquals(array(
+        $this->assertEquals([
             new Violation($deprecatedSuperTypeUsage, $collection, $deprecationComment),
-        ), $checker->check($collection, $ruleSet->reveal()));
+        ], $checker->check($collection, $ruleSet->reveal()));
     }
 }

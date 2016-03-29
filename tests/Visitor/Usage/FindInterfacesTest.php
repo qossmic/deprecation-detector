@@ -30,7 +30,7 @@ EOC;
         );
 
         $this->assertEquals(
-            array('Foo\Bar' => array(new InterfaceUsage('Foo\Baz', 'Foo\Bar', 4))),
+            ['Foo\Bar' => [new InterfaceUsage('Foo\Baz', 'Foo\Bar', 4)]],
             $phpFileInfo->interfaceUsages()
         );
     }
@@ -53,7 +53,7 @@ EOC;
         );
 
         $this->assertEquals(
-            array(),
+            [],
             $phpFileInfo->interfaceUsages()
         );
     }
@@ -67,7 +67,7 @@ EOC;
 
         $node = new Class_(
             null,
-            array('implements' => array(new Name('SomeInterface')))
+            ['implements' => [new Name('SomeInterface')]]
         );
 
         $visitor->enterNode($node);
