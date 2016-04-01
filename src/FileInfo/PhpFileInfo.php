@@ -20,62 +20,62 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
     /**
      * @var ClassUsage[]
      */
-    protected $classUsages = array();
+    protected $classUsages = [];
 
     /**
      * @var DeprecatedLanguageUsage[]
      */
-    protected $deprecatedLanguageUsages = array();
+    protected $deprecatedLanguageUsages = [];
 
     /**
      * @var InterfaceUsage[]
      */
-    protected $interfaceUsages = array();
+    protected $interfaceUsages = [];
 
     /**
      * @var array
      */
-    protected $superTypeUsages = array();
+    protected $superTypeUsages = [];
 
     /**
      * @var MethodUsage[]
      */
-    protected $methodUsages = array();
+    protected $methodUsages = [];
 
     /**
      * @var FunctionUsage[]
      */
-    protected $functionUsages = array();
+    protected $functionUsages = [];
 
     /**
      * @var TypeHintUsage[]
      */
-    protected $typeHintUsages = array();
+    protected $typeHintUsages = [];
 
     /**
      * @var MethodDeprecation[]
      */
-    protected $classDeprecations = array();
+    protected $classDeprecations = [];
 
     /**
      * @var MethodDeprecation[]
      */
-    protected $interfaceDeprecations = array();
+    protected $interfaceDeprecations = [];
 
     /**
      * @var MethodDeprecation[]
      */
-    protected $methodDeprecations = array();
+    protected $methodDeprecations = [];
 
     /**
      * @var FunctionDeprecation[]
      */
-    protected $functionDeprecations = array();
+    protected $functionDeprecations = [];
 
     /**
      * @var array
      */
-    protected $methodDefinitions = array();
+    protected $methodDefinitions = [];
 
     /**
      * @param SplFileInfo $file
@@ -109,7 +109,7 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
     public function addInterfaceUsage(InterfaceUsage $interface)
     {
         if (!isset($this->interfaceUsages[$interface->className()])) {
-            $this->interfaceUsages[$interface->className()] = array();
+            $this->interfaceUsages[$interface->className()] = [];
         }
 
         $this->interfaceUsages[$interface->className()][] = $interface;
@@ -145,7 +145,7 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
     public function getInterfaceUsageByClass($className)
     {
         if (!isset($this->interfaceUsages[$className])) {
-            return array();
+            return [];
         }
 
         return $this->interfaceUsages[$className];
@@ -333,7 +333,7 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
     public function addMethodDeprecation(MethodDeprecation $methodDeprecation)
     {
         if (!isset($this->methodDeprecations[$methodDeprecation->parentName()])) {
-            $this->methodDeprecations[$methodDeprecation->parentName()] = array();
+            $this->methodDeprecations[$methodDeprecation->parentName()] = [];
         }
 
         $this->methodDeprecations[$methodDeprecation->parentName()][$methodDeprecation->name()] = $methodDeprecation;

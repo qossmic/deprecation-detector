@@ -4,6 +4,7 @@ namespace SensioLabs\DeprecationDetector\Tests\TypeGuessing\ConstructorResolver\
 
 use PhpParser\Node\Stmt\Class_;
 use PhpParser\Node\Stmt\Function_;
+use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver;
 use SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\Visitor\ConstructorResolverVisitor;
 
 class ConstructorResolverVisitorTest extends \PHPUnit_Framework_TestCase
@@ -11,11 +12,11 @@ class ConstructorResolverVisitorTest extends \PHPUnit_Framework_TestCase
     public function testClassIsInitializable()
     {
         $resolver = $this
-            ->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver');
+            ->prophesize(ConstructorResolver::class);
         $visitor = new ConstructorResolverVisitor($resolver->reveal());
 
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\Visitor\ConstructorResolverVisitor',
+            ConstructorResolverVisitor::class,
             $visitor
         );
     }
@@ -24,7 +25,7 @@ class ConstructorResolverVisitorTest extends \PHPUnit_Framework_TestCase
     {
         $node = new Class_('SomeClass');
         $resolver = $this
-            ->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver');
+            ->prophesize(ConstructorResolver::class);
         $resolver->resolveConstructor($node)->shouldBeCalled();
         $visitor = new ConstructorResolverVisitor($resolver->reveal());
 
@@ -35,7 +36,7 @@ class ConstructorResolverVisitorTest extends \PHPUnit_Framework_TestCase
     {
         $node = new Function_('someFunction');
         $resolver = $this
-            ->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\ConstructorResolver\ConstructorResolver');
+            ->prophesize(ConstructorResolver::class);
         $resolver->resolveConstructor($node)->shouldNotBeCalled();
         $visitor = new ConstructorResolverVisitor($resolver->reveal());
 

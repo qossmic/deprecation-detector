@@ -10,6 +10,7 @@ use PHPUnit_Framework_TestCase;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\TypeHintUsage;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindArguments;
+use Symfony\Component\Finder\SplFileInfo;
 
 class FindArgumentsTest extends PHPUnit_Framework_TestCase
 {
@@ -28,7 +29,7 @@ class Bar
     public static function method() {}
 }
 EOC;
-        $splFileInfo = $this->prophesize('Symfony\Component\Finder\SplFileInfo');
+        $splFileInfo = $this->prophesize(SplFileInfo::class);
         $usages = $this->parseFileAndReturnClassUsages($file = PhpFileInfo::create($splFileInfo->reveal()), $source);
 
         $this->assertCount(3, $usages);
@@ -48,7 +49,7 @@ $x = function(\A $a, \B $b) {};
 $x = function(A $a) {};
 
 EOC;
-        $splFileInfo = $this->prophesize('Symfony\Component\Finder\SplFileInfo');
+        $splFileInfo = $this->prophesize(SplFileInfo::class);
         $usages = $this->parseFileAndReturnClassUsages($file = PhpFileInfo::create($splFileInfo->reveal()), $source);
 
         $this->assertCount(4, $usages);
@@ -71,7 +72,7 @@ class Bar
     }
 }
 EOC;
-        $splFileInfo = $this->prophesize('Symfony\Component\Finder\SplFileInfo');
+        $splFileInfo = $this->prophesize(SplFileInfo::class);
         $usages = $this->parseFileAndReturnClassUsages($file = PhpFileInfo::create($splFileInfo->reveal()), $source);
 
         $this->assertCount(2, $usages);

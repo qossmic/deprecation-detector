@@ -56,11 +56,11 @@ class CheckCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function invalidPathsProvider()
     {
-        return array(
-            array('doesnotexist', 'doesnotexist', 'Source directory'), // both are invalid
-            array('examples', 'doesnotexist', 'Rule set'),             // ruleset is invalid
-            array('doesnotexist', 'examples', 'Source directory'),     // source is invalid
-        );
+        return [
+            ['doesnotexist', 'doesnotexist', 'Source directory'], // both are invalid
+            ['examples', 'doesnotexist', 'Rule set'],             // ruleset is invalid
+            ['doesnotexist', 'examples', 'Source directory'],     // source is invalid
+        ];
     }
 
     public function testCommandWithExampleCodeWorks()
@@ -73,15 +73,15 @@ class CheckCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testCommandWithFailOption()
     {
-        $this->executeCommand('examples', 'examples', array('--fail' => true));
+        $this->executeCommand('examples', 'examples', ['--fail' => true]);
 
         $this->assertGreaterThan(0, $this->commandTester->getStatusCode());
     }
 
     public function testCommandWithFilterMethodOption()
     {
-        $this->executeCommand('examples', 'examples', array('--filter-methods' => 'OtherClass::hello,foo4::bar'));
-        $this->executeCommand('examples', 'examples', array('--filter-methods' => 'OtherClass::hello,foo4::bar'));
+        $this->executeCommand('examples', 'examples', ['--filter-methods' => 'OtherClass::hello,foo4::bar']);
+        $this->executeCommand('examples', 'examples', ['--filter-methods' => 'OtherClass::hello,foo4::bar']);
 
         $display = $this->commandTester->getDisplay();
 
@@ -96,16 +96,16 @@ class CheckCommandTest extends \PHPUnit_Framework_TestCase
      * @param string $rulesetPath ruleset argument
      * @param array  $options     Further options as key => value array
      */
-    private function executeCommand($sourcePath, $rulesetPath, array $options = array())
+    private function executeCommand($sourcePath, $rulesetPath, array $options = [])
     {
         $arguments = array_merge(
             $options,
-            array(
+            [
                 'command' => $this->command->getName(),
                 'source' => $sourcePath,
                 'ruleset' => $rulesetPath,
                 '--no-cache' => true,
-            )
+            ]
         );
 
         $this->commandTester->execute($arguments);

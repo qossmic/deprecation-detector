@@ -10,7 +10,7 @@ class MethodUsageTest extends \PHPUnit_Framework_TestCase
     {
         $methodUsage = new MethodUsage('method', 'class', 0, false);
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\FileInfo\Usage\MethodUsage', $methodUsage);
+        $this->assertInstanceOf(MethodUsage::class, $methodUsage);
     }
 
     public function testGetMethodName()

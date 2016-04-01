@@ -11,7 +11,7 @@ class TableScopeTest extends \PHPUnit_Framework_TestCase
     {
         $scope = new TableScope(TableScope::CLASS_LIKE_SCOPE);
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\TableScope', $scope);
+        $this->assertInstanceOf(TableScope::class, $scope);
     }
 
     public function testScope()

@@ -44,8 +44,8 @@ class ParsedPhpFileFinder
     public function parsePhpFiles($path)
     {
         $files = $this->finderFactory->createFinder()->in($path);
-        $parsedFiles = array();
-        $parserErrors = array();
+        $parsedFiles = [];
+        $parserErrors = [];
 
         $this->progressOutput->start($fileCount = $files->count());
 

@@ -11,7 +11,7 @@ class ClassDeprecationTest extends \PHPUnit_Framework_TestCase
         $classDeprecation = new ClassDeprecation('className', 'comment');
 
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation',
+            ClassDeprecation::class,
             $classDeprecation
         );
     }

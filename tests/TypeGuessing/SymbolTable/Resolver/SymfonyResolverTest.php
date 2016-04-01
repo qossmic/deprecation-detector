@@ -5,13 +5,15 @@ namespace SensioLabs\DeprecationDetector\Tests\TypeGuessing\SymbolTable\Resolver
 use PhpParser\Node;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\SymfonyResolver;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Symbol;
+use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable;
+use SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader;
 
 class SymfonyResolverTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
-        $container = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader');
+        $table = $this->prophesize(SymbolTable::class);
+        $container = $this->prophesize(ContainerReader::class);
         $resolver = new SymfonyResolver($table->reveal(), $container->reveal());
 
         $this->assertInstanceOf(
@@ -22,9 +24,9 @@ class SymfonyResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testSimpleCall()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->lookUp('this')->shouldBeCalled()->willReturn(new Symbol('this', 'TestController'));
-        $container = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader');
+        $container = $this->prophesize(ContainerReader::class);
         $resolver = new SymfonyResolver($table->reveal(), $container->reveal());
 
         $var = new Node\Expr\Variable('this');
@@ -44,9 +46,9 @@ class SymfonyResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testSimpleContainerCall()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->lookUp('this')->shouldBeCalled()->willReturn(new Symbol('this', 'TestController'));
-        $container = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader');
+        $container = $this->prophesize(ContainerReader::class);
         $container->has('logger')->shouldBeCalled()->willReturn(true);
         $container->get('logger')->shouldBeCalled()->willReturn('LoggerClass');
         $resolver = new SymfonyResolver($table->reveal(), $container->reveal());
@@ -54,7 +56,7 @@ class SymfonyResolverTest extends \PHPUnit_Framework_TestCase
         $var1 = new Node\Expr\Variable('this');
         $var2 = new Node\Expr\Variable('container');
 
-        $args = array(new Node\Arg(new Node\Scalar\String_('logger')));
+        $args = [new Node\Arg(new Node\Scalar\String_('logger'))];
 
         $node1 = new Node\Expr\MethodCall($var1, 'get', $args);
         $node2 = new Node\Expr\MethodCall($var2, 'get', $args);
@@ -68,12 +70,12 @@ class SymfonyResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testAssignmentCall()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->lookUp('this')->shouldBeCalled()->willReturn(new Symbol('this', 'TestController'));
         $table->setSymbol('test', 'Doctrine\Bundle\DoctrineBundle\Registry')->shouldBeCalled();
         $table->setSymbol('test', 'Symfony\Component\Form\Form')->shouldBeCalled();
         $table->setSymbol('test', 'Symfony\Component\Form\FormBuilder')->shouldBeCalled();
-        $container = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader');
+        $container = $this->prophesize(ContainerReader::class);
         $resolver = new SymfonyResolver($table->reveal(), $container->reveal());
 
         $var = new Node\Expr\Variable('test');
@@ -97,11 +99,11 @@ class SymfonyResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testAssignmentContainerCall()
     {
-        $table = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable');
+        $table = $this->prophesize(SymbolTable::class);
         $table->lookUp('this')->shouldBeCalled()->willReturn(new Symbol('this', 'TestController'));
         $table->setSymbol('test', 'LoggerClass')->shouldBeCalled();
         $table->setSymbol('test', 'LoggerClass2')->shouldBeCalled();
-        $container = $this->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader');
+        $container = $this->prophesize(ContainerReader::class);
         $container->has('logger')->shouldBeCalled()->willReturn(true);
         $container->has('logger2')->shouldBeCalled()->willReturn(true);
         $container->get('logger')->shouldBeCalled()->willReturn('LoggerClass');
@@ -113,8 +115,8 @@ class SymfonyResolverTest extends \PHPUnit_Framework_TestCase
         $that1 = new Node\Expr\Variable('this');
         $that2 = new Node\Expr\Variable('container');
 
-        $args1 = array(new Node\Arg(new Node\Scalar\String_('logger')));
-        $args2 = array(new Node\Arg(new Node\Scalar\String_('logger2')));
+        $args1 = [new Node\Arg(new Node\Scalar\String_('logger'))];
+        $args2 = [new Node\Arg(new Node\Scalar\String_('logger2'))];
 
         $node1 = new Node\Expr\MethodCall($that1, 'get', $args1);
         $node2 = new Node\Expr\MethodCall($that2, 'get', $args2);

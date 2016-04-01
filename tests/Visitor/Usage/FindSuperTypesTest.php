@@ -8,6 +8,7 @@ use Prophecy\Argument;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindSuperTypes;
+use Symfony\Component\Finder\SplFileInfo;
 
 class FindSuperTypesTest extends FindTestCase
 {
@@ -22,7 +23,7 @@ class Bar extends Baz {
 }
 EOC;
 
-        $splFileInfo = $this->prophesize('Symfony\Component\Finder\SplFileInfo');
+        $splFileInfo = $this->prophesize(SplFileInfo::class);
         $phpFileInfo = $this->parsePhpFileFromStringAndTraverseWithVisitor(
             $file = PhpFileInfo::create($splFileInfo->reveal()),
             $source,
@@ -30,7 +31,7 @@ EOC;
         );
 
         $this->assertEquals(
-            array('Foo\Bar' => new SuperTypeUsage('Foo\Baz', 'Foo\Bar', 4)),
+            ['Foo\Bar' => new SuperTypeUsage('Foo\Baz', 'Foo\Bar', 4)],
             $phpFileInfo->superTypeUsages()
         );
     }
@@ -46,7 +47,7 @@ class Bar {
 }
 EOC;
 
-        $splFileInfo = $this->prophesize('Symfony\Component\Finder\SplFileInfo');
+        $splFileInfo = $this->prophesize(SplFileInfo::class);
         $phpFileInfo = $this->parsePhpFileFromStringAndTraverseWithVisitor(
             $file = PhpFileInfo::create($splFileInfo->reveal()),
             $source,
@@ -54,7 +55,7 @@ EOC;
         );
 
         $this->assertEquals(
-            array(),
+            [],
             $phpFileInfo->superTypeUsages()
         );
     }
@@ -68,7 +69,7 @@ EOC;
 
         $node = new Class_(
             null,
-            array('extends' => new Name('SomeInterface'))
+            ['extends' => new Name('SomeInterface')]
         );
 
         $visitor->enterNode($node);

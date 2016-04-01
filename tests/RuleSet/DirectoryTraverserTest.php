@@ -2,40 +2,44 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\RuleSet;
 
+use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
+use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
+use SensioLabs\DeprecationDetector\Finder\Result;
 use SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser;
+use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 
 class DirectoryTraverserTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $deprecationFileFinder = $this->prophesize('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder');
+        $deprecationFileFinder = $this->prophesize(ParsedPhpFileFinder::class);
 
         $directoryTraverser = new DirectoryTraverser($deprecationFileFinder->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser', $directoryTraverser);
+        $this->assertInstanceOf(DirectoryTraverser::class, $directoryTraverser);
     }
 
     public function testTraverse()
     {
-        $aPhpFileInfo = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
+        $aPhpFileInfo = $this->prophesize(PhpFileInfo::class);
         $aPhpFileInfo->hasDeprecations()->willReturn(true);
-        $aPhpFileInfo->classDeprecations()->willReturn(array());
-        $aPhpFileInfo->methodDeprecations()->willReturn(array());
-        $aPhpFileInfo->interfaceDeprecations()->willReturn(array());
+        $aPhpFileInfo->classDeprecations()->willReturn([]);
+        $aPhpFileInfo->methodDeprecations()->willReturn([]);
+        $aPhpFileInfo->interfaceDeprecations()->willReturn([]);
 
-        $anotherPhpFileInfo = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
+        $anotherPhpFileInfo = $this->prophesize(PhpFileInfo::class);
         $anotherPhpFileInfo->hasDeprecations()->willReturn(false);
 
-        $deprecationResult = $this->prophesize('SensioLabs\DeprecationDetector\Finder\Result');
-        $deprecationResult->parsedFiles()->willReturn(array(
+        $deprecationResult = $this->prophesize(Result::class);
+        $deprecationResult->parsedFiles()->willReturn([
             $aPhpFileInfo->reveal(),
             $anotherPhpFileInfo->reveal(),
-        ));
+        ]);
 
-        $deprecationFileFinder = $this->prophesize('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder');
+        $deprecationFileFinder = $this->prophesize(ParsedPhpFileFinder::class);
         $deprecationFileFinder->parsePhpFiles('some_dir')->willReturn($deprecationResult->reveal());
 
-        $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
+        $ruleSet = $this->prophesize(RuleSet::class);
         $ruleSet->merge($aPhpFileInfo->reveal())->shouldBeCalled();
         $ruleSet->merge($anotherPhpFileInfo->reveal())->shouldNotBeCalled();
 

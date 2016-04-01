@@ -2,7 +2,11 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\Violation\Renderer\MessageHelper;
 
+use SensioLabs\DeprecationDetector\FileInfo\Usage\ClassUsage;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\UsageInterface;
+use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\BaseViolationMessage;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
+use SensioLabs\DeprecationDetector\Violation\Violation;
 
 class MessageHelperTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,27 +15,27 @@ class MessageHelperTest extends \PHPUnit_Framework_TestCase
         $messageHelper = new MessageHelper();
 
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper',
+            MessageHelper::class,
             $messageHelper
         );
     }
 
     public function testAddViolationMessageAndGetViolationMessage()
     {
-        $usage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\UsageInterface');
+        $usage = $this->prophesize(UsageInterface::class);
 
-        $violation = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Violation');
+        $violation = $this->prophesize(Violation::class);
         $violation->getUsage()->willReturn($usage->reveal());
         $violation = $violation->reveal();
 
         $violationMessage = $this->prophesize(
-            'SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\BaseViolationMessage'
+            BaseViolationMessage::class
         );
         $violationMessage->supports($usage)->willReturn(false);
         $violationMessage->message($usage)->shouldNotBeCalled();
 
         $anotherViolationMessage = $this->prophesize(
-            'SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\BaseViolationMessage'
+            BaseViolationMessage::class
         );
         $anotherViolationMessage->supports($usage)->willReturn(true);
         $anotherViolationMessage->message($usage)->willReturn('some deprecated things used');
@@ -45,10 +49,10 @@ class MessageHelperTest extends \PHPUnit_Framework_TestCase
 
     public function testFallbackMessage()
     {
-        $usage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\ClassUsage');
+        $usage = $this->prophesize(ClassUsage::class);
         $usage->name()->willReturn('SomeClass');
 
-        $violation = $this->prophesize('SensioLabs\DeprecationDetector\Violation\Violation');
+        $violation = $this->prophesize(Violation::class);
         $violation->getUsage()->willReturn($usage->reveal());
 
         $messageHelper = new MessageHelper();

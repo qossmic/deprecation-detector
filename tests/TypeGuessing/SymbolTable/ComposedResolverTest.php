@@ -4,6 +4,7 @@ namespace SensioLabs\DeprecationDetector\Tests\TypeGuessing\SymbolTable;
 
 use Prophecy\Argument;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\ComposedResolver;
+use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ResolverInterface;
 
 class ComposedResolverTest extends \PHPUnit_Framework_TestCase
 {
@@ -11,7 +12,7 @@ class ComposedResolverTest extends \PHPUnit_Framework_TestCase
     {
         $resolver = new ComposedResolver();
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\ComposedResolver', $resolver);
+        $this->assertInstanceOf(ComposedResolver::class, $resolver);
     }
 
     public function testCallsEveryResolverOnce()
@@ -19,11 +20,11 @@ class ComposedResolverTest extends \PHPUnit_Framework_TestCase
         $composedResolver = new ComposedResolver();
 
         $someResolver = $this
-            ->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ResolverInterface');
+            ->prophesize(ResolverInterface::class);
         $someResolver->resolveVariableType(Argument::any())->shouldBeCalled();
 
         $someOtherResolver = $this
-            ->prophesize('SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ResolverInterface');
+            ->prophesize(ResolverInterface::class);
         $someOtherResolver->resolveVariableType(Argument::any())->shouldBeCalled();
 
         $node = $this->prophesize('PhpParser\Node');

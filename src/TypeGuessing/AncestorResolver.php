@@ -36,8 +36,8 @@ class AncestorResolver
      */
     public function __construct(UsageParser $usageParser)
     {
-        $this->definitionFiles = array();
-        $this->sourcePaths = array();
+        $this->definitionFiles = [];
+        $this->sourcePaths = [];
         $this->usageParser = $usageParser;
     }
 
@@ -61,7 +61,7 @@ class AncestorResolver
      */
     public function getClassAncestors(PhpFileInfo $phpFileInfo, $name)
     {
-        $ancestors = array();
+        $ancestors = [];
 
         $interfaces = $phpFileInfo->getInterfaceUsageByClass($name);
         foreach ($interfaces as $interface) {
@@ -89,7 +89,7 @@ class AncestorResolver
      */
     protected function resolveInterfaceAncestors($interfaceName)
     {
-        $ancestors = array($interfaceName);
+        $ancestors = [$interfaceName];
         $phpFileInfo = $this->getDefinitionFile('interface', $interfaceName);
 
         if (null !== $phpFileInfo) {
@@ -111,7 +111,7 @@ class AncestorResolver
      */
     protected function resolveClassAncestors($className)
     {
-        $ancestors = array($className);
+        $ancestors = [$className];
         $phpFileInfo = $this->getDefinitionFile('class', $className);
 
         if (null !== $phpFileInfo) {
@@ -225,7 +225,7 @@ class AncestorResolver
             ->in($this->sourcePaths)
         ;
 
-        $files = array();
+        $files = [];
         /** @var SplFileInfo $file */
         foreach ($finder as $file) {
             if (empty($namespace) || is_int(strpos($file->getContents(), $namespace))) {

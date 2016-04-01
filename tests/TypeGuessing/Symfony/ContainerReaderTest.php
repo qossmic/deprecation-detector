@@ -10,7 +10,7 @@ class ContainerReaderTest extends \PHPUnit_Framework_TestCase
     {
         $container = new ContainerReader();
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader', $container);
+        $this->assertInstanceOf(ContainerReader::class, $container);
     }
 
     public function testWithoutLoading()

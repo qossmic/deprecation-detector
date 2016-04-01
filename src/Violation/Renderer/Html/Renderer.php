@@ -52,12 +52,12 @@ class Renderer implements RendererInterface
      */
     public function renderViolations(array $violations, array $errors)
     {
-        $orderedViolations = array();
+        $orderedViolations = [];
         // sorting and grouping violations
         foreach ($violations as $violation) {
             $key = $violation->getFile()->getPathname();
             if (!array_key_exists($key, $orderedViolations)) {
-                $orderedViolations[$key] = array();
+                $orderedViolations[$key] = [];
             }
 
             $fileViolation['message'] = $this->messageHelper->getViolationMessage($violation);

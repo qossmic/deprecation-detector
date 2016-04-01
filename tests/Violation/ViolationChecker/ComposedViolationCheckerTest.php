@@ -2,13 +2,16 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\Violation\ViolationChecker;
 
+use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
+use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ComposedViolationChecker;
+use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ViolationCheckerInterface;
 
 class ComposedViolationCheckerTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $checker = new ComposedViolationChecker(array());
+        $checker = new ComposedViolationChecker([]);
 
         $this->assertInstanceOf(
             'SensioLabs\DeprecationDetector\Violation\ViolationChecker\ComposedViolationChecker',
@@ -18,47 +21,47 @@ class ComposedViolationCheckerTest extends \PHPUnit_Framework_TestCase
 
     public function testCheck()
     {
-        $file = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
+        $file = $this->prophesize(PhpFileInfo::class);
         $file = $file->reveal();
 
-        $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
+        $ruleSet = $this->prophesize(RuleSet::class);
 
         $concreteChecker = $this
-            ->prophesize('SensioLabs\DeprecationDetector\Violation\ViolationChecker\ViolationCheckerInterface');
-        $concreteChecker->check($file, $ruleSet)->willReturn(array())->shouldBeCalled();
+            ->prophesize(ViolationCheckerInterface::class);
+        $concreteChecker->check($file, $ruleSet)->willReturn([])->shouldBeCalled();
 
         $concreteCheckerTwo = $this
-            ->prophesize('SensioLabs\DeprecationDetector\Violation\ViolationChecker\ViolationCheckerInterface');
-        $concreteCheckerTwo->check($file, $ruleSet)->willReturn(array())->shouldBeCalled();
+            ->prophesize(ViolationCheckerInterface::class);
+        $concreteCheckerTwo->check($file, $ruleSet)->willReturn([])->shouldBeCalled();
 
         $concreteCheckerThree = $this
-            ->prophesize('SensioLabs\DeprecationDetector\Violation\ViolationChecker\ViolationCheckerInterface');
-        $concreteCheckerThree->check($file, $ruleSet)->willReturn(array())->shouldBeCalled();
+            ->prophesize(ViolationCheckerInterface::class);
+        $concreteCheckerThree->check($file, $ruleSet)->willReturn([])->shouldBeCalled();
 
-        $checker = new ComposedViolationChecker(array(
+        $checker = new ComposedViolationChecker([
             $concreteChecker->reveal(),
             $concreteCheckerTwo->reveal(),
             $concreteCheckerThree->reveal(),
-        ));
+        ]);
 
         $checker->check($file, $ruleSet->reveal());
     }
 
     public function testCheckReturnsArrayIfAnExceptionIsThrown()
     {
-        $file = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
+        $file = $this->prophesize(PhpFileInfo::class);
         $file = $file->reveal();
 
-        $ruleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
+        $ruleSet = $this->prophesize(RuleSet::class);
 
         $concreteChecker = $this
-            ->prophesize('SensioLabs\DeprecationDetector\Violation\ViolationChecker\ViolationCheckerInterface');
+            ->prophesize(ViolationCheckerInterface::class);
         $concreteChecker->check($file, $ruleSet)->willThrow(new \Exception())->shouldBeCalled();
 
-        $checker = new ComposedViolationChecker(array(
+        $checker = new ComposedViolationChecker([
             $concreteChecker->reveal(),
-        ));
+        ]);
 
-        $this->assertSame(array(), $checker->check($file, $ruleSet->reveal()));
+        $this->assertSame([], $checker->check($file, $ruleSet->reveal()));
     }
 }

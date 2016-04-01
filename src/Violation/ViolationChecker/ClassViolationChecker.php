@@ -13,7 +13,7 @@ class ClassViolationChecker implements ViolationCheckerInterface
      */
     public function check(PhpFileInfo $phpFileInfo, RuleSet $ruleSet)
     {
-        $violations = array();
+        $violations = [];
 
         foreach ($phpFileInfo->classUsages() as $classUsage) {
             if ($ruleSet->hasClass($classUsage->name())) {

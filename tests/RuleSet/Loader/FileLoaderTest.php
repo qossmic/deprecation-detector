@@ -2,6 +2,7 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\RuleSet\Loader;
 
+use SensioLabs\DeprecationDetector\RuleSet\Loader\CouldNotLoadRuleSetException;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader;
 
 class FileLoaderTest extends \PHPUnit_Framework_TestCase
@@ -10,7 +11,7 @@ class FileLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $loader = new FileLoader();
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Loader\FileLoader', $loader);
+        $this->assertInstanceOf(FileLoader::class, $loader);
     }
 
     public function testLoadingNotExistingFileThrowsAnException()
@@ -18,7 +19,7 @@ class FileLoaderTest extends \PHPUnit_Framework_TestCase
         $loader = new FileLoader();
 
         $this->setExpectedException(
-            'SensioLabs\DeprecationDetector\RuleSet\Loader\CouldNotLoadRuleSetException',
+            CouldNotLoadRuleSetException::class,
             'Ruleset "no_such.file" does not exist, aborting.'
         );
         $loader->loadRuleSet('no_such.file');

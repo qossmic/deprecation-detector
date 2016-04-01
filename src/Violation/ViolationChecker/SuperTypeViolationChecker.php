@@ -13,7 +13,7 @@ class SuperTypeViolationChecker implements ViolationCheckerInterface
      */
     public function check(PhpFileInfo $phpFileInfo, RuleSet $ruleSet)
     {
-        $violations = array();
+        $violations = [];
 
         foreach ($phpFileInfo->superTypeUsages() as $superTypeUsage) {
             if ($ruleSet->hasClass($superTypeUsage->name())) {

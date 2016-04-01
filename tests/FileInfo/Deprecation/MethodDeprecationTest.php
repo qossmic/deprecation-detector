@@ -11,7 +11,7 @@ class MethodDeprecationTest extends \PHPUnit_Framework_TestCase
         $methodDeprecation = new MethodDeprecation('className', 'methodName', 'comment');
 
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\FileInfo\Deprecation\MethodDeprecation',
+            MethodDeprecation::class,
             $methodDeprecation
         );
     }

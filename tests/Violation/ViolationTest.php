@@ -2,14 +2,16 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\Violation;
 
+use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
+use SensioLabs\DeprecationDetector\FileInfo\Usage\UsageInterface;
 use SensioLabs\DeprecationDetector\Violation\Violation;
 
 class ViolationTest extends \PHPUnit_Framework_TestCase
 {
     public function testInitializing()
     {
-        $usage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\UsageInterface');
-        $file = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
+        $usage = $this->prophesize(UsageInterface::class);
+        $file = $this->prophesize(PhpFileInfo::class);
 
         $violation = new Violation($usage->reveal(), $file->reveal(), 'comment');
 
@@ -18,10 +20,10 @@ class ViolationTest extends \PHPUnit_Framework_TestCase
 
     public function testGetters()
     {
-        $usage = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\Usage\UsageInterface');
+        $usage = $this->prophesize(UsageInterface::class);
         $usage->getLineNumber()->willReturn(10);
         $usage = $usage->reveal();
-        $file = $this->prophesize('SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo');
+        $file = $this->prophesize(PhpFileInfo::class);
         $file = $file->reveal();
 
         $violation = new Violation($usage, $file, 'comment');

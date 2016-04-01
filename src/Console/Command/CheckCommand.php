@@ -20,7 +20,7 @@ class CheckCommand extends Command
         $this
             ->setName('check')
             ->setDefinition(
-                array(
+                [
                     new InputArgument('source', InputArgument::OPTIONAL, 'The path to the source files', 'src/'),
                     new InputArgument(
                         'ruleset',
@@ -40,7 +40,7 @@ class CheckCommand extends Command
                     new InputOption('log-html', null, InputOption::VALUE_REQUIRED, 'Generate HTML report'),
                     new InputOption('filter-methods', null, InputOption::VALUE_OPTIONAL, 'Filter methods', ''),
                     new InputOption('fail', null, InputOption::VALUE_NONE, 'Fails, if any deprecation is detected'),
-                )
+                ]
             )
             ->setDescription('Check for deprecated usage')
             ->setHelp(<<<EOF

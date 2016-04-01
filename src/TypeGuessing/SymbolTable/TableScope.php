@@ -25,7 +25,7 @@ class TableScope
     public function __construct($layerType)
     {
         $this->layerType = $layerType;
-        $this->symbols = array();
+        $this->symbols = [];
     }
 
     /**

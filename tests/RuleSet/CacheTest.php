@@ -3,20 +3,22 @@
 namespace SensioLabs\DeprecationDetector\Tests\RuleSet;
 
 use SensioLabs\DeprecationDetector\RuleSet\Cache;
+use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
+use Symfony\Component\Filesystem\Filesystem;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $filesystem = $this->prophesize('Symfony\Component\Filesystem\Filesystem');
+        $filesystem = $this->prophesize(Filesystem::class);
         $cache = new Cache($filesystem->reveal());
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Cache', $cache);
+        $this->assertInstanceOf(Cache::class, $cache);
     }
 
     public function testIsEnabledAndDisable()
     {
-        $filesystem = $this->prophesize('Symfony\Component\Filesystem\Filesystem');
+        $filesystem = $this->prophesize(Filesystem::class);
         $cache = new Cache($filesystem->reveal());
 
         $this->assertTrue($cache->isEnabled());
@@ -29,7 +31,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $cachedir = '.rule-set';
         $key = 'some-rume-set';
 
-        $filesystem = $this->prophesize('Symfony\Component\Filesystem\Filesystem');
+        $filesystem = $this->prophesize(Filesystem::class);
         $filesystem->exists($cachedir.'/'.$key)->willReturn(true)->shouldBeCalled();
 
         $cache = new Cache($filesystem->reveal(), true, $cachedir);
@@ -40,8 +42,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveCacheIfEnabled()
     {
-        $ruleset = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet')->reveal();
-        $filesystem = $this->prophesize('Symfony\Component\Filesystem\Filesystem');
+        $ruleset = $this->prophesize(RuleSet::class)->reveal();
+        $filesystem = $this->prophesize(Filesystem::class);
         $filesystem->dumpFile('.rules/id', serialize($ruleset))->shouldBeCalled();
 
         $cache = new Cache($filesystem->reveal());
@@ -50,8 +52,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testDoesNotSaveCacheIfDisabled()
     {
-        $ruleset = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet')->reveal();
-        $filesystem = $this->prophesize('Symfony\Component\Filesystem\Filesystem');
+        $ruleset = $this->prophesize(RuleSet::class)->reveal();
+        $filesystem = $this->prophesize(Filesystem::class);
         $filesystem->dumpFile('.rules/id', serialize($ruleset))->shouldNotBeCalled();
 
         $cache = new Cache($filesystem->reveal(), false);
@@ -60,7 +62,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCachedReturnsNullIfDisabled()
     {
-        $filesystem = $this->prophesize('Symfony\Component\Filesystem\Filesystem');
+        $filesystem = $this->prophesize(Filesystem::class);
 
         $cache = new Cache($filesystem->reveal(), false);
         $this->assertNull($cache->getCachedRuleSet('id'));
@@ -68,7 +70,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCachedReturnsNullIfCacheIsNotExisting()
     {
-        $filesystem = $this->prophesize('Symfony\Component\Filesystem\Filesystem');
+        $filesystem = $this->prophesize(Filesystem::class);
         $filesystem->exists('.rules/id')->willReturn(false);
 
         $cache = new Cache($filesystem->reveal());

@@ -3,6 +3,7 @@
 namespace SensioLabs\DeprecationDetector\Tests\Violation\Renderer\Html;
 
 use PHPUnit_Framework_TestCase;
+use SensioLabs\DeprecationDetector\Violation\Renderer\Html\Renderer;
 use SensioLabs\DeprecationDetector\Violation\Renderer\Html\RendererFactory;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
 use Symfony\Component\Filesystem\Filesystem;
@@ -19,7 +20,7 @@ class RendererFactoryTest extends PHPUnit_Framework_TestCase
         $factory = new RendererFactory(new MessageHelper(), new Filesystem());
 
         $this->assertInstanceOf(
-            'SensioLabs\DeprecationDetector\Violation\Renderer\Html\Renderer',
+            Renderer::class,
             $factory->createHtmlOutputRenderer('./output.html')
         );
     }

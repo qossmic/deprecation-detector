@@ -8,6 +8,7 @@ use Prophecy\Argument;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\FileInfo\Usage\InterfaceUsage;
 use SensioLabs\DeprecationDetector\Visitor\Usage\FindInterfaces;
+use Symfony\Component\Finder\SplFileInfo;
 
 class FindInterfacesTest extends FindTestCase
 {
@@ -21,7 +22,7 @@ class Bar implements Baz
 {
 }
 EOC;
-        $splFileInfo = $this->prophesize('Symfony\Component\Finder\SplFileInfo');
+        $splFileInfo = $this->prophesize(SplFileInfo::class);
         $phpFileInfo = $this->parsePhpFileFromStringAndTraverseWithVisitor(
             $file = PhpFileInfo::create($splFileInfo->reveal()),
             $source,
@@ -29,7 +30,7 @@ EOC;
         );
 
         $this->assertEquals(
-            array('Foo\Bar' => array(new InterfaceUsage('Foo\Baz', 'Foo\Bar', 4))),
+            ['Foo\Bar' => [new InterfaceUsage('Foo\Baz', 'Foo\Bar', 4)]],
             $phpFileInfo->interfaceUsages()
         );
     }
@@ -44,7 +45,7 @@ class Bar
 {
 }
 EOC;
-        $splFileInfo = $this->prophesize('Symfony\Component\Finder\SplFileInfo');
+        $splFileInfo = $this->prophesize(SplFileInfo::class);
         $phpFileInfo = $this->parsePhpFileFromStringAndTraverseWithVisitor(
             $file = PhpFileInfo::create($splFileInfo->reveal()),
             $source,
@@ -52,7 +53,7 @@ EOC;
         );
 
         $this->assertEquals(
-            array(),
+            [],
             $phpFileInfo->interfaceUsages()
         );
     }
@@ -66,7 +67,7 @@ EOC;
 
         $node = new Class_(
             null,
-            array('implements' => array(new Name('SomeInterface')))
+            ['implements' => [new Name('SomeInterface')]]
         );
 
         $visitor->enterNode($node);

@@ -2,17 +2,20 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\Finder;
 
+use SensioLabs\DeprecationDetector\Console\Output\VerboseProgressOutput;
+use SensioLabs\DeprecationDetector\Finder\FinderFactoryInterface;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
+use SensioLabs\DeprecationDetector\Parser\ParserInterface;
 
 class ParsedPhpFileFinderTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $parser = $this->prophesize('SensioLabs\DeprecationDetector\Parser\ParserInterface');
+        $parser = $this->prophesize(ParserInterface::class);
         $progressOutput = $this->prophesize(
-            'SensioLabs\DeprecationDetector\Console\Output\VerboseProgressOutput'
+            VerboseProgressOutput::class
         );
-        $finderFactory = $this->prophesize('SensioLabs\DeprecationDetector\Finder\FinderFactoryInterface');
+        $finderFactory = $this->prophesize(FinderFactoryInterface::class);
 
         $finder = new ParsedPhpFileFinder(
             $parser->reveal(),
@@ -20,6 +23,6 @@ class ParsedPhpFileFinderTest extends \PHPUnit_Framework_TestCase
             $finderFactory->reveal()
         );
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder', $finder);
+        $this->assertInstanceOf(ParsedPhpFileFinder::class, $finder);
     }
 }

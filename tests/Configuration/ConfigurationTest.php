@@ -19,7 +19,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             'html.log'
         );
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\Configuration\Configuration', $configuration);
+        $this->assertInstanceOf(Configuration::class, $configuration);
     }
 
     public function testRuleSet()

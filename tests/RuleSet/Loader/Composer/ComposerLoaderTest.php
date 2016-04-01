@@ -4,31 +4,38 @@ namespace SensioLabs\DeprecationDetector\Tests\RuleSet\Loader\Composer;
 
 use org\bovigo\vfs\vfsStream;
 use Prophecy\Argument;
+use SensioLabs\DeprecationDetector\RuleSet\Cache;
+use SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Composer;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerFactory;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Exception\ComposerFileDoesNotExistsException;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Package;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\CouldNotLoadRuleSetException;
+use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 
 class ComposerLoaderTest extends \PHPUnit_Framework_TestCase
 {
     public function testClassIsInitializable()
     {
-        $traverser = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser')->reveal();
-        $cache = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Cache')->reveal();
-        $factory = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerFactory')->reveal();
+        $traverser = $this->prophesize(DirectoryTraverser::class)->reveal();
+        $cache = $this->prophesize(Cache::class)->reveal();
+        $factory = $this->prophesize(ComposerFactory::class)->reveal();
 
         $loader = new ComposerLoader($traverser, $cache, $factory);
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerLoader', $loader);
+        $this->assertInstanceOf(ComposerLoader::class, $loader);
     }
 
     public function testLoadRuleSetThrowsCouldNotLoadRuleSetException()
     {
         $path = 'path/to/not/existing/composer.lock';
-        $traverser = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser')->reveal();
-        $cache = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Cache')->reveal();
-        $factory = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerFactory');
+        $traverser = $this->prophesize(DirectoryTraverser::class)->reveal();
+        $cache = $this->prophesize(Cache::class)->reveal();
+        $factory = $this->prophesize(ComposerFactory::class);
         $factory->fromLock($path)->willThrow(new ComposerFileDoesNotExistsException($path));
 
         $this->setExpectedException(
-            'SensioLabs\DeprecationDetector\RuleSet\Loader\CouldNotLoadRuleSetException',
+            CouldNotLoadRuleSetException::class,
             'composer.lock file "path/to/not/existing/composer.lock" does not exist.'
         );
         $loader = new ComposerLoader($traverser, $cache, $factory->reveal());
@@ -50,44 +57,44 @@ class ComposerLoaderTest extends \PHPUnit_Framework_TestCase
 
         $root->addChild($vendorDir);
 
-        $aVendorALib = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Package');
+        $aVendorALib = $this->prophesize(Package::class);
         $aVendorALib->generatePackageKey()->willReturn('vendor_alib_1.0.0');
         $aVendorALib->getPackagePath(Argument::any())->willReturn(vfsStream::url('root/vendor/avendor/alib'));
-        $aVendorALibRuleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
-        $aVendorALibRuleSet->classDeprecations()->willReturn(array());
-        $aVendorALibRuleSet->interfaceDeprecations()->willReturn(array());
-        $aVendorALibRuleSet->methodDeprecations()->willReturn(array());
-        $aVendorALibRuleSet->functionDeprecations()->willReturn(array());
+        $aVendorALibRuleSet = $this->prophesize(RuleSet::class);
+        $aVendorALibRuleSet->classDeprecations()->willReturn([]);
+        $aVendorALibRuleSet->interfaceDeprecations()->willReturn([]);
+        $aVendorALibRuleSet->methodDeprecations()->willReturn([]);
+        $aVendorALibRuleSet->functionDeprecations()->willReturn([]);
         $aVendorALibRuleSet = $aVendorALibRuleSet->reveal();
 
-        $aVendorAnotherLib = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Package');
+        $aVendorAnotherLib = $this->prophesize(Package::class);
         $aVendorAnotherLib->generatePackageKey()->willReturn('vendor_anotherlib_1.0.0');
         $aVendorAnotherLib->getPackagePath(Argument::any())->willReturn(vfsStream::url('root/vendor/avendor/anotherlib'));
-        $aVendorAnotherLibRuleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
-        $aVendorAnotherLibRuleSet->classDeprecations()->willReturn(array());
-        $aVendorAnotherLibRuleSet->interfaceDeprecations()->willReturn(array());
-        $aVendorAnotherLibRuleSet->methodDeprecations()->willReturn(array());
-        $aVendorAnotherLibRuleSet->functionDeprecations()->willReturn(array());
+        $aVendorAnotherLibRuleSet = $this->prophesize(RuleSet::class);
+        $aVendorAnotherLibRuleSet->classDeprecations()->willReturn([]);
+        $aVendorAnotherLibRuleSet->interfaceDeprecations()->willReturn([]);
+        $aVendorAnotherLibRuleSet->methodDeprecations()->willReturn([]);
+        $aVendorAnotherLibRuleSet->functionDeprecations()->willReturn([]);
         $aVendorAnotherLibRuleSet = $aVendorAnotherLibRuleSet->reveal();
 
-        $anotherVendorALib = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Package');
+        $anotherVendorALib = $this->prophesize(Package::class);
         $anotherVendorALib->generatePackageKey()->willReturn('anothervendor_alib_1.0.0');
         $anotherVendorALib->getPackagePath(Argument::any())->willReturn('not/existing/path/because/it/is/a/dev/dependency');
 
-        $composer = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\Composer');
-        $composer->getPackages()->willReturn(array($aVendorALib, $aVendorAnotherLib, $anotherVendorALib));
+        $composer = $this->prophesize(Composer::class);
+        $composer->getPackages()->willReturn([$aVendorALib, $aVendorAnotherLib, $anotherVendorALib]);
 
-        $cache = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Cache');
+        $cache = $this->prophesize(Cache::class);
         $cache->has('vendor_alib_1.0.0')->willReturn(true);
         $cache->getCachedRuleSet('vendor_alib_1.0.0')->willReturn($aVendorALibRuleSet);
         $cache->has('vendor_anotherlib_1.0.0')->willReturn(false);
         $cache->has('anothervendor_alib_1.0.0')->willReturn(false);
 
-        $traverser = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\DirectoryTraverser');
+        $traverser = $this->prophesize(DirectoryTraverser::class);
         $traverser->traverse(vfsStream::url('root/vendor/avendor/anotherlib'))->willReturn($aVendorAnotherLibRuleSet);
         $cache->cacheRuleSet('vendor_anotherlib_1.0.0', $aVendorAnotherLibRuleSet)->shouldBeCalled();
 
-        $factory = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\Loader\Composer\ComposerFactory');
+        $factory = $this->prophesize(ComposerFactory::class);
         $factory->fromLock(vfsStream::url('composer.lock'))->willReturn($composer);
 
         $loader = new ComposerLoader($traverser->reveal(), $cache->reveal(), $factory->reveal());

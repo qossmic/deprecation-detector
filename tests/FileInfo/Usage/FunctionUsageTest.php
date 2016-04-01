@@ -10,7 +10,7 @@ class FunctionUsageTest extends \PHPUnit_Framework_TestCase
     {
         $functionUsage = new FunctionUsage('name', 0);
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\FileInfo\Usage\FunctionUsage', $functionUsage);
+        $this->assertInstanceOf(FunctionUsage::class, $functionUsage);
     }
 
     public function testGetClassName()

@@ -10,7 +10,7 @@ class MethodDefinitionTest extends \PHPUnit_Framework_TestCase
     {
         $methodDefinition = new MethodDefinition('class', 'someParentClass', 0);
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\FileInfo\MethodDefinition', $methodDefinition);
+        $this->assertInstanceOf(MethodDefinition::class, $methodDefinition);
     }
 
     public function testName()

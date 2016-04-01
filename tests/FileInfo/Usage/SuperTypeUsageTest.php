@@ -10,7 +10,7 @@ class SuperTypeUsageTest extends \PHPUnit_Framework_TestCase
     {
         $superTypeUsage = new SuperTypeUsage('superType', 'class', 0);
 
-        $this->assertInstanceOf('SensioLabs\DeprecationDetector\FileInfo\Usage\SuperTypeUsage', $superTypeUsage);
+        $this->assertInstanceOf(SuperTypeUsage::class, $superTypeUsage);
     }
 
     public function testGetSuperTypeName()
