@@ -33,7 +33,16 @@ $ composer global require sensiolabs-de/deprecation-detector
 
 Make sure you have `~/.composer/vendor/bin/` in your `PATH` and you will be able to call the `deprecation-detector` command.
 
-### Standalone installation
+### PHAR
+
+You can download the PHAR file available on the [releases page](https://github.com/sensiolabs-de/deprecation-detector/releases):
+
+```
+curl -OL https://github.com/sensiolabs-de/deprecation-detector/releases/download/0.1.0-alpha4/deprecation-detector.phar
+php deprecation-detector.phar
+```
+
+### Standalone
 
 Clone the repository
 
