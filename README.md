@@ -74,7 +74,7 @@ $ deprecation-detector check src/ composer.lock
 $ deprecation-detector check src/ .rules/some_generated_rule_set
 ```
 
-If you have different source paths, you can pass them seperated by a comma.
+If you have different source paths you can pass them seperated by a comma.
 
 ```bash
 $ deprecation-detector check src/,legacy/ vendor/
