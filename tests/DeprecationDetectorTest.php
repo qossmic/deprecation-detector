@@ -38,7 +38,7 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
     {
         $preDefinedRuleSet = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet');
 
-        $sourceArg = 'path/to/ruleset';
+        $sources = [$sourceArg = 'path/to/ruleset'];
         $ruleSetArg = 'path/to/source/code';
         $fileCount = 10;
         $violationCount = 2;
@@ -100,6 +100,6 @@ class DeprecationDetectorTest extends \PHPUnit_Framework_TestCase
             $defaultOutput->reveal()
         );
 
-        $this->assertSame($violations, $detector->checkForDeprecations($sourceArg, $ruleSetArg));
+        $this->assertSame($violations, $detector->checkForDeprecations($sources, $ruleSetArg));
     }
 }
