@@ -397,7 +397,7 @@ class DetectorFactory
         ];
         $deprecatedPhpFunctions = [
             'call_user_method' => new FunctionDeprecation('call_user_method', 'Since PHP 4.1, use call_user_func() instead'),
-            'call_user_method_array' => new FunctionDeprecation('call_user_method_array', 'Since PHP 4.1, call_user_func_[] instead'),
+            'call_user_method_array' => new FunctionDeprecation('call_user_method_array', 'Since PHP 4.1, call_user_func_array() instead'),
             'define_syslog_variables' => new FunctionDeprecation('define_syslog_variables', 'Since PHP 5.3'),
             'dl' => new FunctionDeprecation('dl', 'Since PHP 5.3'),
             'ereg' => new FunctionDeprecation('ereg', 'Since PHP 5.3, use  preg_match() instead'),
