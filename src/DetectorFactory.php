@@ -45,6 +45,8 @@ use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\Meth
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\MethodViolationMessage;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\SuperTypeViolationMessage;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
+use SensioLabs\DeprecationDetector\Violation\Renderer\PathFormatter\DefaultFormatter;
+use SensioLabs\DeprecationDetector\Violation\Renderer\PathFormatter\ShortPathFormatter;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ClassViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ComposedViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\FunctionViolationChecker;
@@ -305,7 +307,11 @@ class DetectorFactory
             return $factory->createHtmlOutputRenderer($logFilePath);
         }
 
-        return new ConsoleOutputRenderer($output, $messageHelper);
+        $formatter = ($prefix = $configuration->shortPath()) ?
+            new ShortPathFormatter($prefix) :
+            new DefaultFormatter();
+
+        return new ConsoleOutputRenderer($output, $messageHelper, $formatter);
     }
 
     /**

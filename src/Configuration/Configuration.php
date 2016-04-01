@@ -45,14 +45,20 @@ class Configuration
     private $logHtml;
 
     /**
+     * @var string|bool
+     */
+    private $shortPath;
+
+    /**
      * @param string $ruleSet
      * @param string $containerPath
-     * @param bool   $noCache
+     * @param bool $noCache
      * @param string $cacheDir
      * @param string $filterMethodCalls
-     * @param bool   $fail
-     * @param bool   $verbose
+     * @param bool $fail
+     * @param bool $verbose
      * @param string $logHtml
+     * @param string|bool $shortPath
      */
     public function __construct(
         $ruleSet,
@@ -62,8 +68,9 @@ class Configuration
         $filterMethodCalls,
         $fail,
         $verbose,
-        $logHtml)
-    {
+        $logHtml,
+        $shortPath
+    ) {
         $this->ruleSet = $ruleSet;
         $this->containerPath = $containerPath;
         $this->useCachedRuleSet = $noCache;
@@ -72,6 +79,7 @@ class Configuration
         $this->failOnDeprecation = $fail;
         $this->verbose = $verbose;
         $this->logHtml = $logHtml;
+        $this->shortPath = $shortPath;
     }
 
     public function overrideConfiguration()
@@ -137,5 +145,13 @@ class Configuration
     public function logHtml()
     {
         return $this->logHtml;
+    }
+
+    /**
+     * @return bool|string
+     */
+    public function shortPath()
+    {
+        return $this->shortPath;
     }
 }
