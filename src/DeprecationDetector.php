@@ -102,13 +102,13 @@ class DeprecationDetector
 
         // TODO: Move to AncestorResolver not hard coded
         $lib = (is_dir($ruleSetArg) ? $ruleSetArg : realpath('vendor'));
-        $sourcePaths = [];
+        $sourcePaths = array();
         $sourcePaths = array_merge($sourcePaths, $sources);
         $sourcePaths[] = $lib;
         $this->ancestorResolver->setSourcePaths($sourcePaths);
 
-        $results = [];
-        $violations = [];
+        $results = array();
+        $violations = array();
         foreach ($sources as $source) {
             $result = $this->deprecationFinder->parsePhpFiles($source);
             $results[] = $result;
@@ -117,7 +117,7 @@ class DeprecationDetector
             }
         }
 
-        $errors = [];
+        $errors = array();
         $fileCount = 0;
         foreach ($results as $result) {
             $errors = array_merge($errors, $result->parserErrors());

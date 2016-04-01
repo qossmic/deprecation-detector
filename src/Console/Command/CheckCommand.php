@@ -93,7 +93,7 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $sourcesRaw = explode(',', $input->getArgument('source'));
-        $sources = [];
+        $sources = array();
         foreach ($sourcesRaw as $sourceRaw) {
             $source = realpath($sourceRaw);
             if (false === $source) {
