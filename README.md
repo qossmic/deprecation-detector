@@ -65,12 +65,19 @@ Otherwise you can call `bin/deprecation-detector` directly.
 ## Usage
 
 
-To use the DeprecationDetector you need to provide the `source` and the `ruleset` arguments
+To use the DeprecationDetector you need to provide the `source` and the `ruleset` arguments.
+Please note that rulesets are automatically generated for every source argument.
 
 ```bash
 $ deprecation-detector check src/ vendor/
 $ deprecation-detector check src/ composer.lock
 $ deprecation-detector check src/ .rules/some_generated_rule_set
+```
+
+If you have different source paths, you can pass them seperated by a comma.
+
+```bash
+$ deprecation-detector check src/,legacy/ vendor/
 ```
 
 ### Output
