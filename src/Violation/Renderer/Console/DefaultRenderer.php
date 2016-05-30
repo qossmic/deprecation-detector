@@ -24,18 +24,8 @@ class DefaultRenderer extends BaseRenderer
 
     /**
      * @param Violation[] $violations
-     * @param Error[]     $errors
      */
-    public function renderViolations(array $violations, array $errors)
-    {
-        $this->printViolations($violations);
-        $this->printErrors($errors);
-    }
-
-    /**
-     * @param Violation[] $violations
-     */
-    private function printViolations(array $violations)
+    protected function printViolations(array $violations)
     {
         if (0 === count($violations)) {
             return;
@@ -64,26 +54,6 @@ class DefaultRenderer extends BaseRenderer
         }
 
         $table->render();
-    }
-
-    /**
-     * @param Error[] $errors
-     */
-    private function printErrors(array $errors)
-    {
-        if (0 === count($errors)) {
-            return;
-        }
-
-        $this->output->writeln('<error>Your project contains invalid code:</error>');
-        foreach ($errors as $error) {
-            $this->output->writeln(
-                sprintf(
-                    '<error>%s</error>',
-                    $error->getRawMessage()
-                )
-            );
-        }
     }
 
     /**

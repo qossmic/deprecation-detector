@@ -20,18 +20,8 @@ class SimpleRenderer extends BaseRenderer
 
     /**
      * @param Violation[] $violations
-     * @param Error[]     $errors
      */
-    public function renderViolations(array $violations, array $errors)
-    {
-        $this->printViolations($violations);
-        $this->printErrors($errors);
-    }
-
-    /**
-     * @param Violation[] $violations
-     */
-    private function printViolations(array $violations)
+    protected function printViolations(array $violations)
     {
         if (0 === count($violations)) {
             return;
@@ -54,16 +44,5 @@ class SimpleRenderer extends BaseRenderer
                 $this->messageHelper->getViolationMessage($violation)
             ));
         }
-    }
-
-    /**
-     * @param Error[] $errors
-     */
-    private function printErrors(array $errors)
-    {
-        if (0 === count($errors)) {
-            return;
-        }
-
     }
 }
