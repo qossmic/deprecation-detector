@@ -1,6 +1,6 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\Violation\Renderer;
+namespace SensioLabs\DeprecationDetector\Violation\Renderer\Console;
 
 use PhpParser\Error;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
@@ -11,26 +11,15 @@ use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConsoleOutputRenderer implements RendererInterface
+class DefaultRenderer extends BaseRenderer
 {
-    /**
-     * @var OutputInterface
-     */
-    protected $output;
-
-    /**
-     * @var MessageHelper
-     */
-    private $messageHelper;
-
     /**
      * @param OutputInterface $output
      * @param MessageHelper   $messageHelper
      */
     public function __construct(OutputInterface $output, MessageHelper $messageHelper)
     {
-        $this->output = $output;
-        $this->messageHelper = $messageHelper;
+        parent::__construct($output, $messageHelper);
     }
 
     /**
