@@ -43,7 +43,7 @@ abstract class BaseRenderer implements RendererInterface
     /**
      * @param Violation[] $violations
      */
-    protected abstract function printViolations(array $violations);
+    abstract protected function printViolations(array $violations);
 
     /**
      * @param Error[] $errors
@@ -54,7 +54,7 @@ abstract class BaseRenderer implements RendererInterface
             return;
         }
 
-        $this->output->writeln("");
+        $this->output->writeln('');
         $this->output->writeln('<error>Your project contains invalid code:</error>');
         foreach ($errors as $error) {
             $this->output->writeln(

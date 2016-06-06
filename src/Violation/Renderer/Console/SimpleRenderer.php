@@ -2,7 +2,6 @@
 
 namespace SensioLabs\DeprecationDetector\Violation\Renderer\Console;
 
-use PhpParser\Error;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
 use SensioLabs\DeprecationDetector\Violation\Violation;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,13 +31,13 @@ class SimpleRenderer extends BaseRenderer
             if ($tmpFile !== $violation->getFile()) {
                 $tmpFile = $violation->getFile();
                 if (0 !== $i) {
-                    $this->output->writeln("");
+                    $this->output->writeln('');
                 }
                 $this->output->writeln($tmpFile->getRelativePathname());
             }
 
             $this->output->writeln(sprintf(
-                "Nr. %d line %d: %s",
+                'Nr. %d line %d: %s',
                 ++$i,
                 $violation->getLine(),
                 $this->messageHelper->getViolationMessage($violation)

@@ -150,7 +150,8 @@ class Configuration
     /**
      * @return bool
      */
-    public function isSimpleOutput() {
+    public function isSimpleOutput()
+    {
         return $this->output === 'simple';
     }
 }
