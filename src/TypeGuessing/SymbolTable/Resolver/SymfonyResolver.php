@@ -121,6 +121,6 @@ class SymfonyResolver implements ResolverInterface
      */
     protected function isController($type)
     {
-        return (substr($type, -10) === 'Controller');
+        return substr($type, -10) === 'Controller';
     }
 }

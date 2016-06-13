@@ -45,6 +45,11 @@ class Configuration
     private $logHtml;
 
     /**
+     * @var string
+     */
+    private $output;
+
+    /**
      * @param string $ruleSet
      * @param string $containerPath
      * @param bool   $noCache
@@ -53,6 +58,7 @@ class Configuration
      * @param bool   $fail
      * @param bool   $verbose
      * @param string $logHtml
+     * @param string $output
      */
     public function __construct(
         $ruleSet,
@@ -62,7 +68,8 @@ class Configuration
         $filterMethodCalls,
         $fail,
         $verbose,
-        $logHtml)
+        $logHtml,
+        $output)
     {
         $this->ruleSet = $ruleSet;
         $this->containerPath = $containerPath;
@@ -72,6 +79,7 @@ class Configuration
         $this->failOnDeprecation = $fail;
         $this->verbose = $verbose;
         $this->logHtml = $logHtml;
+        $this->output = $output;
     }
 
     public function overrideConfiguration()
@@ -137,5 +145,13 @@ class Configuration
     public function logHtml()
     {
         return $this->logHtml;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSimpleOutput()
+    {
+        return $this->output === 'simple';
     }
 }

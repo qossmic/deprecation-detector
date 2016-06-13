@@ -16,13 +16,14 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             '',
             true,
             true,
-            'html.log'
+            'html.log',
+            null
         );
 
         $this->assertInstanceOf('SensioLabs\DeprecationDetector\Configuration\Configuration', $configuration);
     }
 
-    public function testRuleSet()
+    public function testConfiguration()
     {
         $configuration = new Configuration(
             'path/to/rule_set',
@@ -32,7 +33,8 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             '',
             true,
             true,
-            'html.log'
+            'html.log',
+            null
         );
 
         $this->assertEquals('path/to/rule_set', $configuration->ruleSet());
@@ -43,5 +45,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($configuration->failOnDeprecation());
         $this->assertTrue($configuration->isVerbose());
         $this->assertEquals('html.log', $configuration->logHtml());
+        $this->assertNull(null, $configuration->isSimpleOutput());
     }
 }
