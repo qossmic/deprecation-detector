@@ -224,7 +224,15 @@
                 <tr class="violation">
                     <td class="index"><?php echo $index++; ?></td>
                     <td class="usage"><?php echo strip_tags($violation['message']); ?></td>
-                    <td class="line"><?php echo $violation['line'] ?></td>
+                    <td class="line">
+                        <?php if (isset($violation['link'])): ?>
+                            <a href="<?php echo $violation['link'] ?>">
+                                <?php echo $violation['line'] ?>
+                            </a>
+                        <?php else: ?>
+                            <?php echo $violation['line'] ?>
+                        <?php endif ?>
+                    </td>
                     <td class="comment"><?php echo $violation['comment'] ?></td>
                 </tr>
                 <?php endforeach; ?>
