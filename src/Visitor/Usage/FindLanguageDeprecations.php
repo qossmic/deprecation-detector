@@ -32,9 +32,9 @@ class FindLanguageDeprecations extends NodeVisitorAbstract implements ViolationV
      */
     public function enterNode(Node $node)
     {
-        if ($node instanceof Node\Expr\AssignRef) {
+        if ($node instanceof Node\Expr\AssignRef && $node->expr instanceof Node\Expr\New_) {
             $this->phpFileInfo->addDeprecatedLanguageUsage(
-                new DeprecatedLanguageUsage('assign by reference(&=)', 'Since PHP 5.3 use normal assignment instead.', $node->getLine())
+                new DeprecatedLanguageUsage('Assigning the return value of new by reference is now deprecated.', 'Since PHP 5.3 use normal assignment instead.', $node->getLine())
             );
         }
 
