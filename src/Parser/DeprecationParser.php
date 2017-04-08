@@ -8,7 +8,7 @@ use PhpParser\Parser;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Visitor\DeprecationVisitorInterface;
 
-class DeprecationParser extends Parser implements ParserInterface
+class DeprecationParser extends Parser\Php7 implements ParserInterface
 {
     /**
      * @var NodeTraverser
