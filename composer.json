@@ -15,7 +15,7 @@
     ],
     "require": {
         "php": ">=5.5.9 || ^7.0",
-        "nikic/php-parser": "3.*",
+        "nikic/php-parser": "~3.0",
         "symfony/console": "^2.6 || ^3.0",
         "symfony/finder": "^2.6 || ^3.0",
         "phpdocumentor/reflection-docblock": "~2.0",
