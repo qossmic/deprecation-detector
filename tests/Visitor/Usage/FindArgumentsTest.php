@@ -91,7 +91,7 @@ EOC;
         $traverser->addVisitor(new NameResolver());
         $findArguments = new FindArguments();
         $traverser->addVisitor($findArguments->setPhpFileInfo($phpFileInfo));
-        $parser = new Parser(new Emulative());
+        $parser = new Parser\Php7(new Emulative());
         $traverser->traverse($parser->parse($source));
 
         $usages = array_map(

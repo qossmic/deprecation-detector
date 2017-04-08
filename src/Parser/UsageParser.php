@@ -9,7 +9,7 @@ use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Visitor\StaticAnalysisVisitorInterface;
 use SensioLabs\DeprecationDetector\Visitor\ViolationVisitorInterface;
 
-class UsageParser extends Parser implements ParserInterface
+class UsageParser extends Parser\Php7 implements ParserInterface
 {
     /**
      * @var NodeTraverser

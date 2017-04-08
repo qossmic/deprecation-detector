@@ -97,7 +97,7 @@ EOC;
      */
     private function traverseSourceAndReturnContents($source, PhpFileInfo $phpFileInfo)
     {
-        $parser = new Parser(new Emulative());
+        $parser = new Parser\Php7(new Emulative());
         $nodes = $parser->parse($source);
 
         $staticAnalysisTraverser = new NodeTraverser();
