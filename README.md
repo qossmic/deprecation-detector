@@ -97,6 +97,12 @@ You can get a list of all options and arguments by running
 $ deprecation-detector check --help
 ```
 
+The default output might not fit into the cli. If that is the case you can set the output to a list by setting `--output=simple`.
+
+```bash
+$ deprecation-detector check src/ vendor/ --output=simple
+```
+
 ## Excluding deprecated method calls
 
 You can exclude deprecated method calls by using the `filter-methods` option. This option takes a comma separated list of method references to exclude.

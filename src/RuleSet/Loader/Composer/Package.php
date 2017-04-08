@@ -42,7 +42,7 @@ class Package
      */
     public function generatePackageKey()
     {
-        return str_replace('/', '_', $this->name).'_'.$this->version;
+        return str_replace(array('/', '\\', ':'), '_', $this->name).'_'.$this->version;
     }
 
     /**

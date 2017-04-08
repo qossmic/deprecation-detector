@@ -280,7 +280,7 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
      */
     public function getClassDeprecation($className)
     {
-        return ($this->hasClassDeprecation($className) ? $this->classDeprecations[$className] : null);
+        return $this->hasClassDeprecation($className) ? $this->classDeprecations[$className] : null;
     }
 
     /**
@@ -324,7 +324,7 @@ class PhpFileInfo extends SplFileInfo implements DeprecationCollectionInterface
      */
     public function getInterfaceDeprecation($interfaceName)
     {
-        return ($this->hasInterfaceDeprecation($interfaceName) ? $this->interfaceDeprecations[$interfaceName] : null);
+        return $this->hasInterfaceDeprecation($interfaceName) ? $this->interfaceDeprecations[$interfaceName] : null;
     }
 
     /**
