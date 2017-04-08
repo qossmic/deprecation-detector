@@ -1,8 +1,7 @@
 <?php
 
-namespace SensioLabs\DeprecationDetector\Violation\Renderer;
+namespace SensioLabs\DeprecationDetector\Violation\Renderer\Console;
 
-use PhpParser\Error;
 use SensioLabs\DeprecationDetector\FileInfo\PhpFileInfo;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
 use SensioLabs\DeprecationDetector\Violation\Violation;
@@ -11,42 +10,21 @@ use Symfony\Component\Console\Helper\TableCell;
 use Symfony\Component\Console\Helper\TableSeparator;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ConsoleOutputRenderer implements RendererInterface
+class DefaultRenderer extends BaseRenderer
 {
-    /**
-     * @var OutputInterface
-     */
-    protected $output;
-
-    /**
-     * @var MessageHelper
-     */
-    private $messageHelper;
-
     /**
      * @param OutputInterface $output
      * @param MessageHelper   $messageHelper
      */
     public function __construct(OutputInterface $output, MessageHelper $messageHelper)
     {
-        $this->output = $output;
-        $this->messageHelper = $messageHelper;
-    }
-
-    /**
-     * @param Violation[] $violations
-     * @param Error[]     $errors
-     */
-    public function renderViolations(array $violations, array $errors)
-    {
-        $this->printViolations($violations);
-        $this->printErrors($errors);
+        parent::__construct($output, $messageHelper);
     }
 
     /**
      * @param Violation[] $violations
      */
-    private function printViolations(array $violations)
+    protected function printViolations(array $violations)
     {
         if (0 === count($violations)) {
             return;
@@ -75,26 +53,6 @@ class ConsoleOutputRenderer implements RendererInterface
         }
 
         $table->render();
-    }
-
-    /**
-     * @param Error[] $errors
-     */
-    private function printErrors(array $errors)
-    {
-        if (0 === count($errors)) {
-            return;
-        }
-
-        $this->output->writeln('<error>Your project contains invalid code:</error>');
-        foreach ($errors as $error) {
-            $this->output->writeln(
-                sprintf(
-                    '<error>%s</error>',
-                    $error->getRawMessage()
-                )
-            );
-        }
     }
 
     /**

@@ -56,6 +56,6 @@ class DirectoryLoader implements LoaderInterface
      */
     private function generateDirectoryKey($path)
     {
-        return str_replace('/', '_', $path);
+        return str_replace(array('/', '\\', ':'), '_', $path);
     }
 }

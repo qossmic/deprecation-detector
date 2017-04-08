@@ -35,7 +35,7 @@ use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\VariableAss
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\SymbolTable;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Visitor\SymbolTableVariableResolverVisitor;
 use SensioLabs\DeprecationDetector\TypeGuessing\Symfony\ContainerReader;
-use SensioLabs\DeprecationDetector\Violation\Renderer\ConsoleOutputRenderer;
+use SensioLabs\DeprecationDetector\Violation\Renderer\Console\DefaultRenderer;
 use SensioLabs\DeprecationDetector\Violation\Renderer\Html\RendererFactory;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\ClassViolationMessage;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\FunctionViolationMessage;
@@ -45,6 +45,7 @@ use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\Meth
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\MethodViolationMessage;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\Message\SuperTypeViolationMessage;
 use SensioLabs\DeprecationDetector\Violation\Renderer\MessageHelper\MessageHelper;
+use SensioLabs\DeprecationDetector\Violation\Renderer\Console\SimpleRenderer;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ClassViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\ComposedViolationChecker;
 use SensioLabs\DeprecationDetector\Violation\ViolationChecker\FunctionViolationChecker;
@@ -293,7 +294,7 @@ class DetectorFactory
      * @param Configuration   $configuration
      * @param OutputInterface $output
      *
-     * @return ConsoleOutputRenderer|Violation\Renderer\Html\Renderer
+     * @return DefaultRenderer|Violation\Renderer\Html\Renderer
      */
     private function getRenderer(Configuration $configuration, OutputInterface $output)
     {
@@ -305,7 +306,11 @@ class DetectorFactory
             return $factory->createHtmlOutputRenderer($logFilePath);
         }
 
-        return new ConsoleOutputRenderer($output, $messageHelper);
+        if ($configuration->isSimpleOutput()) {
+            return new SimpleRenderer($output, $messageHelper);
+        }
+
+        return new DefaultRenderer($output, $messageHelper);
     }
 
     /**
