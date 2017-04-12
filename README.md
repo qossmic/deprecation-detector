@@ -12,7 +12,7 @@ It identifies the use of deprecated code thanks to the `@deprecated` annotation.
 
 ## Basic knowledge
 
-The Sensiolabs DeprecationDetector is a command line command based on the [Symfony console component](https://github.com/symfony/Console).
+The Sensiolabs DeprecationDetector is a command line command based on the [Symfony Console component](https://github.com/symfony/Console).
 It makes heavy use of the [PHP-Parser](https://github.com/nikic/PHP-Parser) library for analyzing PHP code.  
 
 The command works in three steps:
