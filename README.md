@@ -1,5 +1,7 @@
 # SensioLabs DeprecationDetector
 
+[![Join the chat at https://gitter.im/sensiolabs-de/deprecation-detector](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sensiolabs-de/deprecation-detector?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://img.shields.io/travis/sensiolabs-de/deprecation-detector/master.svg?style=flat-square)](https://travis-ci.org/sensiolabs-de/deprecation-detector)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sensiolabs-de/deprecation-detector?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
