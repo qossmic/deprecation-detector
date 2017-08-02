@@ -36,37 +36,38 @@ class VariableAssignResolver implements ResolverInterface
      */
     public function resolveVariableType(Node $node)
     {
-        if ($node instanceof Node\Expr\Assign) {
-            // $x = ...
-            if ($node->var instanceof Node\Expr\Variable) {
-                // skips variable names like ${$node->nodeName}
-                if (!is_string($node->var->name)) {
-                    return;
-                }
+        // $x = ...
+        if (!$node instanceof Node\Expr\Assign
+            || !$node->var instanceof Node\Expr\Variable) {
+            return;
+        }
 
-                // $x = new X();
-                if ($node->expr instanceof Node\Expr\New_) {
-                    if ($node->expr->class instanceof Node\Name) {
-                        $type = $node->expr->class->toString();
-                        $this->table->setSymbol($node->var->name, $type);
-                        $node->var->setAttribute('guessedType', $type);
-                    }
-                }
+        // skips variable names like ${$node->nodeName}
+        if (!is_string($node->var->name)) {
+            return;
+        }
 
-                // $x = $y;
-                if ($node->expr instanceof Node\Expr\Variable) {
-                    $type = $this->table->lookUp($node->expr->name)->type();
-                    $node->var->setAttribute('guessedType', $type);
-                    $this->table->setSymbol($node->var->name, $type);
-                }
-
-                // $x = $this->x
-                if ($node->expr instanceof Node\Expr\PropertyFetch) {
-                    $type = $this->table->lookUpClassProperty($node->expr->name)->type();
-                    $node->var->setAttribute('guessedType', $type);
-                    $this->table->setSymbol($node->var->name, $type);
-                }
+        // $x = new X();
+        if ($node->expr instanceof Node\Expr\New_) {
+            if ($node->expr->class instanceof Node\Name) {
+                $type = $node->expr->class->toString();
+                $this->table->setSymbol($node->var->name, $type);
+                $node->var->setAttribute('guessedType', $type);
             }
+        }
+
+        // $x = $y;
+        if ($node->expr instanceof Node\Expr\Variable) {
+            $type = $this->table->lookUp($node->expr->name)->type();
+            $node->var->setAttribute('guessedType', $type);
+            $this->table->setSymbol($node->var->name, $type);
+        }
+
+        // $x = $this->x
+        if ($node->expr instanceof Node\Expr\PropertyFetch) {
+            $type = $this->table->lookUpClassProperty($node->expr->name)->type();
+            $node->var->setAttribute('guessedType', $type);
+            $this->table->setSymbol($node->var->name, $type);
         }
     }
 }
