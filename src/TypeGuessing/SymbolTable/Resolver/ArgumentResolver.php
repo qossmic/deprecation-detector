@@ -25,10 +25,8 @@ class ArgumentResolver implements ResolverInterface
      */
     public function resolveVariableType(Node $node)
     {
-        if ($node instanceof Node\Param) {
-            if ($node->type instanceof Node\Name) {
-                $this->table->setSymbol($node->name, $node->type->toString());
-            }
+        if ($node instanceof Node\Param && $node->type instanceof Node\Name) {
+            $this->table->setSymbol($node->name, $node->type->toString());
         }
     }
 }

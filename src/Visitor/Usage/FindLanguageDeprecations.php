@@ -34,7 +34,11 @@ class FindLanguageDeprecations extends NodeVisitorAbstract implements ViolationV
     {
         if ($node instanceof Node\Expr\AssignRef && $node->expr instanceof Node\Expr\New_) {
             $this->phpFileInfo->addDeprecatedLanguageUsage(
-                new DeprecatedLanguageUsage('Assigning the return value of new by reference is now deprecated.', 'Since PHP 5.3 use normal assignment instead.', $node->getLine())
+                new DeprecatedLanguageUsage(
+                    'Assigning the return value of new by reference is now deprecated.',
+                    'Since PHP 5.3 use normal assignment instead.',
+                    $node->getLine()
+                )
             );
         }
 
@@ -51,16 +55,14 @@ class FindLanguageDeprecations extends NodeVisitorAbstract implements ViolationV
             }
         }
 
-        if ($node instanceof Node\Arg) {
-            if (true === $node->byRef) {
-                $this->phpFileInfo->addDeprecatedLanguageUsage(
-                    new DeprecatedLanguageUsage(
-                        'call-time pass-by-reference',
-                        'Since PHP 5.3 and removed in PHP 5.4',
-                        $node->getLine()
-                    )
-                );
-            }
+        if ($node instanceof Node\Arg && true === $node->byRef) {
+            $this->phpFileInfo->addDeprecatedLanguageUsage(
+                new DeprecatedLanguageUsage(
+                    'call-time pass-by-reference',
+                    'Since PHP 5.3 and removed in PHP 5.4',
+                    $node->getLine()
+                )
+            );
         }
     }
 }

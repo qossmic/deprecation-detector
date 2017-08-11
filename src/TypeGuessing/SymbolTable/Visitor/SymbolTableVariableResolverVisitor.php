@@ -57,18 +57,17 @@ class SymbolTableVariableResolverVisitor extends NodeVisitorAbstract implements 
         }
 
         $this->resolver->resolveVariableType($node);
-
-        return;
     }
 
     public function leaveNode(Node $node)
     {
+        if ($node instanceof Node\Stmt\Class_ && $node->isAnonymous()) {
+            return;
+        }
+
         if ($node instanceof Node\Stmt\Class_
-                || $node instanceof Node\Stmt\Interface_
-                || $node instanceof Node\Stmt\Trait_) {
-            if ($node instanceof Node\Stmt\Class_ && $node->isAnonymous()) {
-                return;
-            }
+            || $node instanceof Node\Stmt\Interface_
+            || $node instanceof Node\Stmt\Trait_) {
 
             $this->table->leaveScope();
         }
