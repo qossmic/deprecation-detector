@@ -45,7 +45,8 @@ class SymfonyResolver implements ResolverInterface
             } else {
                 $context = $this->table->lookUp($node->var->name)->type();
             }
-            $type = $this->getType($context, $node->name, $node);
+
+            $type = $this->getType($context, $node->name->toString(), $node);
 
             if (null !== $type) {
                 $node->setAttribute('guessedType', $type);
@@ -64,7 +65,7 @@ class SymfonyResolver implements ResolverInterface
             } else {
                 $context = $this->table->lookUp($node->expr->var->name)->type();
             }
-            $type = $this->getType($context, $node->expr->name, $node->expr);
+            $type = $this->getType($context, $node->expr->name->toString(), $node->expr);
 
             if (null !== $type) {
                 $node->var->setAttribute('guessedType', $type);
@@ -72,6 +73,12 @@ class SymfonyResolver implements ResolverInterface
             }
         }
     }
+
+    private static $helper = [
+        'getDoctrine' => 'Doctrine\Bundle\DoctrineBundle\Registry',
+        'createForm' => 'Symfony\Component\Form\Form',
+        'createFormBuilder' => 'Symfony\Component\Form\FormBuilder'
+    ];
 
     /**
      * @param $context
@@ -83,19 +90,16 @@ class SymfonyResolver implements ResolverInterface
     protected function getType($context, $methodName, Node $node = null)
     {
         if ($this->isController($context)) {
-            switch ($methodName) {
-                case 'getDoctrine':
-                    return 'Doctrine\Bundle\DoctrineBundle\Registry';
-                case 'createForm':
-                    return 'Symfony\Component\Form\Form';
-                case 'createFormBuilder':
-                    return 'Symfony\Component\Form\FormBuilder';
+
+            if (isset(self::$helper[$methodName])) {
+                return self::$helper[$methodName];
             }
         }
 
-        if ('get' === $methodName && ($this->isController($context) || self::CONTAINER == $context)) {
-            if ($node instanceof Node && isset($node->var)
-                && ($node->var->name == 'this' || $node->var->name == 'container')
+        if ('get' === $methodName || self::CONTAINER == $context) {
+            if ($node instanceof Node &&
+                isset($node->var) &&
+                ($node->var->name == 'this' || $node->var->name == 'container')
             ) {
                 if ($node->args[0]->value instanceof Node\Scalar\String_) {
                     $serviceId = $node->args[0]->value->value;

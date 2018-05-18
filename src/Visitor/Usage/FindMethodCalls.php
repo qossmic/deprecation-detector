@@ -52,14 +52,14 @@ class FindMethodCalls extends NodeVisitorAbstract implements ViolationVisitorInt
             }
 
             // skips variable methods like $definition->$method
-            if (!is_string($node->name)) {
+            if (!$node->name instanceof Node\Identifier) {
                 return;
             }
 
             $type = $node->var->getAttribute('guessedType', null);
 
             if (null !== $type) {
-                $methodUsage = new MethodUsage($node->name, $type, $node->getLine(), false);
+                $methodUsage = new MethodUsage($node->name->toString(), $type, $node->getLine(), false);
                 $this->phpFileInfo->addMethodUsage($methodUsage);
             }
         }

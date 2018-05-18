@@ -46,7 +46,7 @@ class ConstructorResolver
     public function resolveConstructor(Node\Stmt\Class_ $node)
     {
         foreach ($node->stmts as $key => $stmt) {
-            if ($stmt instanceof Node\Stmt\ClassMethod && $stmt->name === '__construct') {
+            if ($stmt instanceof Node\Stmt\ClassMethod && $stmt->name->toString() === '__construct') {
                 // this will make problems we need an layer above which chains the variable resolvers
                 // because we need may need more than this resolver
 

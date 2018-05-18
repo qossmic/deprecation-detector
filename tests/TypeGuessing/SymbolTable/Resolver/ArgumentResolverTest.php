@@ -2,6 +2,7 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\TypeGuessing\SymbolTable\Resolver;
 
+use PhpParser\Node\Expr\Variable;
 use PhpParser\Node\Name;
 use PhpParser\Node\Param;
 use SensioLabs\DeprecationDetector\TypeGuessing\SymbolTable\Resolver\ArgumentResolver;
@@ -25,7 +26,8 @@ class ArgumentResolverTest extends \PHPUnit_Framework_TestCase
         $table->setSymbol('var', 'SomeClass')->shouldBeCalled();
         $resolver = new ArgumentResolver($table->reveal());
 
-        $param = new Param('var', null, new Name('SomeClass'));
+        $param = new Param(new Variable('var'), null, new Name('SomeClass'));
+
         $resolver->resolveVariableType($param);
     }
 
@@ -35,7 +37,7 @@ class ArgumentResolverTest extends \PHPUnit_Framework_TestCase
         $table->setSymbol('var', 'SomeClass')->shouldNotBeCalled();
         $resolver = new ArgumentResolver($table->reveal());
 
-        $param = new Param('var');
+        $param = new Param(new Variable('var'));
         $resolver->resolveVariableType($param);
     }
 }

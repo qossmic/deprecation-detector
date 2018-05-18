@@ -89,6 +89,7 @@ class SymfonyResolverTest extends \PHPUnit_Framework_TestCase
 
         $resolver->resolveVariableType($assign1);
         $this->assertEquals('Doctrine\Bundle\DoctrineBundle\Registry', $assign1->var->getAttribute('guessedType'));
+
         $resolver->resolveVariableType($assign2);
         $this->assertEquals('Symfony\Component\Form\Form', $assign2->var->getAttribute('guessedType'));
         $resolver->resolveVariableType($assign3);
