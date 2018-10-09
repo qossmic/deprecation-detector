@@ -1,3 +1,5 @@
 vendor
 phpunit.xml
 .rules/
+box.json
+deprecation-detector.phar

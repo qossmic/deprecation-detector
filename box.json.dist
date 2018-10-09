@@ -1,0 +1,7 @@
+{
+    "output": "deprecation-detector.phar",
+    "compactors": [
+        "Herrera\\Box\\Compactor\\Php"
+    ]
+}
+
