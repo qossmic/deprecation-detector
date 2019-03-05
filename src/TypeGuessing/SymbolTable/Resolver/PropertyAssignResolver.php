@@ -49,7 +49,10 @@ class PropertyAssignResolver implements ResolverInterface
                 }
 
                 // @TODO change to be able to use all types of properties like $x->x = 10
-                if ($node->var->var->name !== 'this' || !is_string($node->var->name)) {
+                if ($node->var->var->name !== 'this' ||
+                    $node->var->name instanceof Node\Expr\Variable ||
+                    $node->var->name instanceof Node\Identifier && !is_string($node->var->name->toString())
+                ) {
                     return;
                 }
 
@@ -58,7 +61,7 @@ class PropertyAssignResolver implements ResolverInterface
                     if ($node->expr->class instanceof Node\Name) {
                         $type = $node->expr->class->toString();
                         $node->var->setAttribute('guessedType', $type);
-                        $this->table->setClassProperty($node->var->name, $type);
+                        $this->table->setClassProperty($node->var->name->toString(), $type);
                     }
                 }
 
@@ -66,14 +69,14 @@ class PropertyAssignResolver implements ResolverInterface
                 if ($node->expr instanceof Node\Expr\Variable) {
                     $type = $this->table->lookUp($node->expr->name)->type();
                     $node->var->setAttribute('guessedType', $type);
-                    $this->table->setClassProperty($node->var->name, $type);
+                    $this->table->setClassProperty($node->var->name->toString(), $type);
                 }
 
                 // $this->x = $this->y;
                 if ($node->expr instanceof Node\Expr\PropertyFetch) {
                     $type = $this->table->lookUpClassProperty($node->expr->name)->type();
                     $node->var->setAttribute('guessedType', $type);
-                    $this->table->setClassProperty($node->var->name, $type);
+                    $this->table->setClassProperty($node->var->name->toString(), $type);
                 }
             }
         }

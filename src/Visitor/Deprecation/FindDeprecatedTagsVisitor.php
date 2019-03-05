@@ -3,6 +3,7 @@
 namespace SensioLabs\DeprecationDetector\Visitor\Deprecation;
 
 use phpDocumentor\Reflection\DocBlock;
+use phpDocumentor\Reflection\DocBlockFactory;
 use PhpParser\Node;
 use PhpParser\NodeVisitorAbstract;
 use SensioLabs\DeprecationDetector\FileInfo\Deprecation\ClassDeprecation;
@@ -55,7 +56,7 @@ class FindDeprecatedTagsVisitor extends NodeVisitorAbstract implements Deprecati
 
         if ($node instanceof Node\Stmt\Function_) {
             $this->phpFileInfo->addFunctionDeprecation(
-                new FunctionDeprecation($node->name, $this->getDeprecatedDocComment($node))
+                new FunctionDeprecation($node->name->toString(), $this->getDeprecatedDocComment($node))
             );
 
             return;
@@ -79,7 +80,11 @@ class FindDeprecatedTagsVisitor extends NodeVisitorAbstract implements Deprecati
 
         if ($node instanceof Node\Stmt\ClassMethod) {
             $this->phpFileInfo->addMethodDeprecation(
-                new MethodDeprecation($this->parentName, $node->name, $this->getDeprecatedDocComment($node))
+                new MethodDeprecation(
+                    $this->parentName,
+                    $node->name->toString(),
+                    $this->getDeprecatedDocComment($node)
+                )
             );
 
             return;
@@ -104,7 +109,8 @@ class FindDeprecatedTagsVisitor extends NodeVisitorAbstract implements Deprecati
     protected function hasDeprecatedDocComment(Node $node)
     {
         try {
-            $docBlock = new DocBlock((string) $node->getDocComment());
+            $factory = DocBlockFactory::createInstance();
+            $docBlock = $factory->create((string) $node->getDocComment());
 
             return count($docBlock->getTagsByName('deprecated')) > 0;
         } catch (\Exception $e) {
@@ -120,15 +126,15 @@ class FindDeprecatedTagsVisitor extends NodeVisitorAbstract implements Deprecati
     protected function getDeprecatedDocComment(Node $node)
     {
         try {
-            $docBlock = new DocBlock((string) $node->getDocComment());
-            /** @var DocBlock\Tag\DeprecatedTag[] $deprecatedTag */
-            $deprecatedTag = $docBlock->getTagsByName('deprecated');
+            $factory = DocBlockFactory::createInstance();
+            $docBlock = $factory->create((string) $node->getDocComment());
+            $deprecatedTags = $docBlock->getTagsByName('deprecated');
 
-            if (0 === count($deprecatedTag)) {
+            if (0 === count($deprecatedTags)) {
                 return;
             }
 
-            $comment = $deprecatedTag[0]->getContent();
+            $comment = (string) $deprecatedTags[0];
 
             return preg_replace('/[[:blank:]]+/', ' ', $comment);
         } catch (\Exception $e) {

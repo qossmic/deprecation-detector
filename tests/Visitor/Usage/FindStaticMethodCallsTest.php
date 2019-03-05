@@ -32,6 +32,7 @@ EOC;
         );
 
         $usages = $phpFileInfo->methodUsages();
+
         $this->assertEquals(
             new MethodUsage('bazinga', 'Bar', 3, true),
             $usages[0]

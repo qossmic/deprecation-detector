@@ -2,7 +2,9 @@
 
 namespace SensioLabs\DeprecationDetector\Tests\RuleSet;
 
+use Prophecy\Argument;
 use SensioLabs\DeprecationDetector\RuleSet\Cache;
+use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,9 +42,10 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveCacheIfEnabled()
     {
-        $ruleset = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet')->reveal();
+        $ruleset = new RuleSet();
+
         $filesystem = $this->prophesize('Symfony\Component\Filesystem\Filesystem');
-        $filesystem->dumpFile('.rules/id', serialize($ruleset))->shouldBeCalled();
+        $filesystem->dumpFile(Argument::exact('.rules/id'), Argument::exact(serialize($ruleset)))->shouldBeCalled();
 
         $cache = new Cache($filesystem->reveal());
         $cache->cacheRuleSet('id', $ruleset);
