@@ -39,5 +39,6 @@
         "psr-4": {
             "SensioLabs\\DeprecationDetector\\Tests\\": "tests/"
         }
-    }
+    },
+    "abandoned": true
 }
