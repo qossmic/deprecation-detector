@@ -3,6 +3,7 @@
 namespace SensioLabs\DeprecationDetector\Tests\RuleSet;
 
 use SensioLabs\DeprecationDetector\RuleSet\Cache;
+use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -40,7 +41,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveCacheIfEnabled()
     {
-        $ruleset = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet')->reveal();
+        $ruleset = new RuleSet();
         $filesystem = $this->prophesize('Symfony\Component\Filesystem\Filesystem');
         $filesystem->dumpFile('.rules/id', serialize($ruleset))->shouldBeCalled();
 
@@ -50,7 +51,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function testDoesNotSaveCacheIfDisabled()
     {
-        $ruleset = $this->prophesize('SensioLabs\DeprecationDetector\RuleSet\RuleSet')->reveal();
+        $ruleset = new RuleSet();
         $filesystem = $this->prophesize('Symfony\Component\Filesystem\Filesystem');
         $filesystem->dumpFile('.rules/id', serialize($ruleset))->shouldNotBeCalled();
 
