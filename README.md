@@ -3,6 +3,8 @@
 ![Tests](https://github.com/sensiolabs-de/deprecation-detector/workflows/Tests/badge.svg)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/sensiolabs-de/deprecation-detector?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
+**CAUTION**: This package is abandoned and will no longer receive any updates.
+
 The SensioLabs DeprecationDetector runs a static code analysis against your project's source code to find usages of deprecated methods, classes and interfaces. For Symfony projects, it also detects usages of deprecated services.
 It identifies the use of deprecated code thanks to the `@deprecated` annotation.
 
