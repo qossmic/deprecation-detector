@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f46285c4b1590606da3d20ada6fb75ab",
+    "content-hash": "da1ed8f2ce5cf5319708d06b33688f43",
     "packages": [
         {
             "name": "nikic/php-parser",
@@ -150,20 +150,23 @@
                 "psr",
                 "psr-6"
             ],
+            "support": {
+                "source": "https://github.com/php-fig/cache/tree/master"
+            },
             "time": "2016-08-06T20:24:11+00:00"
         },
         {
             "name": "psr/log",
-            "version": "1.0.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/0f73288fd15629204f9d42b7055f72dacbe811fc",
+                "reference": "0f73288fd15629204f9d42b7055f72dacbe811fc",
                 "shasum": ""
             },
             "require": {
@@ -172,7 +175,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0.x-dev"
+                    "dev-master": "1.1.x-dev"
                 }
             },
             "autoload": {
@@ -197,45 +200,97 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "support": {
+                "source": "https://github.com/php-fig/log/tree/1.1.3"
+            },
+            "time": "2020-03-23T09:12:05+00:00"
         },
         {
-            "name": "symfony/cache",
-            "version": "v3.2.7",
+            "name": "psr/simple-cache",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/symfony/cache.git",
-                "reference": "1b4131944572027384977f89c0196828e3112646"
+                "url": "https://github.com/php-fig/simple-cache.git",
+                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/1b4131944572027384977f89c0196828e3112646",
-                "reference": "1b4131944572027384977f89c0196828e3112646",
+                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.5.9",
-                "psr/cache": "~1.0",
-                "psr/log": "~1.0"
-            },
-            "provide": {
-                "psr/cache-implementation": "1.0"
-            },
-            "require-dev": {
-                "cache/integration-tests": "dev-master",
-                "doctrine/cache": "~1.6",
-                "doctrine/dbal": "~2.4",
-                "predis/predis": "~1.0"
-            },
-            "suggest": {
-                "symfony/polyfill-apcu": "For using ApcuAdapter on HHVM"
+                "php": ">=5.3.0"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "3.2-dev"
+                    "dev-master": "1.0.x-dev"
                 }
             },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\SimpleCache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interfaces for simple caching",
+            "keywords": [
+                "cache",
+                "caching",
+                "psr",
+                "psr-16",
+                "simple-cache"
+            ],
+            "support": {
+                "source": "https://github.com/php-fig/simple-cache/tree/master"
+            },
+            "time": "2017-10-23T01:57:42+00:00"
+        },
+        {
+            "name": "symfony/cache",
+            "version": "v3.4.47",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/cache.git",
+                "reference": "a7a14c4832760bd1fbd31be2859ffedc9b6ff813"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/a7a14c4832760bd1fbd31be2859ffedc9b6ff813",
+                "reference": "a7a14c4832760bd1fbd31be2859ffedc9b6ff813",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8",
+                "psr/cache": "~1.0",
+                "psr/log": "~1.0",
+                "psr/simple-cache": "^1.0",
+                "symfony/polyfill-apcu": "~1.1"
+            },
+            "conflict": {
+                "symfony/var-dumper": "<3.3"
+            },
+            "provide": {
+                "psr/cache-implementation": "1.0",
+                "psr/simple-cache-implementation": "1.0"
+            },
+            "require-dev": {
+                "cache/integration-tests": "dev-master",
+                "doctrine/cache": "^1.6",
+                "doctrine/dbal": "^2.4|^3.0",
+                "predis/predis": "^1.0"
+            },
+            "type": "library",
             "autoload": {
                 "psr-4": {
                     "Symfony\\Component\\Cache\\": ""
@@ -258,13 +313,30 @@
                     "homepage": "https://symfony.com/contributors"
                 }
             ],
-            "description": "Symfony implementation of PSR-6",
+            "description": "Symfony Cache component with PSR-6, PSR-16, and tags",
             "homepage": "https://symfony.com",
             "keywords": [
                 "caching",
                 "psr6"
             ],
-            "time": "2017-03-28T21:38:24+00:00"
+            "support": {
+                "source": "https://github.com/symfony/cache/tree/v3.4.47"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-10-24T10:57:07+00:00"
         },
         {
             "name": "symfony/config",
@@ -652,6 +724,83 @@
             "description": "Symfony Finder Component",
             "homepage": "https://symfony.com",
             "time": "2017-03-20T09:32:19+00:00"
+        },
+        {
+            "name": "symfony/polyfill-apcu",
+            "version": "v1.19.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/polyfill-apcu.git",
+                "reference": "b44b51e7814c23bfbd793a16ead5d7ce43ed23c5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/polyfill-apcu/zipball/b44b51e7814c23bfbd793a16ead5d7ce43ed23c5",
+                "reference": "b44b51e7814c23bfbd793a16ead5d7ce43ed23c5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-main": "1.19-dev"
+                },
+                "thanks": {
+                    "name": "symfony/polyfill",
+                    "url": "https://github.com/symfony/polyfill"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Polyfill\\Apcu\\": ""
+                },
+                "files": [
+                    "bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Grekas",
+                    "email": "p@tchwork.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony polyfill backporting apcu_* functions to lower PHP versions",
+            "homepage": "https://symfony.com",
+            "keywords": [
+                "apcu",
+                "compatibility",
+                "polyfill",
+                "portable",
+                "shim"
+            ],
+            "support": {
+                "source": "https://github.com/symfony/polyfill-apcu/tree/v1.19.0"
+            },
+            "funding": [
+                {
+                    "url": "https://symfony.com/sponsor",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/fabpot",
+                    "type": "github"
+                },
+                {
+                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
+                    "type": "tidelift"
+                }
+            ],
+            "time": "2020-10-21T09:57:48+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -1738,5 +1887,6 @@
     "platform": {
         "php": ">=5.5.9 || ^7.0"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
