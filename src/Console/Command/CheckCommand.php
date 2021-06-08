@@ -93,15 +93,29 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $sourceArg = realpath($input->getArgument('source'));
+        $sourcesRaw = explode(',', $input->getArgument('source'));
+        $sources = array();
+        foreach ($sourcesRaw as $sourceRaw) {
+            $source = realpath($sourceRaw);
+            if (false === $source) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        'Source directory argument is invalid: "%s" is not a path.',
+                        $sourceRaw
+                    )
+                );
+            }
+
+            $sources[] = $source;
+        }
+
         $ruleSetArg = realpath($input->getArgument('ruleset'));
 
-        if (false === $sourceArg || false === $ruleSetArg) {
+        if (false === $ruleSetArg) {
             throw new \InvalidArgumentException(
                 sprintf(
-                    '%s argument is invalid: "%s" is not a path.',
-                    $sourceArg ? 'Rule set' : 'Source directory',
-                    $sourceArg ? $input->getArgument('ruleset') : $input->getArgument('source')
+                    'Rule set argument is invalid: "%s" is not a path.',
+                    $input->getArgument('ruleset')
                 )
             );
         }
@@ -120,7 +134,7 @@ EOF
 
         $factory = new DetectorFactory();
         $detector = $factory->create($config, $output);
-        $violations = $detector->checkForDeprecations($sourceArg, $ruleSetArg);
+        $violations = $detector->checkForDeprecations($sources, $ruleSetArg);
 
         if ($config->failOnDeprecation() && !empty($violations)) {
             return 1;

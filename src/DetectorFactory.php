@@ -134,6 +134,7 @@ class DetectorFactory
 
         return new DeprecationDetector(
             $this->getPredefinedRuleSet(),
+            new DirectoryLoader($deprecationDirectoryTraverser, $this->getRuleSetCache($configuration)),
             $ruleSetLoader,
             $this->ancestorResolver,
             $deprecationUsageFinder,
@@ -349,6 +350,23 @@ class DetectorFactory
     }
 
     /**
+     * @param Configuration $configuration
+     * @return Cache
+     */
+    private function getRuleSetCache(Configuration $configuration)
+    {
+        $ruleSetCache = new Cache(new Filesystem());
+
+        if ($configuration->useCachedRuleSet()) {
+            $ruleSetCache->disable();
+        } else {
+            $ruleSetCache->setCacheDir($configuration->ruleSetCacheDir());
+        }
+
+        return $ruleSetCache;
+    }
+
+    /**
      * RuleSet.
      */
 
@@ -360,13 +378,7 @@ class DetectorFactory
      */
     private function getRuleSetLoader(DirectoryTraverser $traverser, Configuration $configuration)
     {
-        $ruleSetCache = new Cache(new Filesystem());
-
-        if ($configuration->useCachedRuleSet()) {
-            $ruleSetCache->disable();
-        } else {
-            $ruleSetCache->setCacheDir($configuration->ruleSetCacheDir());
-        }
+        $ruleSetCache = $this->getRuleSetCache($configuration);
 
         if (is_dir($configuration->ruleSet())) {
             $loader = new DirectoryLoader($traverser, $ruleSetCache);

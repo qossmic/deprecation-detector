@@ -71,6 +71,14 @@ class CheckCommandTest extends \PHPUnit_Framework_TestCase
         $this->assertRegExp('/33 deprecations found/', $this->commandTester->getDisplay());
     }
 
+    public function testCommandWithMultipleSourcePathsWorks()
+    {
+        $this->executeCommand('examples,tests/Fixtures', 'examples');
+
+        $this->assertEquals(0, $this->commandTester->getStatusCode());
+        $this->assertRegExp('/35 deprecations found/', $this->commandTester->getDisplay());
+    }
+
     public function testCommandWithFailOption()
     {
         $this->executeCommand('examples', 'examples', array('--fail' => true));

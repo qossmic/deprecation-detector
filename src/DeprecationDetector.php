@@ -4,6 +4,7 @@ namespace SensioLabs\DeprecationDetector;
 
 use SensioLabs\DeprecationDetector\Console\Output\DefaultProgressOutput;
 use SensioLabs\DeprecationDetector\Finder\ParsedPhpFileFinder;
+use SensioLabs\DeprecationDetector\RuleSet\Loader\DirectoryLoader;
 use SensioLabs\DeprecationDetector\RuleSet\Loader\LoaderInterface;
 use SensioLabs\DeprecationDetector\RuleSet\RuleSet;
 use SensioLabs\DeprecationDetector\TypeGuessing\AncestorResolver;
@@ -42,18 +43,24 @@ class DeprecationDetector
      * @var DefaultProgressOutput
      */
     private $output;
+    /**
+     * @var DirectoryLoader
+     */
+    private $sourceRuleSetLoader;
 
     /**
-     * @param RuleSet               $preDefinedRuleSet
-     * @param LoaderInterface       $ruleSetLoader
-     * @param AncestorResolver      $ancestorResolver
-     * @param ParsedPhpFileFinder   $deprecationFinder
-     * @param ViolationDetector     $violationDetector
-     * @param RendererInterface     $renderer
+     * @param RuleSet $preDefinedRuleSet
+     * @param DirectoryLoader $sourceRuleSetLoader
+     * @param LoaderInterface $ruleSetLoader
+     * @param AncestorResolver $ancestorResolver
+     * @param ParsedPhpFileFinder $deprecationFinder
+     * @param ViolationDetector $violationDetector
+     * @param RendererInterface $renderer
      * @param DefaultProgressOutput $output
      */
     public function __construct(
         RuleSet $preDefinedRuleSet,
+        DirectoryLoader $sourceRuleSetLoader,
         LoaderInterface $ruleSetLoader,
         AncestorResolver $ancestorResolver,
         ParsedPhpFileFinder $deprecationFinder,
@@ -68,43 +75,61 @@ class DeprecationDetector
         $this->violationDetector = $violationDetector;
         $this->renderer = $renderer;
         $this->output = $output;
+        $this->sourceRuleSetLoader = $sourceRuleSetLoader;
     }
 
     /**
-     * @param string $sourceArg
-     * @param string $ruleSetArg
+     * @param string[]  $sources
+     * @param string    $ruleSetArg
      *
      * @return Violation[]
      *
      * @throws \Exception
      */
-    public function checkForDeprecations($sourceArg, $ruleSetArg)
+    public function checkForDeprecations(array $sources, $ruleSetArg)
     {
         $this->output->startProgress();
 
         $this->output->startRuleSetGeneration();
         $ruleSet = $this->ruleSetLoader->loadRuleSet($ruleSetArg);
         $ruleSet->merge($this->preDefinedRuleSet);
-        $this->output->endRuleSetGeneration();
+        foreach ($sources as $source) {
+            $ruleSet->merge($this->sourceRuleSetLoader->loadRuleSet($source));
+        }
 
+        $this->output->endRuleSetGeneration();
         $this->output->startUsageDetection();
 
         // TODO: Move to AncestorResolver not hard coded
         $lib = (is_dir($ruleSetArg) ? $ruleSetArg : realpath('vendor'));
-        $this->ancestorResolver->setSourcePaths(array(
-            $sourceArg,
-            $lib,
-        ));
+        $sourcePaths = array();
+        $sourcePaths = array_merge($sourcePaths, $sources);
+        $sourcePaths[] = $lib;
+        $this->ancestorResolver->setSourcePaths($sourcePaths);
 
-        $result = $this->deprecationFinder->parsePhpFiles($sourceArg);
-        $violations = $this->violationDetector->getViolations($ruleSet, $result->parsedFiles());
+        $results = array();
+        $violations = array();
+        foreach ($sources as $source) {
+            $result = $this->deprecationFinder->parsePhpFiles($source);
+            $results[] = $result;
+            foreach ($this->violationDetector->getViolations($ruleSet, $result->parsedFiles()) as $violation) {
+                $violations[] = $violation;
+            }
+        }
+
+        $errors = array();
+        $fileCount = 0;
+        foreach ($results as $result) {
+            $errors = array_merge($errors, $result->parserErrors());
+            $fileCount += $result->fileCount();
+        }
         $this->output->endUsageDetection();
 
         $this->output->startOutputRendering();
-        $this->renderer->renderViolations($violations, $result->parserErrors());
+        $this->renderer->renderViolations($violations, $errors);
         $this->output->endOutputRendering();
 
-        $this->output->endProgress($result->fileCount(), count($violations));
+        $this->output->endProgress($fileCount, count($violations));
 
         return $violations;
     }
