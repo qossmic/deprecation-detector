@@ -30,6 +30,10 @@ class Renderer implements RendererInterface
      * @var Filesystem
      */
     private $fileSystem;
+    /**
+     * @var string
+     */
+    private $fileLinkFormat;
 
     /**
      * @param MessageHelper $messageHelper
@@ -44,6 +48,7 @@ class Renderer implements RendererInterface
         $this->messageHelper = $messageHelper;
         $this->fileSystem = $filesystem;
         $this->outputFilename = $outputFilename;
+        $this->fileLinkFormat = ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format');
     }
 
     /**
@@ -63,6 +68,9 @@ class Renderer implements RendererInterface
             $fileViolation['message'] = $this->messageHelper->getViolationMessage($violation);
             $fileViolation['line'] = $violation->getLine();
             $fileViolation['comment'] = $violation->getComment();
+            if ($this->fileLinkFormat) {
+                $fileViolation['link'] = strtr($this->fileLinkFormat, array('%f' => $key, '%l' => $fileViolation['line']));
+            }
             $orderedViolations[$key][] = $fileViolation;
         }
 
